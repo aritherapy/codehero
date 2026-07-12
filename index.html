@@ -387,7 +387,7 @@ function starStr(n){ return "⭐".repeat(n)+"☆".repeat(3-n); }
    Check: {check:{t:"question", spoken:"...", opts:[{e,l,ok}], yes:"praise line"}}
 */
 const BELTS=[
-{ id:"white", name:"WHITE BELT", concept:"COMPUTER BASICS", beltEmoji:"🤍", color:"#EDE9E0",
+{ id:"white", name:"WHITE BELT", concept:"COMPUTER BASICS", beltEmoji:"⚪", color:"#EDE9E0",
   skills:["hunt","says","thennow","sort"], testN:6, testPass:5,
   lessons:[
    { title:"WHAT IS A COMPUTER?", emoji:"🤖", slides:[
@@ -432,7 +432,7 @@ const BELTS=[
       x:"Software does the thinking, hardware shows it to you. When you watch a cartoon or play a game — that is the team at work. Go team!"},
    ]},
   ]},
-{ id:"yellow", name:"YELLOW BELT", concept:"SEQUENCES", beltEmoji:"💛", color:"#F2C94C",
+{ id:"yellow", name:"YELLOW BELT", concept:"SEQUENCES", beltEmoji:"🟡", color:"#F2C94C",
   skills:["recipe","fly"], testN:6, testPass:5,
   lessons:[
    { title:"ORDER MATTERS!", emoji:"🔢", slides:[
@@ -460,7 +460,7 @@ const BELTS=[
       x:"Every coder crashes sometimes — even the very best! Fix one block, press launch, and whoosh — victory. That is how coders grow strong."},
    ]},
   ]},
-{ id:"orange", name:"ORANGE BELT", concept:"LOOPS", beltEmoji:"🧡", color:"#EE9A5C",
+{ id:"orange", name:"ORANGE BELT", concept:"LOOPS", beltEmoji:"🟠", color:"#EE9A5C",
   skills:["zap","loopread","loopcount"], testN:6, testPass:5,
   lessons:[
    { title:"AGAIN AND AGAIN!", emoji:"🔁", slides:[
@@ -486,7 +486,7 @@ const BELTS=[
       x:"Change the loop number from 3 to 5, and the loop runs five times instead. The number is the boss of the loop — and YOU are the boss of the number!"},
    ]},
   ]},
-{ id:"green", name:"GREEN BELT", concept:"IF... THEN!", beltEmoji:"💚", color:"#6CC48F",
+{ id:"green", name:"GREEN BELT", concept:"IF... THEN!", beltEmoji:"🟢", color:"#6CC48F",
   skills:["rules","powers"], testN:6, testPass:5,
   lessons:[
    { title:"MAKING CHOICES", emoji:"🤔", slides:[
@@ -512,7 +512,7 @@ const BELTS=[
       x:"If-else is like a fork in the road. The computer looks, checks the rule, and picks exactly one path. Every single time!"},
    ]},
   ]},
-{ id:"blue", name:"BLUE BELT", concept:"VARIABLES", beltEmoji:"💙", color:"#7FA9DB",
+{ id:"blue", name:"BLUE BELT", concept:"VARIABLES", beltEmoji:"🔵", color:"#7FA9DB",
   skills:["membox","design"], testN:6, testPass:5,
   lessons:[
    { title:"THE MEMORY BOX", emoji:"📦", slides:[
@@ -529,7 +529,7 @@ const BELTS=[
       x:"When you build your hero — power, ride, sidekick, color — each choice goes into its own memory box. Variables, working for YOU!"},
    ]},
   ]},
-{ id:"purple", name:"PURPLE BELT", concept:"DEBUGGING", beltEmoji:"💜", color:"#A98FE0",
+{ id:"purple", name:"PURPLE BELT", concept:"DEBUGGING", beltEmoji:"🟣", color:"#A98FE0",
   skills:["fixmaze","fixrecipe"], testN:6, testPass:5,
   lessons:[
    { title:"BUGS HAPPEN!", emoji:"🐛", slides:[
@@ -544,7 +544,7 @@ const BELTS=[
       x:"Every bug you find teaches you something new. The best coders in the world are the best bug-hunters. Time to hunt, detective "+NAME+"!"},
    ]},
   ]},
-{ id:"black", name:"BLACK BELT", concept:"THE FINAL MISSION", beltEmoji:"🖤", color:"#4A4460",
+{ id:"black", name:"BLACK BELT", concept:"THE FINAL MISSION", beltEmoji:"⚫", color:"#4A4460",
   skills:[], testN:8, testPass:6,
   lessons:[
    { title:"THE FINAL MISSION", emoji:"🥷", slides:[
@@ -1415,23 +1415,9 @@ function renderMap(){
   const rank=earnedCount();
   const bannerEl=el('<div class="banner" style="font-size:clamp(22px,6.6vw,34px);">'+
     (rank>=BELTS.length?"🏆 BLACK BELT HERO! 🏆":"⚡ HI "+NAME.toUpperCase()+"! ⚡")+'</div>');
-  let taps=0, tapTimer=null;
-  bannerEl.onclick=function(){
-    taps++;
-    clearTimeout(tapTimer); tapTimer=setTimeout(function(){taps=0;},1500);
-    if(taps>=5){
-      taps=0;
-      BELTS.forEach(function(b){
-        const bp=BP(b.id); bp.earned=true;
-        b.lessons.forEach((_,i)=>bp.les[i]=true);
-        b.skills.forEach(s=>{ if(!bp.cor[s])bp.cor[s]=3; });
-      });
-      save(); pow("UNLOCKED!","var(--green)");
-      setTimeout(render,700);
-    }
-  };
   st.appendChild(bannerEl);
-  st.appendChild(el('<div class="sub">Belts earned: '+BELTS.map(b=>BP(b.id).earned?b.beltEmoji:"▫️").join(" ")+'</div>'));
+  st.appendChild(el('<div style="text-align:center;font-size:24px;letter-spacing:5px;margin:2px 0 6px;">'+
+    BELTS.map(b=>BP(b.id).earned?b.beltEmoji:'<span style="opacity:.24">'+b.beltEmoji+'</span>').join("")+'</div>'));
   BELTS.forEach(function(b,i){
     const open=beltOpen(i), earned=BP(b.id).earned;
     const totalStars=b.skills.reduce((a,s)=>a+starsFor(b.id,s),0);
@@ -1783,22 +1769,46 @@ function renderArcade(){
 /* ============================== GROWN-UPS ============================== */
 function renderGrown(){
   app.appendChild(header("FOR GROWN-UPS"));
-  const st=el('<div class="stage"><div class="grown">'+
-    '<h3>How Hero Academy works (v3)</h3>'+
-    'A mastery-based curriculum, Code-Ninjas style. Each <b>belt</b> = spoken lessons (with quick checks) → <b>practice arena</b> (problems are randomly generated — mazes, recipes, loop and rule puzzles are different every time, so answers can\'t be memorized) → a <b>belt test</b> of random challenges (pass to unlock the next belt).<br><br>'+
-    '⚪ White — computer basics + history · 💛 Yellow — sequences · 🧡 Orange — loops · 💚 Green — if/then + else · 💙 Blue — variables · 💜 Purple — debugging · 🖤 Black — mixed final mission.<br><br>'+
-    'Stars: each practice game holds 3 stars (3, 6, 10 correct answers). Problems get harder as stars grow. 1 star in every game unlocks the belt test.<br><br>'+
-    '<b>New device?</b> Tap the "HI ARIA" title on the HQ screen 5 times fast to unlock everything. 🗣️ repeats narration; 🔊/🔇 mutes. Progress saves on this device.'+
-  '</div><div class="btnrow"><button class="btn" id="gback">⬅ BACK</button>'+
-  '<button class="btn red" id="greset">RESET PROGRESS</button></div></div>');
-  st.querySelector("#gback").onclick=function(){ go("map"); };
-  const rbtn=st.querySelector("#greset");
+  const st=el('<div class="stage"></div>');
+  st.appendChild(el('<div class="grown">'+
+    '<h3>How Hero Academy works</h3>'+
+    'A mastery curriculum, Code-Ninjas style. Each <b>belt</b> = spoken lessons (with quick checks) → a <b>practice arena</b> (problems are randomly generated, so answers can\'t be memorized) → a <b>belt test</b> that unlocks the next belt.<br><br>'+
+    '⚪ White — computer basics + history · 🟡 Yellow — sequences · 🟠 Orange — loops · 🟢 Green — if/then + else · 🔵 Blue — variables · 🟣 Purple — debugging · ⚫ Black — mixed final mission.<br><br>'+
+    'Each practice game holds 3 stars (3 / 6 / 10 correct); problems get harder as stars grow. 🗣️ repeats narration, 🔊/🔇 mutes. Progress saves on this device.'+
+  '</div>'));
+  st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:1px;margin-top:6px;">🔒 BELT CONTROLS</div>'));
+  st.appendChild(el('<div class="sub" style="font-size:13px;margin:0 0 4px;">Unlock or re-lock any belt. Locking keeps her lessons &amp; stars — she just re-takes that belt test. White belt is always open.</div>'));
+  const list=el('<div style="display:flex;flex-direction:column;gap:8px;"></div>');
+  BELTS.forEach(function(b,i){
+    const openNow=beltOpen(i);
+    const row=el('<div style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--stroke-soft);border-radius:var(--r-md);padding:8px 12px;">'+
+      '<span style="font-size:20px;">'+b.beltEmoji+'</span>'+
+      '<span style="flex:1;font-family:var(--disp);font-size:14px;letter-spacing:.5px;color:var(--off);">'+b.name+'</span>'+
+      '<button class="btn '+(i===0||openNow?"ghost":"green")+'" style="font-size:13px;padding:8px 14px;letter-spacing:.5px;">'+
+        (i===0?"ALWAYS ON":(openNow?"🔒 LOCK":"🔓 UNLOCK"))+'</button></div>');
+    const btn=row.querySelector("button");
+    if(i===0){ btn.disabled=true; }
+    else btn.onclick=function(){
+      if(beltOpen(i)){ for(let k=i-1;k<BELTS.length;k++)BP(BELTS[k].id).earned=false; }
+      else { for(let k=0;k<i;k++)BP(BELTS[k].id).earned=true; }
+      save(); go("grown");
+    };
+    list.appendChild(row);
+  });
+  st.appendChild(list);
+  const actions=el('<div class="btnrow" style="margin-top:12px;">'+
+    '<button class="btn ghost" id="gback">⬅ BACK</button>'+
+    '<button class="btn red" id="greset">RESET ALL</button></div>');
+  actions.querySelector("#gback").onclick=function(){ go("map"); };
+  const rbtn=actions.querySelector("#greset");
   let armed=false;
   rbtn.onclick=function(){
     if(!armed){ armed=true; rbtn.textContent="TAP AGAIN TO CONFIRM"; return; }
     P={v:3,belts:{},heroes:0,best:0}; save(); go("map");
   };
+  st.appendChild(actions);
   app.appendChild(st);
+  replayFn=function(){ speak("This is the grown-up page. Here you can unlock or re-lock any belt, or reset everything."); };
 }
 /* ============================== BOOT ============================== */
 render();
