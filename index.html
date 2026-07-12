@@ -29,7 +29,7 @@
   }
   #app{max-width:600px;margin:0 auto;padding:10px 14px 40px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;}
   .hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0 10px;}
-  .hdr .mid{font-family:var(--disp);color:var(--yellow);font-size:17px;letter-spacing:2px;text-align:center;flex:1;
+  .hdr .mid{font-family:var(--disp);color:var(--yellow);font-size:16px;letter-spacing:2px;text-align:center;flex:1;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .iconbtn{
     font-size:24px;line-height:1;background:var(--panel);border:3px solid var(--ink);
@@ -42,12 +42,12 @@
     box-shadow:8px 8px 0 rgba(0,0,0,.55);padding:18px;
   }
   .scene{
-    text-align:center;font-size:min(88px,20vw);line-height:1.15;padding:14px 6px;
-    background:var(--panel2);border:3px solid var(--ink);border-radius:18px;min-height:120px;
+    text-align:center;font-size:min(80px,18vw);line-height:1.15;padding:14px 6px;
+    background:var(--panel2);border:3px solid var(--ink);border-radius:18px;min-height:110px;
     display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
   }
   .bigtext{
-    font-family:var(--disp);font-size:clamp(24px,6.6vw,38px);line-height:1.3;color:var(--white);
+    font-family:var(--disp);font-size:clamp(23px,6.2vw,36px);line-height:1.3;color:var(--white);
     text-align:center;margin:16px 4px 6px;letter-spacing:.5px;
   }
   .bigtext .w{display:inline-block;padding:1px 5px;border-radius:9px;transition:background .12s,color .12s,transform .12s;}
@@ -55,7 +55,7 @@
   .bigtext .w.done{color:var(--yellow);}
   .btn{
     font-family:var(--disp);background:var(--yellow);color:#1b1500;border:4px solid var(--ink);
-    border-radius:18px;box-shadow:0 6px 0 var(--ink);padding:14px 24px;font-size:23px;letter-spacing:1.5px;
+    border-radius:18px;box-shadow:0 6px 0 var(--ink);padding:14px 24px;font-size:22px;letter-spacing:1.5px;
     cursor:pointer;display:inline-block;text-align:center;
   }
   .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink);}
@@ -69,13 +69,14 @@
   .dot{width:13px;height:13px;border-radius:50%;background:#2a3170;border:2px solid var(--ink);}
   .dot.on{background:var(--yellow);}
   .optgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-top:14px;}
+  .optgrid.two{grid-template-columns:1fr 1fr;}
   .opt{
     background:var(--panel2);border:4px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 var(--ink);
     padding:14px 8px;text-align:center;cursor:pointer;
   }
   .opt:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink);}
-  .opt .e{font-size:56px;line-height:1.1;display:block;}
-  .opt .l{font-family:var(--disp);font-size:16px;color:var(--off);letter-spacing:1px;display:block;margin-top:8px;}
+  .opt .e{font-size:48px;line-height:1.1;display:block;}
+  .opt .l{font-family:var(--disp);font-size:15px;color:var(--off);letter-spacing:1px;display:block;margin-top:8px;line-height:1.3;}
   .opt.right{border-color:var(--green);background:#0f3a22;animation:pop .4s;}
   .opt.wrong{animation:wiggle .5s;}
   .opt.found{border-color:var(--green);background:#0f3a22;opacity:.9;pointer-events:none;}
@@ -85,69 +86,85 @@
     border-radius:20px;box-shadow:0 6px 0 var(--ink);padding:13px 16px;cursor:pointer;
   }
   .chapcard:active{transform:translateY(3px);box-shadow:0 3px 0 var(--ink);}
-  .chapcard .ce{font-size:46px;width:60px;text-align:center;flex:none;}
-  .chapcard .ct{font-family:var(--disp);font-size:19px;letter-spacing:1px;color:var(--white);flex:1;line-height:1.25;}
+  .chapcard .ce{font-size:42px;width:56px;text-align:center;flex:none;}
+  .chapcard .ct{font-family:var(--disp);font-size:18px;letter-spacing:1px;color:var(--white);flex:1;line-height:1.25;}
   .chapcard .cs{font-size:13px;color:#9aa4e8;font-family:var(--body);display:block;margin-top:3px;letter-spacing:0;}
-  .chapcard .cb{font-size:30px;flex:none;}
+  .chapcard .cb{font-size:26px;flex:none;}
   .chapcard.locked{opacity:.45;filter:grayscale(.6);}
   .chapcard.play{border-color:var(--green);}
+  .beltstripe{width:14px;align-self:stretch;border-radius:8px;border:2px solid var(--ink);flex:none;}
   .banner{
     font-family:var(--disp);text-align:center;color:var(--yellow);
-    font-size:clamp(30px,9vw,48px);letter-spacing:3px;line-height:1.15;
+    font-size:clamp(28px,8.5vw,46px);letter-spacing:3px;line-height:1.15;
     text-shadow:3px 3px 0 var(--ink),-2px -2px 0 var(--ink),6px 6px 0 rgba(255,59,92,.55);
     margin:6px 0;
   }
-  .sub{ text-align:center;color:#aab3ef;font-size:17px;margin:2px 0 8px;line-height:1.45;}
+  .sub{ text-align:center;color:#aab3ef;font-size:16px;margin:2px 0 8px;line-height:1.45;}
   .feedback{
-    font-family:var(--disp);text-align:center;font-size:21px;letter-spacing:1px;color:var(--yellow);
-    min-height:30px;margin-top:12px;animation:slidein .3s;
+    font-family:var(--disp);text-align:center;font-size:20px;letter-spacing:1px;color:var(--yellow);
+    min-height:28px;margin-top:12px;animation:slidein .3s;
   }
+  .stars{font-size:26px;letter-spacing:4px;}
+  .hudrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;
+    font-family:var(--disp);color:#aab3ef;font-size:15px;letter-spacing:1px;}
+  .hudrow .big{color:var(--yellow);font-size:18px;}
   /* fly mission grid */
   .citygrid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:var(--panel2);
     border:3px solid var(--ink);border-radius:14px;padding:8px;}
-  .cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(24px,7vw,40px);
+  .cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,6.4vw,36px);
     background:#1d2456;border-radius:8px;position:relative;}
   .cell.wall{background:#33254d;}
-  .hero-in-cell{transition:transform .12s;display:inline-block;}
-  .progrow{display:flex;gap:7px;flex-wrap:wrap;min-height:56px;background:var(--panel2);
+  .progrow{display:flex;gap:7px;flex-wrap:wrap;min-height:54px;background:var(--panel2);
     border:3px dashed #4a54a8;border-radius:14px;padding:8px;align-items:center;}
-  .chip{font-size:30px;background:var(--panel);border:3px solid var(--ink);border-radius:12px;
+  .chip{font-size:28px;background:var(--panel);border:3px solid var(--ink);border-radius:12px;
     box-shadow:0 3px 0 var(--ink);padding:5px 9px;cursor:pointer;}
   .chip:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink);}
+  .chip.bad{border-color:var(--red);animation:wiggle .5s;}
+  .chip.fixed{border-color:var(--green);animation:pop .4s;}
   .palette{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-  .palette .chip{font-size:34px;}
-  .slotrow{display:flex;gap:10px;justify-content:center;margin:10px 0;}
-  .slot{width:86px;height:86px;border:3px dashed #4a54a8;border-radius:16px;display:flex;align-items:center;
-    justify-content:center;font-size:44px;background:var(--panel2);}
+  .palette .chip{font-size:32px;}
+  .slotrow{display:flex;gap:10px;justify-content:center;margin:10px 0;flex-wrap:wrap;}
+  .slot{width:74px;height:74px;border:3px dashed #4a54a8;border-radius:16px;display:flex;align-items:center;
+    justify-content:center;font-size:38px;background:var(--panel2);}
   .slot.filled{border-style:solid;border-color:var(--green);}
   .repeatbox{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--purple);
     border:4px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 var(--ink);padding:12px;margin:10px 0;}
-  .repeatbox .num{font-family:var(--disp);font-size:52px;color:#fff;min-width:70px;text-align:center;}
-  .repeatbox .lbl{font-family:var(--disp);font-size:19px;color:#fff;letter-spacing:1px;line-height:1.2;text-align:center;}
-  .villain{display:inline-block;font-size:min(52px,11vw);margin:0 3px;animation:wiggle 1.6s ease-in-out infinite;transition:transform .4s,opacity .4s;}
+  .repeatbox .num{font-family:var(--disp);font-size:48px;color:#fff;min-width:64px;text-align:center;}
+  .repeatbox .lbl{font-family:var(--disp);font-size:17px;color:#fff;letter-spacing:1px;line-height:1.2;text-align:center;}
+  .villain{display:inline-block;font-size:min(46px,10vw);margin:0 3px;animation:wiggle 1.6s ease-in-out infinite;transition:transform .4s,opacity .4s;}
   .villain.zapped{transform:scale(.1) rotate(200deg);opacity:0;}
-  .rulecard{background:#2b2358;border:3px solid var(--purple);border-radius:16px;padding:12px;text-align:center;
-    font-family:var(--disp);font-size:22px;color:#fff;letter-spacing:1px;margin-bottom:12px;}
+  .villain.gone{opacity:.22;animation:none;filter:grayscale(1);}
+  .rulecard{background:#2b2358;border:3px solid var(--purple);border-radius:16px;padding:10px 12px;text-align:center;
+    font-family:var(--disp);font-size:19px;color:#fff;letter-spacing:1px;margin-bottom:10px;line-height:1.4;}
   .rulecard.hint{animation:pulse .9s infinite;border-color:var(--yellow);}
   .pickrow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--panel2);
     border:3px solid var(--ink);border-radius:16px;padding:10px 12px;margin-top:10px;}
-  .pickrow .pv{font-size:20px;font-family:var(--disp);color:#fff;flex:1;text-align:center;letter-spacing:.5px;}
-  .arrowbtn{font-size:26px;background:var(--yellow);border:3px solid var(--ink);border-radius:12px;
+  .pickrow .pv{font-size:19px;font-family:var(--disp);color:#fff;flex:1;text-align:center;letter-spacing:.5px;}
+  .arrowbtn{font-size:24px;background:var(--yellow);border:3px solid var(--ink);border-radius:12px;
     box-shadow:0 4px 0 var(--ink);padding:8px 15px;cursor:pointer;font-weight:bold;}
   .arrowbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink);}
   .herocard{border-radius:22px;border:5px solid;box-shadow:0 0 34px;padding:20px;text-align:center;
     background:var(--panel2);animation:pop .5s;}
-  .badgebig{font-size:120px;text-align:center;animation:pop .6s;}
+  .badgebig{font-size:110px;text-align:center;animation:pop .6s;}
+  .membox{display:inline-block;background:#3a2c10;border:4px solid var(--yellow);border-radius:16px;
+    padding:10px 18px;min-width:110px;text-align:center;}
+  .membox .tag{font-family:var(--disp);font-size:14px;color:var(--yellow);letter-spacing:2px;display:block;}
+  .membox .val{font-family:var(--disp);font-size:44px;color:#fff;display:block;line-height:1.2;}
   .grown{background:var(--panel2);border:2px solid #3a4390;border-radius:14px;padding:14px 16px;
     color:#aab3ef;font-size:14px;line-height:1.6;user-select:text;-webkit-user-select:text;}
   .grown h3{color:var(--off);margin:0 0 6px;font-family:var(--disp);letter-spacing:1px;}
   .tinylink{text-align:center;color:#7c86d6;font-size:14px;margin-top:16px;cursor:pointer;text-decoration:underline;}
-  /* confetti */
+  /* arcade */
+  .sky{position:relative;height:56vh;min-height:320px;background:linear-gradient(#0a0e2e,#1b2260);
+    border:4px solid var(--ink);border-radius:18px;overflow:hidden;}
+  .fallstar{position:absolute;top:-60px;font-size:44px;cursor:pointer;transition:top linear;z-index:2;}
+  .fallstar.caught{animation:pop .3s;opacity:0;transition:opacity .3s;}
+  /* confetti + pow */
   .cfx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50;}
   .cfp{position:absolute;top:-24px;font-size:24px;animation:fall linear forwards;}
   .pow{
     position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);z-index:60;pointer-events:none;
-    font-family:var(--disp);font-size:clamp(44px,13vw,84px);color:var(--yellow);letter-spacing:3px;
+    font-family:var(--disp);font-size:clamp(40px,12vw,78px);color:var(--yellow);letter-spacing:3px;
     text-shadow:4px 4px 0 var(--ink),-2px -2px 0 var(--ink);animation:pow .9s ease-out forwards;
   }
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
@@ -157,7 +174,6 @@
   @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
   @keyframes pow{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}25%{opacity:1}70%{transform:translate(-50%,-50%) scale(1.15)}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-  @keyframes meteor{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(14px) scale(1.06)}}
   .floaty{animation:floaty 2.6s ease-in-out infinite;display:inline-block;}
   @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
 </style>
@@ -183,8 +199,6 @@ function speak(text,opts){
   const seq=speakSeq;
   let finished=false, failsafe=null;
   function finish(){
-    // seq guard: if a newer speak()/stopSpeech() happened (e.g. user navigated away,
-    // which cancels speech and can still fire onend), this callback must not run
     if(finished||seq!==speakSeq)return;
     finished=true;
     if(hiTimer){clearInterval(hiTimer);hiTimer=null;}
@@ -207,9 +221,7 @@ function speak(text,opts){
   u.onend=finish;
   u.onerror=finish;
   try{ speechSynthesis.speak(u); }catch(e){ setTimeout(finish,500); return; }
-  // if the browser never delivers onend, don't leave the flow stuck
   failsafe=setTimeout(finish,Math.min(3000+text.length*95,45000));
-  // iOS Safari fires no boundary events — estimate word timing instead
   if(opts.onword&&opts.estOffsets){
     setTimeout(function(){
       if(boundarySeen||muted||finished||seq!==speakSeq)return;
@@ -221,7 +233,6 @@ function speak(text,opts){
     },650);
   }
 }
-/* Speak with word-by-word highlight over the span list. `text` is displayed, `extra` is spoken after. */
 function speakWords(text,extra,spans,onend){
   const words=text.split(" ");
   let off=0; const offs=words.map(w=>{const o=off;off+=w.length+1;return {off:o,len:w.length};});
@@ -266,843 +277,868 @@ function pow(word,color){
   document.body.appendChild(d);
   setTimeout(()=>d.remove(),950);
 }
+/* ============================== HELPERS ============================== */
+function rint(n){ return Math.floor(Math.random()*n); }
+function pick(a){ return a[rint(a.length)]; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=rint(i+1);const t=a[i];a[i]=a[j];a[j]=t;} return a; }
+function sample(a,n){ return shuffle(a).slice(0,n); }
+function el(html){ const d=document.createElement("div"); d.innerHTML=html.trim(); return d.firstChild; }
+const PRAISE=[
+  "Amazing work, "+NAME+"!","You got it! Super smart!","KAPOW! Exactly right!","Yes! You are a coding star!",
+  "Wonderful! High five!","Boom! Nailed it!","That's it! Hero brain power!","Correct! You are unstoppable!",
+  "Brilliant! Professor Pixel is proud!","Yes yes yes! Great thinking!","Super duper! You got it!","Exactly right, superhero!"
+];
+const ENCOURAGE=[
+  "Almost! Have another try!","Not quite — you can do it!","Hmm, try again, hero!","So close! Look carefully!",
+  "Oops! No problem — try once more!","Every hero tries again. Go!","Not that one — keep thinking!"
+];
+function praise(){ return pick(PRAISE); }
+function encourage(){ return pick(ENCOURAGE); }
 /* ============================== PROGRESS ============================== */
-const SAVE_KEY="hero-academy-aria-v2";
-let P={done:{},heroes:0};
+const SAVE_KEY="hero-academy-aria-v3";
+let P={v:3,belts:{},heroes:0,best:0};
 try{ const raw=localStorage.getItem(SAVE_KEY); if(raw)P=Object.assign(P,JSON.parse(raw)); }catch(e){}
 function save(){ try{localStorage.setItem(SAVE_KEY,JSON.stringify(P));}catch(e){} }
-/* ============================== CURRICULUM ============================== */
-const CHAPTERS=[
-{ id:"computer", title:"WHAT IS A COMPUTER?", emoji:"🤖", color:"var(--blue)", badge:"🎖️", badgeName:"COMPUTER CAPTAIN",
-  slides:[
-    {e:"🤖", t:"Hi Aria! I am Professor Pixel!",
-     x:"I am a friendly computer, and I am going to teach you my biggest secrets! Every superhero starts with training. Are you ready, cadet? Let's go!"},
-    {e:"💻", t:"A computer is a special machine.",
-     x:"It follows instructions. It does exactly what it is told, super duper fast! Faster than you can blink!"},
-    {e:"🧠", t:"Computers cannot think by themselves.",
-     x:"A computer is like a superhero sidekick. It waits for YOU to tell it what to do. No instructions? No action! It just sits there going beep... boop..."},
-    {e:"📱📺🚗", t:"Computers hide everywhere!",
-     x:"There is a computer inside your tablet. Inside the TV. Even inside cars, and washing machines! They are secret helpers, all around us."},
-  ],
-  quiz:{ spoken:"Quiz time, superhero! Which one of these has a computer hiding inside? Tap it!",
-    t:"Which one has a computer inside?",
-    opts:[
-      {e:"📱",l:"TABLET",ok:true},
-      {e:"🧸",l:"TEDDY",no:"Hee hee, no! Teddy is soft and cuddly, but there is no computer inside. Try again!"},
-      {e:"🍌",l:"BANANA",no:"A banana?! That is a yummy snack, not a computer! Try again!"},
-    ],
-    yes:"YES! A tablet is a computer! You are so smart, Aria!"},
-  acts:["hunt","says"] },
-{ id:"history", title:"LONG, LONG AGO", emoji:"🕰️", color:"var(--orange)", badge:"⏳", badgeName:"TIME TRAVELER",
-  slides:[
-    {e:"🕰️", t:"Long, long ago...",
-     x:"Before you were born... before mommy and daddy were born... there were NO computers at all! No tablets. No video calls. No computer games. Can you imagine that?"},
-    {e:"💌", t:"Letters took many, many days.",
-     x:"To talk to family far away, people wrote letters on paper. The letter traveled for days and days and days! Now, we just video call — beep boop — and see grandma right away!"},
-    {e:"✏️", t:"People did math by hand.",
-     x:"Big math problems took people hours and hours with pencil and paper. A computer does it in a blink! Computers even helped rockets fly all the way to the moon! Whoooosh!"},
-    {e:"🎨", t:"Cartoons were drawn by hand!",
-     x:"Artists drew thousands and thousands of pictures, one by one, to make a single cartoon! Today, computers help make movies like Frozen and Moana. Elsa's sparkly ice magic? A computer helped draw it!"},
-    {e:"🌍", t:"Computers changed the whole world!",
-     x:"Computers gave people superpowers. Talk to anyone, anywhere! Learn anything! Make amazing things! And soon, Aria, YOU will know how they work."},
-  ],
-  quiz:{ spoken:"Quiz time! Long ago, before computers, how did people talk to family far, far away?",
-    t:"Before computers, how did people say hi to family far away?",
-    opts:[
-      {e:"💌",l:"A LETTER",ok:true},
-      {e:"📹",l:"VIDEO CALL",no:"Nope! Video calls need computers, and there were no computers long ago! Try again!"},
-      {e:"📢",l:"SHOUT LOUD",no:"Ha ha! Even the loudest shout cannot reach grandma's house! Try again!"},
-    ],
-    yes:"YES! People wrote letters, and waited days and days for an answer. Aren't computers amazing?"},
-  acts:["thennow"] },
-{ id:"software", title:"HARDWARE + SOFTWARE", emoji:"✨", color:"var(--green)", badge:"🔮", badgeName:"MAGIC FINDER",
-  slides:[
-    {e:"🦸", t:"Every hero has two parts!",
-     x:"A super suit you can touch... and the hero inside! And guess what? Computers are exactly the same!"},
-    {e:"🖥️", t:"Hardware: parts you can touch.",
-     x:"The screen. The buttons. The speaker. That is hardware — the computer's body. It's like the superhero's suit!"},
-    {e:"✨", t:"Software: the magic inside.",
-     x:"Games, apps, and videos are software. You cannot touch software with your hands, but it makes everything work! It is the hero inside the suit."},
-    {e:"🎮", t:"They work as a team!",
-     x:"When you watch a cartoon or play a game, software does the thinking, and hardware shows it on the screen. Go team!"},
-  ],
-  quiz:{ spoken:"Quiz time! Which one of these is SOFTWARE — the magic you cannot touch?",
-    t:"Which one is software?",
-    opts:[
-      {e:"🎨",l:"DRAWING APP",ok:true},
-      {e:"🖥️",l:"SCREEN",no:"Hmm, you can touch a screen with your fingers, so that is hardware! Try again!"},
-      {e:"🔊",l:"SPEAKER",no:"You can touch a speaker, so that is hardware — the computer's body! Try again!"},
-    ],
-    yes:"YES! A drawing app is software — magic you cannot touch! Amazing work!"},
-  acts:["sort"] },
-{ id:"coding", title:"WHAT IS CODING?", emoji:"📜", color:"var(--red)", badge:"🥇", badgeName:"CODE CADET",
-  slides:[
-    {e:"📜", t:"Coding is giving instructions!",
-     x:"Remember? Computers wait to be told what to do. Coding means writing those instructions! Every game and every app you love was made with code."},
-    {e:"🧑‍🍳", t:"Code is like a recipe.",
-     x:"First do this, then do that. Step by step, in order! If the steps get mixed up, silly things happen. Jam before the bread? Sticky hands everywhere!"},
-    {e:"🧙", t:"Coders are real-life wizards!",
-     x:"Code is a special language that computers understand. People who write code are called coders. They typed magic words, and made every cartoon, game, and app!"},
-    {e:"🦸‍♀️", t:"Aria, YOU can code!",
-     x:"You just need small steps, in the right order. Your very first coding missions are waiting, superhero!"},
-  ],
-  quiz:{ spoken:"Quiz time! What is coding? Is it telling a computer what to do, eating cookies, or taking a nap?",
-    t:"What is coding?",
-    opts:[
-      {e:"📜",l:"TELLING A COMPUTER WHAT TO DO",ok:true},
-      {e:"🍪",l:"EATING COOKIES",no:"Ha ha! Cookies are delicious, but that is called snack time, not coding! Try again!"},
-      {e:"😴",l:"TAKING A NAP",no:"Zzzzz... nope! That is nap time! Coding is much more exciting. Try again!"},
-    ],
-    yes:"YES! Coding is telling a computer what to do, step by step. You are ready for your first mission!"},
-  acts:["recipe","fly"] },
-{ id:"loops", title:"LOOPS!", emoji:"🔁", color:"var(--purple)", badge:"🌀", badgeName:"LOOP LEGEND",
-  slides:[
-    {e:"👏", t:"Clap! Clap! Clap! Clap!",
-     x:"I just clapped four times! When we do something again and again and again, coders call that a LOOP!"},
-    {e:"😫", t:"Writing it again is silly!",
-     x:"Imagine writing: jump, jump, jump, jump, jump, jump, jump... your hand would fall asleep! Coders are smart. They just write: REPEAT jump, seven times. Done!"},
-    {e:"🔁", t:"Loops are a superpower!",
-     x:"One tiny loop can make a computer do something a hundred times! A million times! That is how computers finish giant jobs, super fast."},
-  ],
-  quiz:{ spoken:"Quiz time! What is the smart coder way to say: clap, clap, clap?",
-    t:"How does a coder say clap clap clap?",
-    opts:[
-      {e:"🔁",l:"REPEAT CLAP 3 TIMES",ok:true},
-      {e:"✍️",l:"WRITE CLAP 100 TIMES",no:"Oof, that is way too much writing! Coders are smarter than that. Try again!"},
-      {e:"🙅",l:"NEVER CLAP",no:"Never clap? But clapping is fun! Try again!"},
-    ],
-    yes:"YES! Repeat clap, three times! That is a loop — short and powerful!"},
-  acts:["zap"] },
-{ id:"ifthen", title:"IF... THEN!", emoji:"🛡️", color:"var(--blue)", badge:"🧠", badgeName:"CHOICE CHAMPION",
-  slides:[
-    {e:"🤔", t:"Computers can make choices!",
-     x:"Not by thinking — by following choice rules! The rule has a special name: IF... THEN."},
-    {e:"🌧️", t:"IF it rains, THEN umbrella!",
-     x:"You already use if, then! IF it is raining, THEN take an umbrella. IF you are sleepy, THEN go to bed. Computers make choices the very same way!"},
-    {e:"🦸", t:"Heroes use if, then, too!",
-     x:"IF the villain runs, THEN chase him! IF a meteor is falling, THEN raise the shield! Hmm... a meteor... let's practice that one right now!"},
-  ],
-  quiz:{ spoken:"Quiz time! Finish the rule: IF you are hungry... THEN what?",
-    t:"IF you are hungry, THEN...?",
-    opts:[
-      {e:"🍎",l:"EAT A SNACK",ok:true},
-      {e:"👟",l:"WEAR SHOES ON YOUR HEAD",no:"Ha ha ha! Shoes on your head will not help a hungry tummy! Try again!"},
-      {e:"🦁",l:"ROAR AT THE FRIDGE",no:"Roarrr! Very funny, but the fridge is not scared, and you are still hungry! Try again!"},
-    ],
-    yes:"YES! IF you are hungry, THEN eat a snack! You think just like a computer!"},
-  acts:["meteor"] },
+function BP(beltId){
+  if(!P.belts[beltId])P.belts[beltId]={les:{},cor:{},earned:false};
+  return P.belts[beltId];
+}
+function starsFor(beltId,skillId){
+  const c=(BP(beltId).cor[skillId]||0);
+  return c>=10?3:c>=6?2:c>=3?1:0;
+}
+function starStr(n){ return "⭐".repeat(n)+"☆".repeat(3-n); }
+/* ============================== CURRICULUM: BELTS + LESSONS ==============================
+   Slide: {e:"emoji scene", t:"big text (short!)", x:"spoken narration"}
+   Check: {check:{t:"question", spoken:"...", opts:[{e,l,ok}], yes:"praise line"}}
+*/
+const BELTS=[
+{ id:"white", name:"WHITE BELT", concept:"COMPUTER BASICS", beltEmoji:"🤍", color:"#EEF1FF",
+  skills:["hunt","says","thennow","sort"], testN:6, testPass:5,
+  lessons:[
+   { title:"WHAT IS A COMPUTER?", emoji:"🤖", slides:[
+     {e:"🤖", t:"Hi Aria! Professor Pixel here!",
+      x:"Welcome to Hero Academy, cadet! Real heroes train hard and earn belts — white, yellow, orange, all the way to the black belt! Your training starts right now."},
+     {e:"💻", t:"A computer is a special machine.",
+      x:"It follows instructions, and does exactly what it is told — super duper fast. Faster than you can blink!"},
+     {e:"🧠", t:"Computers cannot think alone.",
+      x:"A computer waits for YOU. No instructions? No action! It just sits there going beep... boop... It is a sidekick that needs a hero. And that hero is you!"},
+     {check:{t:"Can a computer think of ideas all by itself?", spoken:"Quick check, cadet! Can a computer think of new ideas all by itself?",
+       opts:[{e:"🙅",l:"NO — IT NEEDS INSTRUCTIONS",ok:true},{e:"🙋",l:"YES — IT DREAMS THEM UP",no:"Hee hee, nope! Computers don't dream up ideas. They wait for instructions from people like you! Try again!"}],
+       yes:"Exactly! Computers need instructions from clever people. That is why coders are so important!"}},
+     {e:"📱📺🚗", t:"Computers hide everywhere!",
+      x:"Inside your tablet. Inside the TV. Inside cars, watches, even washing machines! Secret helpers, all around us."},
+   ]},
+   { title:"LONG, LONG AGO", emoji:"🕰️", slides:[
+     {e:"🕰️", t:"Long, long ago...",
+      x:"Before you were born, before mommy and daddy were born, there were NO computers at all! No tablets. No video calls. No computer games. Can you imagine?"},
+     {e:"💌", t:"Letters took many, many days.",
+      x:"To talk to family far away, people wrote letters on paper. The letter traveled for days and days! Now we video call — beep boop — and see grandma in one second."},
+     {e:"✏️", t:"People did math by hand.",
+      x:"Big math problems took hours with pencil and paper. A computer does them in a blink! Computers even helped rockets fly all the way to the moon. Whooosh!"},
+     {e:"🎨", t:"Cartoons were drawn by hand!",
+      x:"Artists drew thousands of pictures, one by one, for a single cartoon! Today computers help make movies like Frozen and Moana. Elsa's sparkly ice magic? Computer magic!"},
+     {check:{t:"Before computers, how did people say hi to family far away?", spoken:"Check time! Long ago, before computers, how did people say hi to family far, far away?",
+       opts:[{e:"💌",l:"A LETTER",ok:true},{e:"📹",l:"VIDEO CALL",no:"Nope! Video calls need computers, and there were none back then! Try again!"},{e:"📢",l:"SHOUT REALLY LOUD",no:"Ha ha! Even the loudest shout cannot reach grandma's house! Try again!"}],
+       yes:"Yes! Letters on paper, waiting days and days for an answer. Computers changed everything!"}},
+     {e:"🌍", t:"Computers changed the whole world!",
+      x:"Computers gave people superpowers. Talk to anyone! Learn anything! Make amazing things! And soon, "+NAME+", you will know their secrets."},
+   ]},
+   { title:"HARDWARE + SOFTWARE", emoji:"✨", slides:[
+     {e:"🦸", t:"Every hero has two parts!",
+      x:"A super suit you can touch... and the hero inside! Guess what — computers are exactly the same."},
+     {e:"🖥️", t:"Hardware: parts you can touch.",
+      x:"The screen. The buttons. The speaker. That is hardware — the computer's body. Like the superhero's suit!"},
+     {e:"✨", t:"Software: the magic inside.",
+      x:"Games, apps, and videos are software. You cannot touch software with your hands, but it makes everything work! It is the hero inside the suit."},
+     {check:{t:"Which one is SOFTWARE — magic you can't touch?", spoken:"Check! Which one of these is software — the magic you cannot touch?",
+       opts:[{e:"🎨",l:"DRAWING APP",ok:true},{e:"🖥️",l:"SCREEN",no:"You can touch a screen with your fingers — that is hardware! Try again!"},{e:"🔊",l:"SPEAKER",no:"You can touch a speaker — hardware, the computer's body! Try again!"}],
+       yes:"Yes! Apps are software — invisible magic that makes the hardware come alive!"}},
+     {e:"🎮", t:"They work as a team!",
+      x:"Software does the thinking, hardware shows it to you. When you watch a cartoon or play a game — that is the team at work. Go team!"},
+   ]},
+  ]},
+{ id:"yellow", name:"YELLOW BELT", concept:"SEQUENCES", beltEmoji:"💛", color:"#FFD900",
+  skills:["recipe","fly"], testN:6, testPass:5,
+  lessons:[
+   { title:"ORDER MATTERS!", emoji:"🔢", slides:[
+     {e:"🧦👟", t:"Socks first, THEN shoes!",
+      x:"Imagine shoes first, and socks on top. Ha! Silly feet! Some things only work in the right ORDER."},
+     {e:"📜", t:"A sequence is steps in order.",
+      x:"Coders call a list of steps a SEQUENCE. First this, then that, then that. Computers follow sequences exactly, step by step."},
+     {check:{t:"Getting dressed: what comes FIRST?", spoken:"Quick check! You are getting dressed. What comes first?",
+       opts:[{e:"🧦",l:"SOCKS",ok:true},{e:"👟",l:"SHOES",no:"Shoes first? Then the socks go on top of the shoes! Hee hee. Try again!"}],
+       yes:"Yes! Socks first, then shoes. You already think in sequences!"}},
+     {e:"🥣", t:"Bowl, cereal, THEN milk!",
+      x:"Making cereal is a sequence too! Bowl first. Then cereal. Then milk. Mix up the order and — splash! — milk all over the table."},
+     {e:"🦸‍♀️", t:"Heroes plan their steps.",
+      x:"Before a mission, a hero plans: first fly up, then fly right, then land. In the practice arena you will write real sequences — real code!"},
+   ]},
+   { title:"BE EXACT!", emoji:"🎯", slides:[
+     {e:"🎯", t:"Computers are very exact.",
+      x:"If your sequence says four steps forward, the computer takes EXACTLY four. Not three. Not five. Four!"},
+     {e:"💥", t:"One wrong step — bonk!",
+      x:"If one block in your code points the wrong way, the whole mission can crash. That is okay! Heroes fix their code and fly again."},
+     {check:{t:"The code says JUMP 2 TIMES. The computer will...", spoken:"Check! The code says: jump two times. What will the computer do?",
+       opts:[{e:"🦘",l:"JUMP EXACTLY 2 TIMES",ok:true},{e:"🤸",l:"JUMP 5 — IT'S FUN!",no:"Nope! Computers never add extra jumps for fun. They do exactly what the code says! Try again!"},{e:"😴",l:"TAKE A NAP",no:"Ha! No naps in the code, no naps for the computer! Try again!"}],
+       yes:"Exactly two jumps — no more, no less. Computers are exact, just like your code!"}},
+     {e:"💪", t:"Trying again is hero training!",
+      x:"Every coder crashes sometimes — even the very best! Fix one block, press launch, and whoosh — victory. That is how coders grow strong."},
+   ]},
+  ]},
+{ id:"orange", name:"ORANGE BELT", concept:"LOOPS", beltEmoji:"🧡", color:"#FF8A00",
+  skills:["zap","loopread","loopcount"], testN:6, testPass:5,
+  lessons:[
+   { title:"AGAIN AND AGAIN!", emoji:"🔁", slides:[
+     {e:"👏", t:"Clap! Clap! Clap! Clap!",
+      x:"Four claps! When we do something again and again and again, coders call it a LOOP."},
+     {e:"🪜", t:"Climbing stairs is a loop!",
+      x:"Step, step, step — the same move, repeated, until you reach the top! Brushing your teeth? Loop! Bouncing a ball? Loop! Pedaling your bike? Loop loop loop!"},
+     {check:{t:"Which one is a LOOP?", spoken:"Quick check! Which one of these is a loop — something that repeats again and again?",
+       opts:[{e:"⛹️",l:"BOUNCING A BALL",ok:true},{e:"🚪",l:"OPENING ONE DOOR",no:"Opening a door happens just once — click! No repeating, no loop. Try again!"},{e:"🎂",l:"BLOWING 1 CANDLE",no:"One puff, one candle — that happens once! A loop repeats. Try again!"}],
+       yes:"Yes! Bounce, bounce, bounce — the same thing again and again. That is a loop!"}},
+     {e:"😫", t:"Writing jump jump jump is silly.",
+      x:"Coders are smart! Instead of writing jump, jump, jump, jump, jump... they write: REPEAT jump, five times. Short and powerful!"},
+     {e:"⚡", t:"Loops are a superpower!",
+      x:"One little loop can run a hundred times. A MILLION times! That is how computers finish giant jobs in a blink."},
+   ]},
+   { title:"READING LOOPS", emoji:"👓", slides:[
+     {e:"🃏", t:"REPEAT 🐸 3 TIMES means...",
+      x:"Frog, frog, frog! Three frogs! When you read a loop card, the number tells you how many times it happens."},
+     {check:{t:"REPEAT 🎈 2 TIMES makes...?", spoken:"Check! The card says: repeat balloon, two times. What do we get?",
+       opts:[{e:"🎈🎈",l:"TWO BALLOONS",ok:true},{e:"🎈",l:"ONE BALLOON",no:"Just one? The card says two times! Try again!"},{e:"🎈🎈🎈",l:"THREE BALLOONS",no:"Three is too many — the card says two times! Try again!"}],
+       yes:"Two balloons! You just READ computer code. Amazing!"}},
+     {e:"🔢", t:"The number is the boss!",
+      x:"Change the loop number from 3 to 5, and the loop runs five times instead. The number is the boss of the loop — and YOU are the boss of the number!"},
+   ]},
+  ]},
+{ id:"green", name:"GREEN BELT", concept:"IF... THEN!", beltEmoji:"💚", color:"#2EE86C",
+  skills:["rules","powers"], testN:6, testPass:5,
+  lessons:[
+   { title:"MAKING CHOICES", emoji:"🤔", slides:[
+     {e:"🤔", t:"Computers can make choices!",
+      x:"Not by dreaming them up — by following choice rules! The rule has a special name: IF... THEN."},
+     {e:"🌧️", t:"IF it rains, THEN umbrella!",
+      x:"You use if-then every single day! IF it is raining, THEN take an umbrella. IF you are sleepy, THEN go to bed. IF you are hungry, THEN eat a snack!"},
+     {check:{t:"IF your hands are dirty, THEN...?", spoken:"Quick check! Finish the rule: IF your hands are dirty, THEN what?",
+       opts:[{e:"🧼",l:"WASH THEM",ok:true},{e:"👅",l:"LICK THEM CLEAN",no:"Ewww! Hee hee, no! Yucky hands need soap, not licks! Try again!"},{e:"🙈",l:"HIDE THEM",no:"Hiding dirty hands doesn't make them clean, you sneaky hero! Try again!"}],
+       yes:"Yes! IF dirty, THEN wash. You are a rule-following machine!"}},
+     {e:"🚦", t:"IF green light, THEN go!",
+      x:"Traffic lights are if-then rules for cars! IF the light is green, THEN go. IF the light is red, THEN stop. Rules keep everybody safe."},
+     {e:"🦸", t:"Heroes follow battle rules.",
+      x:"IF the villain shoots fire, THEN splash water! IF a meteor falls, THEN raise the shield! Picking the right THEN is true hero thinking."},
+   ]},
+   { title:"IF... ELSE!", emoji:"⚖️", slides:[
+     {e:"⚖️", t:"What if it's NOT raining?",
+      x:"Rules can have a backup plan called ELSE. IF it is raining, THEN umbrella... ELSE, sunglasses! Else means otherwise."},
+     {check:{t:"IF snowy THEN coat, ELSE t-shirt. Today is SUNNY!", spoken:"Check! The rule says: IF snowy, THEN coat. ELSE, t-shirt. Today is sunny! What do you wear?",
+       opts:[{e:"👕",l:"T-SHIRT",ok:true},{e:"🧥",l:"BIG WARM COAT",no:"A big coat on a sunny day? You'd melt like ice cream! It is NOT snowy, so we use the ELSE. Try again!"}],
+       yes:"Yes! Not snowy, so the ELSE wins — t-shirt! You understand if-else!"}},
+     {e:"🧠", t:"Two paths, one choice.",
+      x:"If-else is like a fork in the road. The computer looks, checks the rule, and picks exactly one path. Every single time!"},
+   ]},
+  ]},
+{ id:"blue", name:"BLUE BELT", concept:"VARIABLES", beltEmoji:"💙", color:"#29C5FF",
+  skills:["membox","design"], testN:6, testPass:5,
+  lessons:[
+   { title:"THE MEMORY BOX", emoji:"📦", slides:[
+     {e:"📦", t:"Computers have memory boxes.",
+      x:"A box with a name that keeps something inside — a number, a color, a word. Coders call this box a VARIABLE."},
+     {e:"🏷️", t:"Every box has a name.",
+      x:"The box named SCORE might keep the number seven. The box named PET might keep a puppy! The name tells the computer which box to open."},
+     {check:{t:"The box named SCORE holds 5. What's inside SCORE?", spoken:"Check! The box named SCORE is holding the number five. What is inside the SCORE box?",
+       opts:[{e:"5️⃣",l:"THE NUMBER 5",ok:true},{e:"🐶",l:"A PUPPY",no:"A puppy in the SCORE box? Hee hee, puppies go in the PET box! Try again!"},{e:"9️⃣",l:"THE NUMBER 9",no:"Nope — we put a five in there, so a five is what we get back! Try again!"}],
+       yes:"Yes! Whatever you put in the box stays there until you change it. That is a variable!"}},
+     {e:"🔄", t:"Boxes can change!",
+      x:"Zap a villain, and the SCORE box changes from five to six! Variables remember the NEWEST thing you put inside."},
+     {e:"🦸‍♀️", t:"Your hero uses variables!",
+      x:"When you build your hero — power, ride, sidekick, color — each choice goes into its own memory box. Variables, working for YOU!"},
+   ]},
+  ]},
+{ id:"purple", name:"PURPLE BELT", concept:"DEBUGGING", beltEmoji:"💜", color:"#9A6BFF",
+  skills:["fixmaze","fixrecipe"], testN:6, testPass:5,
+  lessons:[
+   { title:"BUGS HAPPEN!", emoji:"🐛", slides:[
+     {e:"🐛", t:"A code mistake is a BUG.",
+      x:"Here is a true story! Long, long ago, a real moth flew inside a giant computer and broke it. Ever since, computer mistakes are called BUGS!"},
+     {e:"🔍", t:"Heroes hunt bugs!",
+      x:"When code goes wrong, coders do not cry — they turn into detectives! They look at every step and ask: hmm... which one is fishy?"},
+     {check:{t:"The robot put shoes on BEFORE socks. What's the bug?", spoken:"Check! The robot put its shoes on before its socks. Silly robot! What is the bug?",
+       opts:[{e:"🔀",l:"STEPS IN WRONG ORDER",ok:true},{e:"🤖",l:"ROBOT IS BROKEN FOREVER",no:"Never broken forever! The robot is fine — its CODE just needs fixing. Try again!"},{e:"🧦",l:"SOCKS ARE EVIL",no:"Ha ha! Socks are innocent! The problem is the ORDER of the steps. Try again!"}],
+       yes:"Yes! The steps were in the wrong order. Fix the order, fix the bug!"}},
+     {e:"💪", t:"Bug fixing makes you stronger!",
+      x:"Every bug you find teaches you something new. The best coders in the world are the best bug-hunters. Time to hunt, detective "+NAME+"!"},
+   ]},
+  ]},
+{ id:"black", name:"BLACK BELT", concept:"THE FINAL MISSION", beltEmoji:"🖤", color:"#23252e",
+  skills:[], testN:8, testPass:6,
+  lessons:[
+   { title:"THE FINAL MISSION", emoji:"🥷", slides:[
+     {e:"🖤", t:"You know SO much now!",
+      x:"Sequences! Loops! If-then! Memory boxes! Bug-hunting! Only true heroes train this far, "+NAME+"."},
+     {e:"🏆", t:"Time for the BLACK BELT!",
+      x:"The final mission mixes everything you have learned. Eight challenges. Take a deep breath, superhero... you are READY. Go get that black belt!"},
+   ]},
+  ]},
 ];
-/* ============================== STATE + ROUTER ============================== */
-let S={screen:"start",ch:0,slide:0,act:0,fromPlayground:false};
-let replayFn=null;
-const app=document.getElementById("app");
-function go(screen){ S.screen=screen; render(); }
-function el(html){ const d=document.createElement("div"); d.innerHTML=html.trim(); return d.firstChild; }
-function header(title){
-  const h=el('<div class="hdr">'+
-    '<button class="iconbtn" id="hbHome" aria-label="Home">🏠</button>'+
-    '<div class="mid">'+title+'</div>'+
-    '<button class="iconbtn" id="hbSay" aria-label="Say it again">🗣️</button>'+
-    '<button class="iconbtn" id="hbMute" aria-label="Sound on or off">'+(muted?"🔇":"🔊")+'</button>'+
-  '</div>');
-  h.querySelector("#hbHome").onclick=function(){ stopSpeech(); go("map"); };
-  h.querySelector("#hbSay").onclick=function(){ if(replayFn)replayFn(); };
-  h.querySelector("#hbMute").onclick=function(ev){ muted=!muted; if(muted)stopSpeech(); ev.target.textContent=muted?"🔇":"🔊"; };
-  return h;
-}
-function render(){
-  stopSpeech(); replayFn=null;
-  app.innerHTML="";
-  const fn={start:renderStart,map:renderMap,lesson:renderLesson,quiz:renderQuiz,
-            activity:renderActivity,badge:renderBadge,playground:renderPlayground,grown:renderGrown}[S.screen];
-  fn();
-}
-/* ============================== START ============================== */
-function renderStart(){
-  const wrap=el('<div class="stage" style="justify-content:center;text-align:center;">'+
-    '<div style="font-size:min(110px,26vw);" class="floaty">🦸‍♀️</div>'+
-    '<div class="banner">HERO<br>ACADEMY</div>'+
-    '<div class="sub">Aria learns how computers work —<br>with Professor Pixel! 🤖</div>'+
-    '<div class="btnrow"><button class="btn pulse" id="startBtn" style="font-size:30px;padding:18px 40px;">▶ START</button></div>'+
-    '<div class="sub" style="margin-top:14px;font-size:13px;color:#7c86d6;">🔊 Grown-ups: turn the volume up — Professor Pixel talks!</div>'+
-  '</div>');
-  app.appendChild(wrap);
-  wrap.querySelector("#startBtn").onclick=function(){
-    // first user gesture unlocks speech on iOS
-    try{ const u=new SpeechSynthesisUtterance(" "); speechSynthesis.speak(u); }catch(e){}
-    go("map");
-  };
-}
-/* ============================== MAP / HQ ============================== */
-function unlocked(i){ return i===0 || !!P.done[CHAPTERS[i-1].id]; }
-function allDone(){ return CHAPTERS.every(c=>P.done[c.id]); }
-function renderMap(){
-  app.appendChild(header("HERO ACADEMY HQ"));
-  const st=el('<div class="stage"></div>');
-  const earned=CHAPTERS.filter(c=>P.done[c.id]).length;
-  const bannerEl=allDone()
-    ? el('<div class="banner" style="font-size:clamp(22px,6vw,32px);">🏆 ARIA — TRUE HERO! 🏆</div>')
-    : el('<div class="banner" style="font-size:clamp(24px,7vw,36px);">⚡ HI '+NAME.toUpperCase()+'! ⚡</div>');
-  // hidden grown-up unlock: 5 quick taps on the title opens every chapter (for a new device)
-  let taps=0, tapTimer=null;
-  bannerEl.onclick=function(){
-    taps++;
-    clearTimeout(tapTimer); tapTimer=setTimeout(function(){taps=0;},1500);
-    if(taps>=5){
-      taps=0;
-      CHAPTERS.forEach(c=>P.done[c.id]=true); save();
-      pow("UNLOCKED!","var(--green)");
-      setTimeout(render,700);
+function beltIdx(id){ return BELTS.findIndex(b=>b.id===id); }
+/* ============================== PROBLEM POOLS ============================== */
+const HUNT_YES=[["📱","TABLET"],["📺","TV"],["💻","LAPTOP"],["🎮","GAME CONSOLE"],["🤖","ROBOT VACUUM"],["⌚","SMART WATCH"],["📷","CAMERA"],["🚗","CAR"],["🛸","DRONE"],["🖥️","COMPUTER"]];
+const HUNT_NO=[["🧸","TEDDY"],["⚽","BALL"],["🍕","PIZZA"],["🪴","PLANT"],["📖","STORY BOOK"],["🖍️","CRAYONS"],["🧦","SOCKS"],["🥪","SANDWICH"],["🌳","TREE"],["🥄","SPOON"],["🧺","BASKET"],["🎈","BALLOON"]];
+const SAYS_POOL=[["⭐","star"],["❤️","heart"],["🌙","moon"],["🚀","rocket"],["🐶","puppy"],["🍎","apple"],["🌈","rainbow"],["🐸","frog"],["🎩","hat"],["⚡","lightning bolt"]];
+const THENNOW=[
+ {oldE:"💌",oldL:"A LETTER",ask:"Long ago, people sent letters to say hi to family far away. What do we use NOW to see them?",ansE:"📹",ansL:"VIDEO CALL",yes:"Yes! Now we video call and see grandma in one second!"},
+ {oldE:"🗺️",oldL:"PAPER MAP",ask:"Long ago, people used giant paper maps to find the way. What helps us find the way NOW?",ansE:"📱",ansL:"MAP ON A PHONE",yes:"Yes! The phone's map computer says turn left, turn right!"},
+ {oldE:"🖐️🎨",oldL:"DRAWN BY HAND",ask:"Long ago, artists drew every cartoon picture by hand. What helps make movies NOW?",ansE:"💻",ansL:"COMPUTERS",yes:"Yes! Computers help artists make movies like Frozen and Moana!"},
+ {oldE:"🧮",oldL:"COUNTING BEADS",ask:"Long ago, people did big math with counting beads and paper. What does big math NOW?",ansE:"💻",ansL:"A COMPUTER",yes:"Yes! Computers do giant math faster than a blink!"},
+ {oldE:"📚",oldL:"SEARCH BIG BOOKS",ask:"Long ago, finding an answer meant searching big heavy books for hours. How do we find answers NOW?",ansE:"📱",ansL:"ASK THE TABLET",yes:"Yes! Computers find answers in a blink!"},
+ {oldE:"📻",oldL:"WAIT BY THE RADIO",ask:"Long ago, you waited by the radio hoping your favorite song would play. How do we hear our song NOW?",ansE:"🎵",ansL:"MUSIC APP",yes:"Yes! Tap the music app and your song plays right away!"},
+ {oldE:"🎞️",oldL:"FILM CAMERA",ask:"Long ago, you took a photo and waited DAYS to see it. How do we see photos NOW?",ansE:"📸",ansL:"PHONE — SEE IT NOW!",yes:"Yes! Click — and there is your picture, instantly!"},
+ {oldE:"🚶",oldL:"WALK TO ASK",ask:"Long ago, to ask a friend one question, you walked all the way to their house! What do we do NOW?",ansE:"💬",ansL:"SEND A MESSAGE",yes:"Yes! Beep — message sent, answer back in a minute!"},
+];
+const SILLY=[["🍦","ICE CREAM"],["🛴","A SCOOTER"],["🧦","A SOCK"],["🥕","A CARROT"],["🎩","A MAGIC HAT"],["🐌","ASK A SNAIL"],["🛁","A BATHTUB"],["🪃","A BOOMERANG"]];
+const SORT_HW=[["🖥️","SCREEN"],["⌨️","KEYBOARD"],["🖱️","MOUSE"],["🔊","SPEAKER"],["🎧","HEADPHONES"],["🕹️","CONTROLLER"],["🖨️","PRINTER"],["🔋","BATTERY"]];
+const SORT_SW=[["🎨","DRAWING APP"],["🎵","MUSIC APP"],["📹","VIDEO CALL APP"],["🗺️","MAP APP"],["📷","PHOTO APP"],["⏰","ALARM APP"],["🎮","GAME APP"],["🌦️","WEATHER APP"]];
+const RECIPES3=[
+ {name:"make a jam sandwich",steps:[["🍞","GET THE BREAD"],["🍓","SPREAD THE JAM"],["🥪","PUT IT TOGETHER"]]},
+ {name:"brush your teeth",steps:[["🧴","PASTE ON BRUSH"],["🪥","BRUSH BRUSH BRUSH"],["💦","RINSE YOUR MOUTH"]]},
+ {name:"plant a flower",steps:[["🕳️","DIG A LITTLE HOLE"],["🌱","DROP THE SEED IN"],["💧","WATER IT"]]},
+ {name:"make a bowl of cereal",steps:[["🥣","GET A BOWL"],["🌾","POUR THE CEREAL"],["🥛","ADD THE MILK"]]},
+ {name:"wash your hands",steps:[["🚰","TURN ON THE WATER"],["🧼","SOAP AND SCRUB"],["🤲","DRY THEM OFF"]]},
+ {name:"build a snowman",steps:[["⚪","ROLL A BIG SNOWBALL"],["🔘","STACK A SMALL ONE"],["🥕","ADD A CARROT NOSE"]]},
+ {name:"wrap a birthday gift",steps:[["🧸","PUT THE TOY IN THE BOX"],["📜","WRAP THE PAPER"],["🎀","STICK ON THE BOW"]]},
+ {name:"feed the dog",steps:[["🥣","GET THE DOG BOWL"],["🥫","POUR THE FOOD"],["🐶","DOG EATS — YUM!"]]},
+ {name:"blow up a balloon",steps:[["😮‍💨","BLOW IT UP BIG"],["🪢","TIE THE KNOT"],["🎈","PLAY!"]]},
+ {name:"paint a picture",steps:[["🖌️","DIP BRUSH IN PAINT"],["🖼️","PAINT THE PICTURE"],["🌞","LET IT DRY"]]},
+ {name:"build a sandcastle",steps:[["🪣","FILL THE BUCKET"],["🙃","FLIP IT OVER"],["🚩","ADD A FLAG"]]},
+ {name:"make movie popcorn",steps:[["🌽","POP THE CORN"],["🥣","POUR IT IN A BOWL"],["🎬","WATCH THE MOVIE"]]},
+];
+const RECIPES4=[
+ {name:"make a pizza",steps:[["🫓","ROLL THE DOUGH"],["🍅","SPREAD THE SAUCE"],["🧀","SPRINKLE CHEESE"],["🔥","BAKE IT HOT"]]},
+ {name:"take a bath",steps:[["🛁","FILL THE TUB"],["🫧","BUBBLES IN"],["🧽","SCRUB SCRUB"],["🤲","DRY OFF"]]},
+ {name:"get ready for bed",steps:[["👚","PAJAMAS ON"],["🪥","BRUSH TEETH"],["📖","BEDTIME STORY"],["😴","SLEEP TIGHT"]]},
+ {name:"bake cupcakes",steps:[["🥣","MIX THE BATTER"],["🧁","POUR INTO CUPS"],["🔥","BAKE THEM"],["🍬","ADD SPRINKLES"]]},
+ {name:"make hot chocolate",steps:[["🥛","WARM MILK IN A CUP"],["🍫","STIR IN CHOCOLATE"],["🥄","MIX IT UP"],["☁️","MARSHMALLOWS ON TOP"]]},
+ {name:"wash the car",steps:[["🚗","SPRAY THE CAR"],["🫧","SOAP IT UP"],["🚿","RINSE IT OFF"],["✨","DRY AND SHINE"]]},
+ {name:"mail a letter",steps:[["✍️","WRITE THE LETTER"],["✉️","PUT IT IN ENVELOPE"],["📮","DROP IN MAILBOX"],["🚚","TRUCK DELIVERS IT"]]},
+ {name:"make lemonade",steps:[["🍋","SQUEEZE THE LEMONS"],["💧","ADD WATER"],["🍚","STIR IN SUGAR"],["🧊","ICE AND ENJOY"]]},
+];
+const DECOY_STEPS=[["🧦","ADD A SOCK"],["🪨","STIR IN A ROCK"],["🐘","INVITE AN ELEPHANT"],["👟","BOIL A SHOE"],["🎺","BLOW A TRUMPET"],["🦖","WAKE A DINOSAUR"]];
+const ZAP_THEMES=[["👾","villains"],["👹","monsters"],["🤖","robo-bugs"],["🦹","super villains"],["🐙","space squids"],["🦠","glow germs"]];
+const LOOP_EMOJI=["🐸","🎈","⭐","🍪","🐤","🌸","🚀","🐟"];
+const NUMWORD=["zero","one","two","three","four","five","six","seven","eight","nine"];
+const NUMEMOJI=["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"];
+const RULES_BANK=[
+ {ifE:"🌧️",ifL:"RAINING",thenE:"☂️",thenL:"UMBRELLA",sit:"Look outside — it is raining!"},
+ {ifE:"☀️",ifL:"SUNNY",thenE:"🕶️",thenL:"SUNGLASSES",sit:"Look outside — it is super sunny!"},
+ {ifE:"❄️",ifL:"SNOWING",thenE:"🧥",thenL:"WARM COAT",sit:"Look outside — it is snowing!"},
+ {ifE:"🌑",ifL:"DARK",thenE:"🔦",thenL:"FLASHLIGHT",sit:"Oh no — it is all dark in here!"},
+ {ifE:"😋",ifL:"HUNGRY",thenE:"🍎",thenL:"EAT A SNACK",sit:"Your tummy is rumbling — you are hungry!"},
+ {ifE:"🥱",ifL:"SLEEPY",thenE:"🛏️",thenL:"GO TO BED",sit:"Big yawns — you are so sleepy!"},
+ {ifE:"🫱",ifL:"DIRTY HANDS",thenE:"🧼",thenL:"WASH THEM",sit:"Yuck — your hands are all muddy!"},
+ {ifE:"🥵",ifL:"TOO HOT",thenE:"🧊",thenL:"COLD DRINK",sit:"Phew — it is so hot today!"},
+ {ifE:"🥶",ifL:"TOO COLD",thenE:"🧣",thenL:"COZY SCARF",sit:"Brrr — it is freezing cold!"},
+ {ifE:"🔴",ifL:"RED LIGHT",thenE:"✋",thenL:"STOP",sit:"The traffic light turns red!"},
+ {ifE:"🟢",ifL:"GREEN LIGHT",thenE:"🏃",thenL:"GO GO GO",sit:"The traffic light turns green!"},
+ {ifE:"🎵",ifL:"MUSIC PLAYS",thenE:"💃",thenL:"DANCE",sit:"Listen — your favorite music is playing!"},
+ {ifE:"🤒",ifL:"FEELING SICK",thenE:"🛌",thenL:"REST IN BED",sit:"Oh no — you feel a little sick!"},
+ {ifE:"☄️",ifL:"METEOR FALLS",thenE:"🛡️",thenL:"RAISE SHIELD",sit:"A meteor is falling toward the city!"},
+];
+const POWER_RULES=[
+ {vE:"🔥",vL:"FIRE",pE:"💧",pL:"WATER SPLASH"},
+ {vE:"❄️",vL:"ICE",pE:"🔥",pL:"FIRE BLAST"},
+ {vE:"🕸️",vL:"WEB",pE:"✂️",pL:"SUPER SCISSORS"},
+];
+const BOX_NAMES=["SCORE","POWER","STARS","LIVES","GEMS"];
+const BOX_PETS=[["🐶","A PUPPY"],["🐱","A KITTEN"],["🐢","A TURTLE"],["🦊","A FOX"],["🐧","A PENGUIN"]];
+/* ============================== MAZE GENERATOR + BFS ============================== */
+const GRIDN=5;
+function wallKey(w){return w.x+","+w.y;}
+function bfsPath(start,goal,walls){
+  const wk=new Set(walls.map(wallKey));
+  const seen={}; seen[start.x+","+start.y]=null;
+  let q=[[start.x,start.y]];
+  const DIRS4=[[1,0],[-1,0],[0,1],[0,-1]];
+  while(q.length){
+    const [x,y]=q.shift();
+    if(x===goal.x&&y===goal.y){
+      const moves=[]; let k=x+","+y;
+      while(seen[k]){ moves.unshift(seen[k].m); k=seen[k].from; }
+      return moves; // array of {dx,dy}
     }
-  };
-  st.appendChild(bannerEl);
-  st.appendChild(el('<div class="sub">Badges earned: '+CHAPTERS.map(c=>P.done[c.id]?c.badge:"⬜").join(" ")+'</div>'));
-  CHAPTERS.forEach(function(c,i){
-    const isOpen=unlocked(i), isDone=!!P.done[c.id];
-    const card=el('<div class="chapcard'+(isOpen?"":" locked")+'">'+
-      '<div class="ce">'+c.emoji+'</div>'+
-      '<div class="ct">'+(i+1)+'. '+c.title+'<span class="cs">'+(isDone?"Done! Tap to play again":(isOpen?"Tap to start!":"Locked — finish the one before!"))+'</span></div>'+
-      '<div class="cb">'+(isDone?c.badge:(isOpen?"▶️":"🔒"))+'</div>'+
-    '</div>');
-    card.onclick=function(){
-      if(!isOpen){ speak("Not yet, superhero! Finish the chapter before this one first!"); return; }
-      S.ch=i;S.slide=0;S.fromPlayground=false;go("lesson");
-    };
-    st.appendChild(card);
-  });
-  const pg=el('<div class="chapcard play"><div class="ce">🎪</div>'+
-    '<div class="ct">PLAYGROUND<span class="cs">Free play — build heroes + replay games!</span></div><div class="cb">🎉</div></div>');
-  pg.onclick=function(){ go("playground"); };
-  st.appendChild(pg);
-  const gl=el('<div class="tinylink">ⓘ for grown-ups</div>');
-  gl.onclick=function(){ go("grown"); };
-  st.appendChild(gl);
-  app.appendChild(st);
-  const hello= earned===0
-    ? "Welcome to Hero Academy, "+NAME+"! I am Professor Pixel! Tap the first chapter, and let's learn what a computer really is!"
-    : (allDone()
-       ? NAME+", you earned every single badge! You are a true hero of Hero Academy! Visit the playground, or play any chapter again!"
-       : "Welcome back, "+NAME+"! You have "+earned+(earned===1?" badge":" badges")+"! Tap the next glowing chapter to keep going!");
-  replayFn=function(){ speak(hello); };
-  speak(hello);
-}
-/* ============================== GROWN-UPS ============================== */
-function renderGrown(){
-  app.appendChild(header("FOR GROWN-UPS"));
-  const st=el('<div class="stage"><div class="grown">'+
-    '<h3>How Hero Academy works</h3>'+
-    'Each chapter = a short <b>spoken lesson</b> (Professor Pixel reads everything aloud and highlights words as he says them), then a <b>picture quiz</b> (no reading needed), then <b>hands-on games</b>, then a badge.<br><br>'+
-    '<b>1. What is a Computer?</b> — machines that follow instructions.<br>'+
-    '<b>2. Long, Long Ago</b> — the world before computers (letters vs. video calls, hand-drawn cartoons, moon rockets).<br>'+
-    '<b>3. Hardware + Software</b> — the body vs. the "magic inside".<br>'+
-    '<b>4. What is Coding?</b> — instructions in order; first real coding mission.<br>'+
-    '<b>5. Loops</b> — repeat instead of rewriting.<br>'+
-    '<b>6. If / Then</b> — how computers make choices.<br><br>'+
-    'Tips: 🗣️ repeats the current narration. 🔊/🔇 mutes. Progress saves on this device automatically. Best with the volume up and a grown-up nearby for the first chapter.<br><br>'+
-    '<b>New device?</b> Tap the "HI ARIA" title on the HQ screen 5 times fast to unlock every chapter here (progress does not follow between devices).'+
-  '</div><div class="btnrow"><button class="btn" id="gback">⬅ BACK</button>'+
-  '<button class="btn red" id="greset">RESET PROGRESS</button></div></div>');
-  st.querySelector("#gback").onclick=function(){ go("map"); };
-  const rbtn=st.querySelector("#greset");
-  let armed=false;
-  rbtn.onclick=function(){
-    if(!armed){ armed=true; rbtn.textContent="TAP AGAIN TO CONFIRM"; return; }
-    P={done:{},heroes:0}; save(); go("map");
-  };
-  app.appendChild(st);
-}
-/* ============================== LESSON ============================== */
-function renderLesson(){
-  const c=CHAPTERS[S.ch], sl=c.slides[S.slide];
-  app.appendChild(header(c.emoji+" "+c.title));
-  const last=S.slide===c.slides.length-1;
-  const st=el('<div class="stage">'+
-    '<div class="card" style="border-color:'+c.color+';">'+
-      '<div class="scene"><span class="floaty">'+sl.e+'</span></div>'+
-      '<div class="bigtext" id="bt"></div>'+
-      '<div class="dots">'+c.slides.map((_,i)=>'<div class="dot'+(i===S.slide?" on":"")+'"></div>').join("")+'</div>'+
-    '</div>'+
-    '<div class="btnrow">'+
-      (S.slide>0?'<button class="btn ghost" id="prev">⬅</button>':"")+
-      '<button class="btn" id="next" style="font-size:26px;">'+(last?"QUIZ TIME! ⭐":"NEXT ➡")+'</button>'+
-    '</div>'+
-  '</div>');
-  app.appendChild(st);
-  const bt=st.querySelector("#bt");
-  sl.t.split(" ").forEach(function(w){
-    const s=document.createElement("span");s.className="w";s.textContent=w;bt.appendChild(s);
-    bt.appendChild(document.createTextNode(" "));
-  });
-  const spans=Array.from(bt.querySelectorAll(".w"));
-  const nextBtn=st.querySelector("#next");
-  function tell(){
-    spans.forEach(s=>s.classList.remove("on","done"));
-    speakWords(sl.t,sl.x,spans,function(){ nextBtn.classList.add("pulse"); });
+    for(const [dx,dy] of DIRS4){
+      const nx=x+dx,ny=y+dy,k=nx+","+ny;
+      if(nx<0||ny<0||nx>=GRIDN||ny>=GRIDN||wk.has(k)||(k in seen))continue;
+      seen[k]={from:x+","+y,m:{dx,dy}};
+      q.push([nx,ny]);
+    }
   }
-  replayFn=tell; tell();
-  nextBtn.onclick=function(){
-    if(last){ go("quiz"); }
-    else{ S.slide++; render(); }
-  };
-  const prev=st.querySelector("#prev");
-  if(prev)prev.onclick=function(){ S.slide--; render(); };
+  return null;
 }
-/* ============================== QUIZ ============================== */
-function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;} return a; }
-function renderQuiz(){
-  const c=CHAPTERS[S.ch], q=c.quiz;
-  app.appendChild(header("⭐ QUIZ TIME"));
-  const st=el('<div class="stage">'+
-    '<div class="card" style="border-color:'+c.color+';">'+
-      '<div class="bigtext" style="margin-top:2px;">'+q.t+'</div>'+
-      '<div class="optgrid" id="opts"></div>'+
-      '<div class="feedback" id="fb"></div>'+
-    '</div>'+
-  '</div>');
-  app.appendChild(st);
-  const box=st.querySelector("#opts"), fb=st.querySelector("#fb");
-  let solved=false;
-  shuffle(q.opts).forEach(function(o){
-    const card=el('<div class="opt"><span class="e">'+o.e+'</span><span class="l">'+o.l+'</span></div>');
-    card.onclick=function(){
-      if(solved)return;
+function genMaze(level){
+  for(let tries=0;tries<80;tries++){
+    let start,goal,walls=[];
+    if(level<=1){
+      const ry=1+rint(3);
+      start={x:0,y:ry}; goal={x:4,y:ry};
+      // sprinkle 3 decorative walls off the flight row
+      const cells=[];
+      for(let x=1;x<4;x++)for(let y=0;y<GRIDN;y++){ if(y!==ry)cells.push({x,y}); }
+      walls=sample(cells,3);
+    }else if(level===2){
+      start={x:0,y:rint(GRIDN)}; goal={x:4,y:rint(GRIDN)};
+      const gapY=rint(GRIDN);
+      for(let y=0;y<GRIDN;y++){ if(y!==gapY)walls.push({x:2,y}); }
+    }else{
+      start={x:0,y:rint(GRIDN)}; goal={x:4,y:rint(GRIDN)};
+      const g1=rint(GRIDN), g2=Math.max(0,Math.min(GRIDN-1,g1+(rint(3)-1)));
+      for(let y=0;y<GRIDN;y++){ if(y!==g1)walls.push({x:1,y}); if(y!==g2)walls.push({x:3,y}); }
+    }
+    walls=walls.filter(w=>!(w.x===start.x&&w.y===start.y)&&!(w.x===goal.x&&w.y===goal.y));
+    const path=bfsPath(start,goal,walls);
+    const maxB=level<=1?5:(level===2?7:8);
+    if(path&&path.length>=3&&path.length<=maxB) return {start,goal,walls,max:maxB,solution:path};
+  }
+  return {start:{x:0,y:2},goal:{x:4,y:2},walls:[],max:5,solution:[{dx:1,dy:0},{dx:1,dy:0},{dx:1,dy:0},{dx:1,dy:0}]};
+}
+function simulateRun(start,goal,walls,moves){
+  // returns {steps:[{x,y}...], outcome:'win'|'crash'|'out'|'short', at:index}
+  const wk=new Set(walls.map(wallKey));
+  let pos={x:start.x,y:start.y};
+  const steps=[];
+  for(let i=0;i<moves.length;i++){
+    pos={x:pos.x+moves[i].dx,y:pos.y+moves[i].dy};
+    if(pos.x<0||pos.y<0||pos.x>=GRIDN||pos.y>=GRIDN)return {steps,outcome:"out",at:i};
+    if(wk.has(pos.x+","+pos.y))return {steps:steps.concat([pos]),outcome:"crash",at:i};
+    steps.push({x:pos.x,y:pos.y});
+  }
+  return {steps,outcome:(pos.x===goal.x&&pos.y===goal.y)?"win":"short",at:moves.length-1};
+}
+const DIRINFO=[{dx:1,dy:0,e:"➡️",n:"fly right"},{dx:-1,dy:0,e:"⬅️",n:"fly left"},{dx:0,dy:-1,e:"⬆️",n:"fly up"},{dx:0,dy:1,e:"⬇️",n:"fly down"}];
+function dirInfo(m){ return DIRINFO.find(d=>d.dx===m.dx&&d.dy===m.dy); }
+/* ============================== GENERIC CHOICE PROBLEM ============================== */
+function choiceProblem(st,cfg,mode,onDone){
+  const card=el('<div class="card">'+
+    (cfg.rule?('<div class="rulecard">'+cfg.rule+'</div>'):"")+
+    '<div class="scene" id="cpScene" style="font-size:'+(cfg.sceneSize||"min(64px,15vw)")+';">'+cfg.scene+'</div>'+
+    '<div class="bigtext" style="font-size:20px;margin-top:12px;">'+cfg.prompt+'</div>'+
+    '<div class="optgrid'+(cfg.opts.length===2?" two":"")+'" id="cpOpts"></div>'+
+    '<div class="feedback" id="cpFb"></div></div>');
+  st.appendChild(card);
+  const box=card.querySelector("#cpOpts"), fb=card.querySelector("#cpFb");
+  let locked=false;
+  const opts=cfg.noShuffle?cfg.opts:shuffle(cfg.opts);
+  opts.forEach(function(o){
+    const c=el('<div class="opt">'+(o.e?('<span class="e">'+o.e+'</span>'):"")+(o.l?('<span class="l">'+o.l+'</span>'):"")+'</div>');
+    c.onclick=function(){
+      if(locked)return;
       if(o.ok){
-        solved=true;
-        card.classList.add("right");
-        Array.from(box.children).forEach(ch=>{ if(ch!==card)ch.classList.add("dim"); });
+        locked=true;
+        c.classList.add("right");
+        Array.from(box.children).forEach(ch=>{ if(ch!==c)ch.classList.add("dim"); });
         fb.textContent="⭐ CORRECT! ⭐";
-        pow("YES!"); confetti(24);
-        speak(q.yes,{onend:function(){ S.act=0; go("activity"); }});
+        pow("YES!","var(--green)");
+        speak(cfg.yes||praise(),{onend:function(){ onDone(true); }});
       }else{
-        card.classList.remove("wrong"); void card.offsetWidth; card.classList.add("wrong");
-        fb.textContent="Try again!";
-        speak(o.no);
+        if(mode==="test"){
+          locked=true;
+          c.classList.add("wrong");
+          const right=Array.from(box.children)[opts.findIndex(x=>x.ok)];
+          if(right)right.classList.add("right");
+          fb.textContent="THE ANSWER IS SHOWN!";
+          speak(o.no||"Not this time! See the glowing one? That was the answer. On we go!",{onend:function(){ onDone(false); }});
+        }else{
+          c.classList.remove("wrong"); void c.offsetWidth; c.classList.add("wrong");
+          fb.textContent="Try again!";
+          speak(o.no||encourage());
+        }
       }
     };
-    box.appendChild(card);
+    box.appendChild(c);
   });
-  replayFn=function(){ speak(q.spoken); };
-  speak(q.spoken);
+  if(cfg.setup)cfg.setup(card.querySelector("#cpScene"));
+  replayFn=function(){ speak(cfg.spoken); };
+  speak(cfg.spoken);
 }
-/* ============================== ACTIVITY SHELL ============================== */
-function renderActivity(){
-  const c=CHAPTERS[S.ch];
-  const actId=c.acts[S.act];
-  const a=ACTS[actId];
-  app.appendChild(header(a.emoji+" "+a.title));
-  const st=el('<div class="stage"></div>');
-  app.appendChild(st);
-  let consumed=false;
-  a.render(st,function(){
-    // activity complete — guard against a stray double-callback
-    if(consumed)return; consumed=true;
-    if(S.fromPlayground){ setTimeout(function(){ go("playground"); },2200); return; }
-    S.act++;
-    setTimeout(function(){
-      if(S.act<c.acts.length) go("activity");
-      else go("badge");
-    },2200);
-  });
-}
-/* ============================== BADGE ============================== */
-function renderBadge(){
-  const c=CHAPTERS[S.ch];
-  const first=!P.done[c.id];
-  P.done[c.id]=true; save();
-  app.appendChild(header("BADGE EARNED!"));
-  const st=el('<div class="stage" style="justify-content:center;text-align:center;">'+
-    '<div class="badgebig">'+c.badge+'</div>'+
-    '<div class="banner" style="font-size:clamp(26px,8vw,42px);">'+c.badgeName+'!</div>'+
-    '<div class="sub">Chapter '+(S.ch+1)+' complete!</div>'+
-    '<div class="btnrow"><button class="btn green pulse" id="cont" style="font-size:26px;">'+
-      (S.ch<CHAPTERS.length-1?"BACK TO HQ 🏠":"🏆 FINISH!")+'</button></div>'+
-  '</div>');
-  app.appendChild(st);
-  confetti(48); pow(c.badge+" BADGE!");
-  const line=(S.ch<CHAPTERS.length-1)
-    ? "TA-DAAA! "+NAME+", you earned the "+c.badgeName+" badge! I am SO proud of you! A brand new chapter is waiting at headquarters!"
-    : "TA-DAAA! "+NAME+", you earned the "+c.badgeName+" badge... and that was the LAST one! You finished every chapter of Hero Academy! You are a TRUE HERO! The playground is all yours!";
-  replayFn=function(){ speak(line); };
-  speak(line);
-  st.querySelector("#cont").onclick=function(){ go("map"); };
-}
-/* ============================== PLAYGROUND ============================== */
-function renderPlayground(){
-  app.appendChild(header("🎪 PLAYGROUND"));
-  const st=el('<div class="stage"></div>');
-  st.appendChild(el('<div class="sub">Play anything, as many times as you like!</div>'));
-  const items=[{id:"design",always:true}];
-  CHAPTERS.forEach(function(c){ if(P.done[c.id]) c.acts.forEach(a=>items.push({id:a})); });
-  const seen={};
-  items.forEach(function(it){
-    if(seen[it.id])return; seen[it.id]=true;
-    const a=ACTS[it.id];
-    const card=el('<div class="chapcard"><div class="ce">'+a.emoji+'</div>'+
-      '<div class="ct">'+a.title+'<span class="cs">'+a.blurb+'</span></div><div class="cb">▶️</div></div>');
-    card.onclick=function(){
-      S.fromPlayground=true;
-      stopSpeech(); app.innerHTML="";
-      app.appendChild(header(a.emoji+" "+a.title));
-      const stg=el('<div class="stage"></div>'); app.appendChild(stg);
-      a.render(stg,function(){ setTimeout(function(){ go("playground"); },2200); });
-    };
-    st.appendChild(card);
-  });
-  if(items.length===1){
-    st.appendChild(el('<div class="sub" style="margin-top:8px;">Finish chapters to unlock more games here! 🔒</div>'));
-  }
-  const back=el('<div class="btnrow"><button class="btn ghost" id="pback">⬅ BACK TO HQ</button></div>');
-  back.querySelector("#pback").onclick=function(){ go("map"); };
-  st.appendChild(back);
-  app.appendChild(st);
-  const line="Welcome to the playground, "+NAME+"! Tap any game you like!";
-  replayFn=function(){ speak(line); };
-  speak(line);
-}
-/* ============================== ACTIVITIES ============================== */
-const ACTS={};
-/* ---- 1a. Computer Hunt ---- */
-ACTS.hunt={ title:"COMPUTER HUNT", emoji:"🔍", blurb:"Find everything with a computer inside!",
-render:function(st,done){
-  const items=[
-    {e:"📱",l:"TABLET",ok:true, yes:"Yes! A tablet is a computer!"},
-    {e:"🧸",l:"TEDDY", no:"Nope! Teddy is just fluff and cuddles!"},
-    {e:"📺",l:"TV",ok:true, yes:"Yes! TVs have computers inside!"},
-    {e:"🍕",l:"PIZZA", no:"Ha ha! Pizza is for eating, not computing!"},
-    {e:"🎮",l:"GAME CONSOLE",ok:true, yes:"Yes! A game console is a computer built for games!"},
-    {e:"🪴",l:"PLANT", no:"Nope! Plants grow all by themselves — no computer needed!"},
-    {e:"🤖",l:"ROBOT VACUUM",ok:true, yes:"Yes! A robot vacuum has a little computer brain!"},
-    {e:"⚽",l:"BALL", no:"Nope! A ball just bounces — no computer inside!"},
-  ];
-  const total=items.filter(i=>i.ok).length;
-  let found=0, finished=false;
-  st.appendChild(el('<div class="sub" style="font-size:19px;">Tap everything with a computer hiding inside!</div>'));
-  const grid=el('<div class="optgrid" style="grid-template-columns:repeat(auto-fit,minmax(110px,1fr));"></div>');
-  const fb=el('<div class="feedback" id="fb">Found: 0 of '+total+'</div>');
-  shuffle(items).forEach(function(o){
-    const card=el('<div class="opt"><span class="e">'+o.e+'</span><span class="l">'+o.l+'</span></div>');
-    card.onclick=function(){
-      if(finished)return;
+/* ============================== SKILLS REGISTRY ==============================
+   Each skill: {title, emoji, blurb, play(st, level, mode, onDone)}
+   mode: 'practice' (retry until right) | 'test' (first decisive action locks)
+   onDone(correct) must fire exactly once.
+*/
+const SKILLS={};
+/* ---------- WHITE: Computer Hunt (multi-find) ---------- */
+SKILLS.hunt={ title:"COMPUTER HUNT", emoji:"🔍", blurb:"Find everything with a computer inside!",
+play:function(st,level,mode,onDone){
+  const yesN=Math.min(2+level,5), noN=4+Math.floor(level/2);
+  const items=shuffle(
+    sample(HUNT_YES,yesN).map(i=>({e:i[0],l:i[1],ok:true}))
+    .concat(sample(HUNT_NO,noN).map(i=>({e:i[0],l:i[1]})))
+  );
+  let found=0, wrongs=0, over=false;
+  st.appendChild(el('<div class="sub" style="font-size:18px;">Tap everything with a computer hiding inside!</div>'));
+  const grid=el('<div class="optgrid" style="grid-template-columns:repeat(auto-fit,minmax(105px,1fr));"></div>');
+  const fb=el('<div class="feedback">Found: 0 of '+yesN+'</div>');
+  items.forEach(function(o){
+    const c=el('<div class="opt"><span class="e">'+o.e+'</span><span class="l">'+o.l+'</span></div>');
+    c.onclick=function(){
+      if(over)return;
       if(o.ok){
-        if(card.classList.contains("found"))return;
-        card.classList.add("found");
-        found++;
-        fb.textContent="Found: "+found+" of "+total;
-        if(found===total){
-          finished=true;
-          pow("SUPER!"); confetti(30);
-          fb.textContent="⭐ YOU FOUND THEM ALL! ⭐";
-          speak(o.yes+" And that is ALL of them! Great hunting, "+NAME+"! Computers really do hide everywhere!",{onend:done});
-        } else { speak(o.yes); }
+        if(c.classList.contains("found"))return;
+        c.classList.add("found"); found++;
+        fb.textContent="Found: "+found+" of "+yesN;
+        if(found===yesN){
+          over=true;
+          const win=(mode!=="test"||wrongs<=1);
+          pow("SUPER!"); if(win)confetti(24);
+          fb.textContent="⭐ ALL FOUND! ⭐";
+          speak(win?("You found them all, "+NAME+"! Computers really do hide everywhere!")
+                   :"You found them — but a few taps were not computers. Watch closely next time!",
+            {onend:function(){onDone(win);}});
+        }else{ speak(pick(["Yes! Computer inside!","Beep boop — correct!","Yes! That one has a computer brain!"])); }
       }else{
-        card.classList.remove("wrong"); void card.offsetWidth; card.classList.add("wrong");
-        speak(o.no);
+        wrongs++;
+        c.classList.remove("wrong"); void c.offsetWidth; c.classList.add("wrong");
+        speak("Nope — no computer in the "+o.l.toLowerCase()+"! Keep hunting!");
       }
     };
-    grid.appendChild(card);
+    grid.appendChild(c);
   });
   st.appendChild(grid); st.appendChild(fb);
-  const intro="Time for a computer hunt! Computers hide inside many things. Tap everything that has a computer inside!";
-  replayFn=function(){ speak(intro); };
+  const intro="Computer hunt! Tap everything that has a computer hiding inside. There are "+NUMWORD[yesN]+" to find!";
+  replayFn=function(){speak(intro);};
   speak(intro);
 }};
-/* ---- 1b. Computer Says ---- */
-ACTS.says={ title:"COMPUTER SAYS", emoji:"📣", blurb:"Follow the computer's commands — exactly!",
-render:function(st,done){
-  const pool=[{e:"⭐",n:"star"},{e:"❤️",n:"heart"},{e:"🌙",n:"moon"},{e:"🚀",n:"rocket"},{e:"🐶",n:"puppy"},{e:"🍎",n:"apple"}];
-  const ROUNDS=4;
-  let round=0, target=null, busy=false;
-  st.appendChild(el('<div class="sub" style="font-size:19px;">Listen! Tap exactly what the computer says!</div>'));
-  const grid=el('<div class="optgrid" style="grid-template-columns:repeat(3,1fr);"></div>');
+/* ---------- WHITE: Computer Says (sequence commands) ---------- */
+SKILLS.says={ title:"COMPUTER SAYS", emoji:"📣", blurb:"Follow the computer's commands — exactly!",
+play:function(st,level,mode,onDone){
+  const chainLen=level;
+  const picks=sample(SAYS_POOL,4);
+  const chain=sample(picks,chainLen);
+  let at=0, over=false;
+  const names=chain.map(c=>"the "+c[1]);
+  const cmd= chainLen===1 ? "Tap "+names[0]+"!" : "Tap "+names.slice(0,-1).join(", then ")+", then "+names[names.length-1]+"!";
+  st.appendChild(el('<div class="sub" style="font-size:18px;">Listen carefully. Tap in the exact order!</div>'));
+  const grid=el('<div class="optgrid" style="grid-template-columns:repeat(2,1fr);"></div>');
   const fb=el('<div class="feedback"></div>');
-  st.appendChild(grid); st.appendChild(fb);
-  function playRound(){
-    grid.innerHTML="";
-    const picks=shuffle(pool).slice(0,3);
-    target=picks[Math.floor(Math.random()*3)];
-    fb.textContent="Round "+(round+1)+" of "+ROUNDS;
-    picks.forEach(function(o){
-      const card=el('<div class="opt"><span class="e">'+o.e+'</span></div>');
-      card.onclick=function(){
-        if(busy)return;
-        if(o.n===target.n){
-          busy=true;
-          card.classList.add("right"); pow("BEEP!","var(--green)");
-          round++;
-          if(round>=ROUNDS){
-            confetti(30); fb.textContent="⭐ PERFECT! ⭐";
-            speak("Beep beep! Perfect, "+NAME+"! You followed every command exactly — just like a computer does!",{onend:done});
-          }else{
-            speak("Beep! Correct!",{onend:function(){ busy=false; playRound(); }});
-          }
-        }else{
-          card.classList.remove("wrong"); void card.offsetWidth; card.classList.add("wrong");
-          speak("Bzzzt! Almost! Computers follow instructions EXACTLY. Tap the "+target.n+"!");
-        }
-      };
-      grid.appendChild(card);
-    });
-    speak("Beep boop! Computer command! Tap the "+target.n+"!");
-    replayFn=function(){ speak("Computer command! Tap the "+target.n+"!"); };
-  }
-  const intro="Let's play Computer Says! I will give you commands, and you follow them exactly, just like a real computer! Ready?";
-  speak(intro,{onend:playRound});
-  replayFn=function(){ speak(intro); };
-}};
-/* ---- 2. Then & Now ---- */
-ACTS.thennow={ title:"THEN + NOW", emoji:"🕰️", blurb:"Match the old way to the new way!",
-render:function(st,done){
-  const rounds=[
-    {oldE:"💌",oldL:"A LETTER",ask:"Long ago, people sent letters to say hi to grandma. What do we use NOW to see grandma far away?",
-     opts:[{e:"📹",l:"VIDEO CALL",ok:true},{e:"🍦",l:"ICE CREAM"},{e:"🛴",l:"SCOOTER"}],
-     yes:"Yes! Now we video call, and see grandma in one second! Thank you, computers!"},
-    {oldE:"🗺️",oldL:"PAPER MAP",ask:"Long ago, people used big paper maps to find the way. What helps us find the way NOW?",
-     opts:[{e:"📱",l:"MAP ON A PHONE",ok:true},{e:"🎈",l:"A BALLOON"},{e:"🧦",l:"A SOCK"}],
-     yes:"Yes! The phone's map computer says: turn left! turn right! No more giant folding maps!"},
-    {oldE:"🖐️🎨",oldL:"DRAWN BY HAND",ask:"Long ago, artists drew every cartoon picture by hand. What helps make cartoon movies NOW?",
-     opts:[{e:"💻",l:"COMPUTERS",ok:true},{e:"🥕",l:"CARROTS"},{e:"🛁",l:"A BATHTUB"}],
-     yes:"Yes! Computers help artists make movies like Frozen and Moana! Elsa's ice sparkles are computer magic!"},
-    {oldE:"📚",oldL:"SEARCH IN BOOKS",ask:"Long ago, finding an answer meant searching big books for hours. How can we find answers NOW?",
-     opts:[{e:"📱",l:"ASK THE TABLET",ok:true},{e:"🐌",l:"ASK A SNAIL"},{e:"🎩",l:"A MAGIC HAT"}],
-     yes:"Yes! Now computers find answers in a blink! Although asking a snail does sound funny!"},
-  ];
-  let r=0, busy=false;
-  const scene=el('<div class="card"><div class="scene" style="font-size:min(64px,15vw);"><span id="oldE"></span></div>'+
-    '<div class="bigtext" id="oldL" style="font-size:22px;"></div>'+
-    '<div class="sub" style="font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">WHAT DO WE USE NOW?</div>'+
-    '<div class="optgrid" id="opts"></div><div class="feedback" id="fb"></div></div>');
-  st.appendChild(scene);
-  const fb=scene.querySelector("#fb");
-  function playRound(){
-    busy=false;
-    const R=rounds[r];
-    scene.querySelector("#oldE").textContent=R.oldE;
-    scene.querySelector("#oldL").textContent="THEN: "+R.oldL;
-    fb.textContent="Round "+(r+1)+" of "+rounds.length;
-    const box=scene.querySelector("#opts"); box.innerHTML="";
-    shuffle(R.opts).forEach(function(o){
-      const card=el('<div class="opt"><span class="e">'+o.e+'</span><span class="l">'+o.l+'</span></div>');
-      card.onclick=function(){
-        if(busy)return;
-        if(o.ok){
-          busy=true; card.classList.add("right"); pow("NOW!");
-          r++;
-          if(r>=rounds.length){
-            confetti(30); fb.textContent="⭐ TIME TRAVEL COMPLETE! ⭐";
-            speak(R.yes+" You matched them all, "+NAME+"! What a time traveler!",{onend:done});
-          }else{
-            speak(R.yes,{onend:playRound});
-          }
-        }else{
-          card.classList.remove("wrong"); void card.offsetWidth; card.classList.add("wrong");
-          speak("Hee hee, nope! Listen again: "+R.ask);
-        }
-      };
-      box.appendChild(card);
-    });
-    speak(R.ask);
-    replayFn=function(){ speak(R.ask); };
-  }
-  const intro="Let's time travel! I will show you the OLD way from long ago. You tap the NEW way we do it today, with computers!";
-  speak(intro,{onend:playRound});
-  replayFn=function(){ speak(intro); };
-}};
-/* ---- 3. Sort It ---- */
-ACTS.sort={ title:"SORT IT!", emoji:"🗂️", blurb:"Hardware you can touch, or software magic?",
-render:function(st,done){
-  const items=shuffle([
-    {e:"🖥️",n:"a screen",l:"SCREEN",hw:true, why:"You can touch a screen — hardware, the computer's body!"},
-    {e:"🎨",n:"a drawing app",l:"DRAWING APP",hw:false, why:"A drawing app is software — magic you cannot touch!"},
-    {e:"🔊",n:"a speaker",l:"SPEAKER",hw:true, why:"You can touch a speaker — hardware!"},
-    {e:"🎵",n:"a music app",l:"MUSIC APP",hw:false, why:"A music app is software — the magic inside!"},
-    {e:"⌨️",n:"a keyboard",l:"KEYBOARD",hw:true, why:"You can touch every key — hardware!"},
-    {e:"📹",n:"a video call app",l:"VIDEO CALL APP",hw:false, why:"A video call app is software!"},
-  ]);
-  let i=0, busy=false;
-  const scene=el('<div class="card"><div class="scene" style="font-size:min(74px,18vw);"><span id="it" class="floaty"></span></div>'+
-    '<div class="bigtext" id="itl" style="font-size:24px;"></div>'+
-    '<div class="optgrid" style="grid-template-columns:1fr 1fr;">'+
-      '<div class="opt" id="binH"><span class="e">🖐️</span><span class="l">HARDWARE<br>CAN TOUCH IT</span></div>'+
-      '<div class="opt" id="binS"><span class="e">✨</span><span class="l">SOFTWARE<br>MAGIC INSIDE</span></div>'+
-    '</div><div class="feedback" id="fb"></div></div>');
-  st.appendChild(scene);
-  const fb=scene.querySelector("#fb");
-  function show(){
-    busy=false;
-    scene.querySelector("#it").textContent=items[i].e;
-    scene.querySelector("#itl").textContent=items[i].l;
-    fb.textContent=(i+1)+" of "+items.length;
-    const ask="Here is "+items[i].n+"! Can you touch it with your hands? Is it hardware, or software?";
-    speak(ask);
-    replayFn=function(){ speak(ask); };
-  }
-  function pick(saidHw,binEl){
-    if(busy)return;
-    const it=items[i];
-    if(saidHw===it.hw){
-      busy=true; binEl.classList.add("right"); pow(it.hw?"TOUCH!":"MAGIC!","var(--green)");
-      setTimeout(()=>binEl.classList.remove("right"),450);
-      i++;
-      if(i>=items.length){
-        confetti(30); fb.textContent="⭐ ALL SORTED! ⭐";
-        speak(it.why+" And that was the last one! You sorted everything, "+NAME+"! Hardware is the suit, software is the hero inside!",{onend:done});
+  picks.forEach(function(p){
+    const c=el('<div class="opt"><span class="e" style="font-size:56px;">'+p[0]+'</span></div>');
+    c.onclick=function(){
+      if(over)return;
+      if(p[1]===chain[at][1]){
+        c.classList.add("right"); setTimeout(()=>c.classList.remove("right"),500);
+        at++;
+        if(at>=chainLen){
+          over=true; pow("BEEP!","var(--green)");
+          fb.textContent="⭐ PERFECT! ⭐";
+          speak("Beep beep! Perfect! You followed the command exactly, like a real computer!",{onend:function(){onDone(true);}});
+        }else{ speak("Yes! Keep going!"); }
       }else{
-        speak(it.why,{onend:show});
+        c.classList.remove("wrong"); void c.offsetWidth; c.classList.add("wrong");
+        if(mode==="test"){ over=true; speak("Bzzzt — not quite the right order! On we go!",{onend:function(){onDone(false);}}); }
+        else{ at=0; speak("Bzzzt! Computers follow commands EXACTLY. Start over: "+cmd); }
       }
-    }else{
-      binEl.classList.remove("wrong"); void binEl.offsetWidth; binEl.classList.add("wrong");
-      speak(it.hw?"Hmm, try touching it... you CAN touch "+it.n+"! So which bin is it?"
-                 :"Hmm, can your fingers touch "+it.n+"? No! You can only see what it does. So which bin is it?");
-    }
-  }
-  scene.querySelector("#binH").onclick=function(){ pick(true,this); };
-  scene.querySelector("#binS").onclick=function(){ pick(false,this); };
-  const intro="Sorting mission! I will show you something. If you can touch it with your hands, tap HARDWARE. If it is magic inside the computer, tap SOFTWARE!";
-  speak(intro,{onend:show});
-  replayFn=function(){ speak(intro); };
+    };
+    grid.appendChild(c);
+  });
+  st.appendChild(grid); st.appendChild(fb);
+  const intro="Beep boop! Computer command! "+cmd;
+  replayFn=function(){speak(intro);};
+  speak(intro);
 }};
-/* ---- 4a. Recipe Robot ---- */
-ACTS.recipe={ title:"RECIPE ROBOT", emoji:"🥪", blurb:"Put the steps in the right order!",
-render:function(st,done){
-  const recipes=[
-    {name:"make a jam sandwich",steps:[{e:"🍞",l:"GET THE BREAD"},{e:"🍓",l:"SPREAD THE JAM"},{e:"🥪",l:"PUT IT TOGETHER"}],
-     silly:"Jam before bread? Sticky table! "},
-    {name:"brush your teeth",steps:[{e:"🧴",l:"PUT ON TOOTHPASTE"},{e:"🪥",l:"BRUSH BRUSH BRUSH"},{e:"💦",l:"RINSE YOUR MOUTH"}],
-     silly:"Rinse before brushing? Silly robot! "},
-  ];
-  let r=0, need=0, busy=false;
-  const scene=el('<div class="card">'+
-    '<div class="sub" style="font-family:var(--disp);letter-spacing:1px;color:var(--yellow);" id="rname"></div>'+
+/* ---------- WHITE: Then & Now (choice) ---------- */
+SKILLS.thennow={ title:"THEN + NOW", emoji:"🕰️", blurb:"Match the old way to the new way!",
+play:function(st,level,mode,onDone){
+  const R=pick(THENNOW);
+  const opts=[{e:R.ansE,l:R.ansL,ok:true}].concat(sample(SILLY,2).map(s=>({e:s[0],l:s[1],no:"Hee hee, nope! Listen again: "+R.ask})));
+  choiceProblem(st,{
+    scene:'<span>'+R.oldE+'</span>',
+    prompt:"THEN: "+R.oldL+" — what do we use NOW?",
+    spoken:R.ask, opts:opts, yes:R.yes+" What a time traveler!",
+  },mode,onDone);
+}};
+/* ---------- WHITE: Sort It (choice, 2 bins) ---------- */
+SKILLS.sort={ title:"SORT IT!", emoji:"🗂️", blurb:"Hardware you can touch, or software magic?",
+play:function(st,level,mode,onDone){
+  const isHW=rint(2)===0;
+  const it=isHW?pick(SORT_HW):pick(SORT_SW);
+  choiceProblem(st,{
+    scene:'<span class="floaty">'+it[0]+'</span>',
+    prompt:it[1]+" — which is it?",
+    spoken:"Here is "+it[1].toLowerCase()+"! Can you touch it with your hands? Is it hardware, or software?",
+    noShuffle:true,
+    opts:[
+      {e:"🖐️",l:"HARDWARE — CAN TOUCH IT",ok:isHW,no:isHW?null:"Hmm — can your fingers touch "+it[1].toLowerCase()+"? No! It is magic inside the computer. Try again!"},
+      {e:"✨",l:"SOFTWARE — MAGIC INSIDE",ok:!isHW,no:!isHW?null:"Hmm — you CAN touch "+it[1].toLowerCase()+" with your hands! So it is the computer's body. Try again!"},
+    ],
+    yes:(isHW?"Yes! You can touch it — hardware, the computer's body!":"Yes! You cannot touch it — software, the magic inside!"),
+  },mode,onDone);
+}};
+/* ---------- YELLOW: Recipe Robot (order tapping) ---------- */
+SKILLS.recipe={ title:"RECIPE ROBOT", emoji:"🥪", blurb:"Put the steps in the right order!",
+play:function(st,level,mode,onDone){
+  const R=level<=1?pick(RECIPES3):pick(RECIPES4);
+  const steps=R.steps.map((s,i)=>({e:s[0],l:s[1],idx:i}));
+  let cards=steps.slice();
+  let decoy=null;
+  if(level>=3){ const d=pick(DECOY_STEPS); decoy={e:d[0],l:d[1],idx:-1}; cards=cards.concat([decoy]); }
+  cards=shuffle(cards);
+  let need=0, over=false, anyWrong=false;
+  const card=el('<div class="card">'+
+    '<div class="sub" style="font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">CODE THE ROBOT TO: '+R.name.toUpperCase()+'</div>'+
+    (decoy?'<div class="sub" style="font-size:14px;">One step is SILLY — leave it out!</div>':"")+
     '<div class="slotrow" id="slots"></div>'+
-    '<div class="optgrid" id="cards" style="grid-template-columns:repeat(3,1fr);"></div>'+
-    '<div class="feedback" id="fb"></div></div>');
-  st.appendChild(scene);
-  const fb=scene.querySelector("#fb");
-  function playRound(){
-    busy=false; need=0;
-    const R=recipes[r];
-    scene.querySelector("#rname").textContent="CODE THE ROBOT TO: "+R.name.toUpperCase();
-    const slots=scene.querySelector("#slots"); slots.innerHTML="";
-    R.steps.forEach(()=>slots.appendChild(el('<div class="slot">·</div>')));
-    const cards=scene.querySelector("#cards"); cards.innerHTML="";
-    fb.textContent="What comes FIRST?";
-    shuffle(R.steps.map((s,idx)=>({s:s,idx:idx}))).forEach(function(o){
-      const card=el('<div class="opt"><span class="e">'+o.s.e+'</span><span class="l">'+o.s.l+'</span></div>');
-      card.onclick=function(){
-        if(busy||card.classList.contains("dim"))return;
-        if(o.idx===need){
-          card.classList.add("dim");
-          const slot=slots.children[need];
-          slot.textContent=o.s.e; slot.classList.add("filled");
-          need++;
-          if(need>=R.steps.length){
-            busy=true; r++;
-            if(r>=recipes.length){
-              confetti(30); pow("YUM!"); fb.textContent="⭐ ROBOT CODED! ⭐";
-              speak("Beep! Program complete! The robot did it perfectly, because your steps were in the right order! That is exactly what coding is, "+NAME+"!",{onend:done});
-            }else{
-              pow("DONE!"); fb.textContent="⭐ PERFECT ORDER! ⭐";
-              speak("Beep! The robot made the sandwich! Steps in order, that is code! Next recipe!",{onend:playRound});
-            }
-          }else{
-            fb.textContent="What comes NEXT?";
-            speak("Yes! Then what comes next?");
-          }
-        }else{
-          card.classList.remove("wrong"); void card.offsetWidth; card.classList.add("wrong");
-          speak(R.silly+"Robots follow steps IN ORDER. What comes "+(need===0?"first":"next")+"?");
-        }
-      };
-      cards.appendChild(card);
-    });
-    speak("The robot wants to "+R.name+"! Tap the steps in the right order. What comes first?");
-    replayFn=function(){ speak("Tap the steps in order! What comes "+(need===0?"first":"next")+"?"); };
-  }
-  const intro="Meet Recipe Robot! He only does what your code says, step by step. Put the steps in the right order — or silly things will happen!";
-  speak(intro,{onend:playRound});
-  replayFn=function(){ speak(intro); };
+    '<div class="optgrid" id="cards" style="grid-template-columns:repeat('+Math.min(cards.length,3)+',1fr);"></div>'+
+    '<div class="feedback" id="fb">What comes FIRST?</div></div>');
+  st.appendChild(card);
+  const slots=card.querySelector("#slots"), fb=card.querySelector("#fb");
+  steps.forEach(()=>slots.appendChild(el('<div class="slot">·</div>')));
+  cards.forEach(function(o){
+    const c=el('<div class="opt"><span class="e">'+o.e+'</span><span class="l">'+o.l+'</span></div>');
+    c.onclick=function(){
+      if(over||c.classList.contains("dim"))return;
+      if(o.idx===need){
+        c.classList.add("dim");
+        const slot=slots.children[need];
+        slot.textContent=o.e; slot.classList.add("filled");
+        need++;
+        if(need>=steps.length){
+          over=true;
+          const win=(mode!=="test"||!anyWrong);
+          pow("DONE!"); if(win)confetti(24);
+          fb.textContent="⭐ ROBOT CODED! ⭐";
+          speak(win?"Beep! Program complete! Every step in the right order — that is real code!"
+                   :"The robot finished — but some steps got mixed up on the way. Watch the order next time!",
+            {onend:function(){onDone(win);}});
+        }else{ fb.textContent="What comes NEXT?"; speak(pick(["Yes! Then what?","Good! Next step?","That's it! What now?"])); }
+      }else{
+        anyWrong=true;
+        c.classList.remove("wrong"); void c.offsetWidth; c.classList.add("wrong");
+        if(o.idx===-1)speak("Ha ha! "+o.l.toLowerCase()+"?! That silly step is NOT part of this recipe. Leave it out!");
+        else speak("Not yet! Robots follow steps IN ORDER. What comes "+(need===0?"first":"next")+"?");
+      }
+    };
+    card.querySelector("#cards").appendChild(c);
+  });
+  const intro="The robot wants to "+R.name+"! Tap the steps in the right order."+(decoy?" And watch out — one silly step does not belong!":"")+" What comes first?";
+  replayFn=function(){speak(intro);};
+  speak(intro);
 }};
-/* ---- 4b. Fly Mission ---- */
-ACTS.fly={ title:"FLY MISSION", emoji:"🦸‍♀️", blurb:"Code Aria to fly past the buildings!",
-render:function(st,done){
-  const GRID=5, START={x:0,y:2}, GOAL={x:4,y:2};
-  // building rises from the ground; solvable in 6 blocks: up, right x4, down
-  const WALLS=[{x:2,y:2},{x:2,y:3},{x:2,y:4}];
-  const DIRS=[{e:"⬆️",n:"fly up",dx:0,dy:-1},{e:"⬇️",n:"fly down",dx:0,dy:1},{e:"⬅️",n:"fly left",dx:-1,dy:0},{e:"➡️",n:"fly right",dx:1,dy:0}];
-  const MAX=7;
-  let prog=[], running=false, finished=false;
-  const scene=el('<div class="card">'+
+/* ---------- Shared maze drawing ---------- */
+function drawGridInto(grid,mz,hero){
+  grid.innerHTML="";
+  const wk=new Set(mz.walls.map(wallKey));
+  for(let y=0;y<GRIDN;y++)for(let x=0;x<GRIDN;x++){
+    const c=document.createElement("div");
+    c.className="cell"+(wk.has(x+","+y)?" wall":"");
+    if(wk.has(x+","+y))c.textContent="🏢";
+    if(mz.goal.x===x&&mz.goal.y===y&&!(hero&&hero.x===x&&hero.y===y))c.textContent="📡";
+    if(hero&&hero.x===x&&hero.y===y)c.innerHTML='<span>'+(hero.crash?"💥":"🦸‍♀️")+'</span>';
+    grid.appendChild(c);
+  }
+}
+/* ---------- YELLOW: Fly Mission (build a program) ---------- */
+SKILLS.fly={ title:"FLY MISSION", emoji:"🦸‍♀️", blurb:"Code Aria to fly to the signal!",
+play:function(st,level,mode,onDone){
+  const mz=genMaze(level);
+  let prog=[], running=false, over=false, fails=0;
+  const card=el('<div class="card">'+
     '<div class="citygrid" id="grid"></div>'+
-    '<div class="sub" style="margin-top:10px;font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">YOUR CODE:</div>'+
+    '<div class="sub" style="margin-top:8px;font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">YOUR CODE (max '+mz.max+' blocks):</div>'+
     '<div class="progrow" id="prog"></div>'+
-    '<div class="sub" style="margin-top:10px;">Tap arrows to add · tap your code to remove</div>'+
-    '<div class="palette" id="pal"></div>'+
-    '<div class="btnrow" style="margin-top:14px;">'+
-      '<button class="btn green" id="launch" style="font-size:26px;">🚀 LAUNCH!</button>'+
+    '<div class="palette" id="pal" style="margin-top:10px;"></div>'+
+    '<div class="btnrow" style="margin-top:12px;">'+
+      '<button class="btn green" id="launch" style="font-size:24px;">🚀 LAUNCH!</button>'+
       '<button class="btn ghost" id="clear">🧹</button>'+
     '</div><div class="feedback" id="fb"></div></div>');
-  st.appendChild(scene);
-  const grid=scene.querySelector("#grid"), progRow=scene.querySelector("#prog"), fb=scene.querySelector("#fb");
-  function isWall(x,y){ return WALLS.some(w=>w.x===x&&w.y===y); }
-  function drawGrid(hero){
-    grid.innerHTML="";
-    for(let y=0;y<GRID;y++)for(let x=0;x<GRID;x++){
-      const c=document.createElement("div"); c.className="cell"+(isWall(x,y)?" wall":"");
-      if(isWall(x,y))c.textContent="🏢";
-      if(GOAL.x===x&&GOAL.y===y&&!(hero.x===x&&hero.y===y))c.textContent="📡";
-      if(hero.x===x&&hero.y===y)c.innerHTML='<span class="hero-in-cell">'+(hero.crash?"💥":"🦸‍♀️")+'</span>';
-      grid.appendChild(c);
-    }
-  }
+  st.appendChild(card);
+  const grid=card.querySelector("#grid"), progRow=card.querySelector("#prog"), fb=card.querySelector("#fb");
   function drawProg(){
     progRow.innerHTML="";
-    if(prog.length===0){ progRow.appendChild(el('<span style="color:#5a64b8;font-size:15px;">your blocks go here…</span>')); }
+    if(prog.length===0)progRow.appendChild(el('<span style="color:#5a64b8;font-size:14px;">your blocks go here…</span>'));
     prog.forEach(function(d,i){
       const ch=el('<div class="chip">'+d.e+'</div>');
-      ch.onclick=function(){ if(running)return; prog.splice(i,1); drawProg(); };
+      ch.onclick=function(){ if(running||over)return; prog.splice(i,1); drawProg(); };
       progRow.appendChild(ch);
     });
   }
-  DIRS.forEach(function(d){
+  DIRINFO.forEach(function(d){
     const ch=el('<div class="chip">'+d.e+'</div>');
     ch.onclick=function(){
-      if(running)return;
-      if(prog.length>=MAX){ speak("That is a lot of blocks! Seven is the most. Tap a block in your code to remove one!"); return; }
-      prog.push(d); drawProg();
-      speak(d.n+"!");
+      if(running||over)return;
+      if(prog.length>=mz.max){ speak("That is the most blocks! Tap a block in your code to remove one."); return; }
+      prog.push(d); drawProg(); speak(d.n+"!");
     };
-    scene.querySelector("#pal").appendChild(ch);
+    card.querySelector("#pal").appendChild(ch);
   });
-  scene.querySelector("#clear").onclick=function(){ if(running)return; prog=[]; drawProg(); speak("All clear! Write new code!"); };
-  scene.querySelector("#launch").onclick=async function(){
-    if(running||finished)return;
+  card.querySelector("#clear").onclick=function(){ if(running||over)return; prog=[]; drawProg(); speak("All clear! Write new code!"); };
+  card.querySelector("#launch").onclick=async function(){
+    if(running||over)return;
     if(prog.length===0){ speak("Your code is empty! Tap some arrow blocks first, then launch!"); return; }
     running=true; fb.textContent="FLYING...";
-    let pos={x:START.x,y:START.y};
     speak("Three, two, one, launch!");
-    await new Promise(res=>setTimeout(res,1400));
-    for(const d of prog){
-      pos={x:pos.x+d.dx,y:pos.y+d.dy};
-      const out=pos.x<0||pos.y<0||pos.x>=GRID||pos.y>=GRID;
-      const hit=!out&&isWall(pos.x,pos.y);
-      if(out||hit){
-        drawGrid({x:Math.min(Math.max(pos.x,0),GRID-1),y:Math.min(Math.max(pos.y,0),GRID-1),crash:true});
-        pow("CRASH!","var(--red)");
-        fb.textContent="💥 TRY AGAIN!";
-        speak(hit?"CRASH! I flew right into a building! I follow your instructions EXACTLY — so let's change the code and fly around it!"
-                 :"Whoops! I flew out of the city! Let's fix the code and try again!");
-        running=false; drawGrid(START); return;
-      }
-      drawGrid(pos);
-      await new Promise(res=>setTimeout(res,520));
+    await new Promise(r=>setTimeout(r,1300));
+    if(!card.isConnected)return; // user navigated away mid-flight
+    const run=simulateRun(mz.start,mz.goal,mz.walls,prog);
+    let pos={x:mz.start.x,y:mz.start.y};
+    for(const s of run.steps){ pos=s; drawGridInto(grid,mz,pos); await new Promise(r=>setTimeout(r,480)); }
+    if(!card.isConnected)return;
+    if(run.outcome==="win"){
+      over=true; running=false;
+      confetti(36); pow("HERO!");
+      fb.textContent="⭐ SIGNAL REACHED! ⭐";
+      speak("You did it! Your code flew me right to the signal! Real coding, "+NAME+"!",{onend:function(){onDone(true);}});
+      return;
     }
-    if(pos.x===GOAL.x&&pos.y===GOAL.y){
-      finished=true; running=false;
-      confetti(40); pow("HERO!"); fb.textContent="⭐ ARIA SAVES THE DAY! ⭐";
-      speak("You did it! Your code flew me all the way to the signal! "+NAME+", you just wrote a real computer program! You are officially a coder!",{onend:done});
-    }else{
-      running=false; fb.textContent="ALMOST!";
-      speak("I followed every block... but I did not reach the signal yet! Add more blocks to finish the trip!");
+    if(run.outcome==="crash"||run.outcome==="out"){
+      drawGridInto(grid,mz,Object.assign({},pos,{crash:true}));
+      pow("CRASH!","var(--red)");
     }
+    fails++;
+    if(mode==="test"&&fails>=2){
+      over=true; running=false; fb.textContent="ON TO THE NEXT ONE!";
+      speak("Tricky maze! We will get the next one. Onward!",{onend:function(){onDone(false);}});
+      return;
+    }
+    fb.textContent=run.outcome==="short"?"ALMOST — KEEP GOING!":"💥 TRY AGAIN!";
+    speak(run.outcome==="crash"?"CRASH! I flew into a building — because I follow your code EXACTLY! Change the code and try again!"
+         :run.outcome==="out"?"Whoops, I flew out of the city! Fix the code and try again!"
+         :"I followed every block, but I did not reach the signal yet. Add more blocks!");
+    running=false;
+    setTimeout(function(){ if(!over)drawGridInto(grid,mz,mz.start); },1200);
   };
-  drawGrid(START); drawProg();
-  const intro="Mission time, "+NAME+"! See the flashing signal? Fly me there, but do not crash into the buildings! Tap arrow blocks to write your code, then press launch. I will do exactly what your code says!";
-  replayFn=function(){ speak(intro); };
+  drawGridInto(grid,mz,mz.start); drawProg();
+  const intro="Mission time! Fly me from my spot to the flashing signal — but do not hit the buildings! Tap arrow blocks to write the code, then press launch.";
+  replayFn=function(){speak(intro);};
   speak(intro);
 }};
-/* ---- 5. Zap the Villains ---- */
-ACTS.zap={ title:"ZAP THE VILLAINS", emoji:"👾", blurb:"Set the loop to zap them all!",
-render:function(st,done){
-  const TOTAL=5;
-  let n=1, running=false, finished=false;
-  const scene=el('<div class="card">'+
-    '<div class="scene" id="vill" style="font-size:inherit;min-height:100px;"></div>'+
+/* ---------- ORANGE: Zap loop (set repeat N) ---------- */
+SKILLS.zap={ title:"ZAP THE VILLAINS", emoji:"👾", blurb:"Set the loop to zap them all!",
+play:function(st,level,mode,onDone){
+  const theme=pick(ZAP_THEMES);
+  let total,gone=0;
+  if(level<=1)total=3+rint(3);
+  else if(level===2)total=5+rint(4);
+  else {total=6+rint(4); gone=1+rint(Math.min(3,total-4));}
+  const need=total-gone;
+  let n=1, running=false, over=false, attempts=0;
+  const card=el('<div class="card">'+
+    '<div class="scene" id="vill" style="font-size:inherit;min-height:90px;"></div>'+
+    (gone?'<div class="sub" style="font-size:14px;">The faded ones are ALREADY zapped — skip them!</div>':"")+
     '<div class="repeatbox">'+
       '<button class="arrowbtn" id="minus">−</button>'+
       '<div><div class="lbl">REPEAT ZAP ⚡</div><div class="num" id="num">1</div><div class="lbl">TIMES</div></div>'+
       '<button class="arrowbtn" id="plus">+</button>'+
     '</div>'+
-    '<div class="btnrow"><button class="btn purple" id="zap" style="font-size:26px;">⚡ RUN THE LOOP!</button></div>'+
+    '<div class="btnrow"><button class="btn purple" id="zap" style="font-size:24px;">⚡ RUN THE LOOP!</button></div>'+
     '<div class="feedback" id="fb"></div></div>');
-  st.appendChild(scene);
-  const vill=scene.querySelector("#vill"), num=scene.querySelector("#num"), fb=scene.querySelector("#fb");
-  function drawVillains(){
+  st.appendChild(card);
+  const vill=card.querySelector("#vill"), num=card.querySelector("#num"), fb=card.querySelector("#fb");
+  function draw(){
     vill.innerHTML="";
-    for(let i=0;i<TOTAL;i++){ vill.appendChild(el('<span class="villain" style="animation-delay:'+(i*0.2)+'s">👾</span>')); }
+    for(let i=0;i<total;i++){
+      const v=el('<span class="villain'+(i<gone?" gone":"")+'" style="animation-delay:'+(i*0.18)+'s">'+theme[0]+'</span>');
+      vill.appendChild(v);
+    }
   }
-  scene.querySelector("#minus").onclick=function(){ if(running)return; if(n>1)n--; num.textContent=n; speak(String(n)); };
-  scene.querySelector("#plus").onclick=function(){ if(running)return; if(n<9)n++; num.textContent=n; speak(String(n)); };
-  scene.querySelector("#zap").onclick=async function(){
-    if(running||finished)return;
-    running=true; drawVillains(); fb.textContent="ZAP ZAP ZAP...";
+  card.querySelector("#minus").onclick=function(){ if(running||over)return; if(n>1)n--; num.textContent=n; speak(String(n)); };
+  card.querySelector("#plus").onclick=function(){ if(running||over)return; if(n<9)n++; num.textContent=n; speak(String(n)); };
+  card.querySelector("#zap").onclick=async function(){
+    if(running||over)return;
+    running=true; draw(); attempts++;
+    fb.textContent="ZAP ZAP ZAP...";
     const kids=Array.from(vill.children);
-    for(let i=0;i<Math.min(n,TOTAL);i++){
-      await new Promise(res=>setTimeout(res,480));
-      kids[i].classList.add("zapped"); pow("ZAP!","var(--blue)");
+    for(let i=0;i<Math.min(n,need);i++){
+      await new Promise(r=>setTimeout(r,420));
+      if(!card.isConnected)return;
+      kids[gone+i].classList.add("zapped"); pow("ZAP!","var(--blue)");
     }
-    await new Promise(res=>setTimeout(res,650));
-    if(n===TOTAL){
-      finished=true; confetti(40); pow("KAPOW!"); fb.textContent="⭐ ALL VILLAINS ZAPPED! ⭐";
-      speak("Exactly five! One little loop, five big zaps! "+NAME+", loops are POWERFUL, and so are you!",{onend:done});
-    }else if(n<TOTAL){
-      fb.textContent="SOME VILLAINS ARE LEFT!";
-      speak("Only "+n+" zaps! Some villains are still giggling at us! Make the loop bigger and run it again!");
-      running=false; setTimeout(drawVillains,1400);
-    }else{
-      fb.textContent="TOO MANY ZAPS!";
-      speak("Whoa, "+n+" zaps! That is too many — we zapped the empty sky! We only need exactly five. Try again!");
-      running=false; setTimeout(drawVillains,1400);
+    await new Promise(r=>setTimeout(r,600));
+    if(!card.isConnected)return;
+    if(n===need){
+      over=true; confetti(32); pow("KAPOW!");
+      fb.textContent="⭐ ALL ZAPPED! ⭐";
+      speak("Exactly "+NUMWORD[need]+"! One little loop, "+NUMWORD[need]+" big zaps! Loops are POWERFUL!",{onend:function(){onDone(true);}});
+      return;
     }
+    if(mode==="test"){
+      over=true; fb.textContent="THE ANSWER WAS "+need+"!";
+      speak("We needed exactly "+NUMWORD[need]+" zaps. Next one is yours!",{onend:function(){onDone(false);}});
+      return;
+    }
+    fb.textContent=n<need?"SOME ARE LEFT!":"TOO MANY ZAPS!";
+    speak(n<need?("Only "+NUMWORD[n]+" zaps — some "+theme[1]+" are still giggling! Count them and make the loop bigger!")
+               :("Whoa, "+NUMWORD[n]+" zaps is too many — we zapped empty sky! Count again!"));
+    running=false; setTimeout(function(){ if(!over)draw(); },1200);
   };
-  drawVillains();
-  const intro="Villain alert! Five silly villains are in the city! Do not tap them one by one — use a LOOP! Set how many times to repeat the zap, then run your loop!";
-  replayFn=function(){ speak(intro); };
+  draw();
+  const intro=(gone? "Some "+theme[1]+" are already zapped — count only the ones still wiggling! ":"")+
+    "Do not tap them one by one — use a LOOP! Count the "+theme[1]+", set the repeat number, and run your loop!";
+  replayFn=function(){speak(intro);};
   speak(intro);
 }};
-/* ---- 6. Stop the Meteor ---- */
-ACTS.meteor={ title:"STOP THE METEOR", emoji:"☄️", blurb:"IF meteor, THEN... which power?",
-render:function(st,done){
-  const POWERS=shuffle([
-    {e:"🛡️",l:"SHIELD",ok:true},
-    {e:"🔥",l:"FIRE BLAST",no:"Fire blast! Fwooosh! ...The meteor flew right through it! Remember the rule!"},
-    {e:"💨",l:"BIG WIND",no:"Big wind! Wooosh! ...The meteor is too heavy for wind! Remember the rule!"},
-    {e:"🎤",l:"LOUD SINGING",no:"La la laaa! Beautiful singing! ...But the meteor does not care! Remember the rule!"},
-  ]);
-  let wrongs=0, solved=false;
-  const scene=el('<div class="card">'+
-    '<div class="rulecard" id="rule">IF ☄️ COMES → THEN 🛡️ !</div>'+
-    '<div class="scene" style="min-height:110px;"><span id="met" style="animation:meteor 1.1s ease-in-out infinite;display:inline-block;">☄️</span><span style="font-size:min(54px,13vw);">🏙️</span></div>'+
-    '<div class="sub" style="font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">PICK YOUR POWER!</div>'+
-    '<div class="optgrid" id="opts" style="grid-template-columns:1fr 1fr;"></div>'+
-    '<div class="feedback" id="fb"></div></div>');
-  st.appendChild(scene);
-  const fb=scene.querySelector("#fb");
-  POWERS.forEach(function(o){
-    const card=el('<div class="opt"><span class="e">'+o.e+'</span><span class="l">'+o.l+'</span></div>');
-    card.onclick=function(){
-      if(solved)return;
-      if(o.ok){
-        solved=true; card.classList.add("right");
-        scene.querySelector("#met").textContent="💫";
-        pow("SAVED!","var(--green)"); confetti(40);
-        fb.textContent="⭐ CITY SAVED! ⭐";
-        speak("IF the meteor comes, THEN raise the shield! BOING! The meteor bounced away! "+NAME+", you followed the if, then rule, and saved the whole city!",{onend:done});
-      }else{
-        wrongs++;
-        card.classList.remove("wrong"); void card.offsetWidth; card.classList.add("wrong");
-        if(wrongs>=2){ scene.querySelector("#rule").classList.add("hint"); }
-        speak(o.no+(wrongs>=2?" Look at the glowing rule card at the top! IF meteor, THEN... which one?":""));
-      }
-    };
-    scene.querySelector("#opts").appendChild(card);
-  });
-  const intro="Emergency! A meteor is falling toward the city! But we have a rule, an if, then rule: IF the meteor comes, THEN raise the shield! Quick, pick the right power!";
-  replayFn=function(){ speak(intro); };
-  speak(intro);
+/* ---------- ORANGE: Loop Reading (choice) ---------- */
+SKILLS.loopread={ title:"LOOP READER", emoji:"👓", blurb:"Read the loop card — what does it make?",
+play:function(st,level,mode,onDone){
+  const em=pick(LOOP_EMOJI);
+  if(level<3){
+    const n=level<=1?2+rint(3):3+rint(3);
+    const wrongs=shuffle([n-1,n+1,n+2].filter(v=>v>=1&&v!==n)).slice(0,2);
+    choiceProblem(st,{
+      rule:"REPEAT "+em+" "+n+" TIMES",
+      scene:'<span style="font-size:min(50px,10vw);">🃏</span>',
+      prompt:"What does this loop make?",
+      spoken:"Read the loop card! Repeat "+NUMWORD[n]+" times. What do we get? Tap it!",
+      opts:[{e:em.repeat(n),ok:true}].concat(wrongs.map(w=>({e:em.repeat(w),no:"Count again! The card says "+NUMWORD[n]+" times!"}))),
+      yes:"Yes! "+NUMWORD[n]+" times — you can READ code!",
+      sceneSize:"min(40px,9vw)",
+    },mode,onDone);
+  }else{
+    const n=2+rint(4);
+    const wrongs=shuffle([n-1,n+1,n+2].filter(v=>v>=1&&v!==n)).slice(0,2);
+    choiceProblem(st,{
+      scene:'<span style="font-size:min(44px,9vw);">'+em.repeat(n)+'</span>',
+      prompt:"Which loop card makes this?",
+      spoken:"Look at the picture — "+NUMWORD[n]+" of them! Which loop card makes exactly that?",
+      opts:[{l:"REPEAT "+em+" "+n+" TIMES",ok:true}].concat(wrongs.map(w=>({l:"REPEAT "+em+" "+w+" TIMES",no:"Count the picture again — "+NUMWORD[n]+"!"}))),
+      yes:"Yes! You WROTE the loop that matches. Coder skills!",
+    },mode,onDone);
+  }
 }};
-/* ---- Playground: Design Your Hero ---- */
-ACTS.design={ title:"DESIGN YOUR HERO", emoji:"🦸‍♀️", blurb:"Pick powers + build your own hero!",
-render:function(st,done){
+/* ---------- ORANGE: Loop Counter (watch + count) ---------- */
+SKILLS.loopcount={ title:"LOOP COUNTER", emoji:"🔢", blurb:"Watch the loop run — how many times?",
+play:function(st,level,mode,onDone){
+  const em=pick(LOOP_EMOJI);
+  const n=level<=1?2+rint(3):level===2?3+rint(4):4+rint(5);
+  const speed=level>=3?420:650;
+  const wrongs=shuffle([n-1,n+1,n+2].filter(v=>v>=1&&v<=9&&v!==n)).slice(0,2);
+  choiceProblem(st,{
+    scene:'<span id="lcRow" style="font-size:min(40px,9vw);letter-spacing:2px;"></span>',
+    prompt:"How many times did the loop run?",
+    spoken:"Watch closely! The loop is running... count how many times!",
+    setup:function(scene){
+      const row=scene.querySelector("#lcRow");
+      let i=0;
+      const t=setInterval(function(){
+        if(!row.isConnected){clearInterval(t);return;}
+        row.textContent+=em; i++;
+        if(i>=n)clearInterval(t);
+      },speed);
+    },
+    opts:[{e:NUMEMOJI[n],ok:true}].concat(wrongs.map(w=>({e:NUMEMOJI[w],no:"Hmm — count the "+em+" on the screen, one by one!"}))),
+    yes:"Yes! The loop ran "+NUMWORD[n]+" times! Super counting!",
+  },mode,onDone);
+}};
+/* ---------- GREEN: Rule Cards (if/then, if/else) ---------- */
+SKILLS.rules={ title:"RULE MASTER", emoji:"🚦", blurb:"Follow the IF-THEN rule!",
+play:function(st,level,mode,onDone){
+  if(level<=1){
+    const R=pick(RULES_BANK);
+    const others=sample(RULES_BANK.filter(x=>x!==R),2);
+    choiceProblem(st,{
+      rule:"IF "+R.ifE+" "+R.ifL+" → THEN "+R.thenE+" !",
+      scene:'<span class="floaty">'+R.ifE+'</span>',
+      prompt:R.sit+" What does the rule say?",
+      spoken:"The rule is: IF "+R.ifL.toLowerCase()+", THEN "+R.thenL.toLowerCase()+"! Now look: "+R.sit+" What do you do?",
+      opts:[{e:R.thenE,l:R.thenL,ok:true}].concat(others.map(o=>({e:o.thenE,l:o.thenL,no:"Check the rule card at the top! IF "+R.ifL.toLowerCase()+", THEN what?"}))),
+      yes:"Yes! IF "+R.ifL.toLowerCase()+", THEN "+R.thenL.toLowerCase()+"! Rule followed perfectly!",
+    },mode,onDone);
+  }else if(level===2){
+    const two=sample(RULES_BANK,2);
+    const R=pick(two);
+    const other=two.find(x=>x!==R);
+    choiceProblem(st,{
+      rule:"IF "+two[0].ifE+" → "+two[0].thenE+" &nbsp;&nbsp; IF "+two[1].ifE+" → "+two[1].thenE,
+      scene:'<span class="floaty">'+R.ifE+'</span>',
+      prompt:R.sit+" Which rule fires?",
+      spoken:"TWO rules now! IF "+two[0].ifL.toLowerCase()+", THEN "+two[0].thenL.toLowerCase()+". IF "+two[1].ifL.toLowerCase()+", THEN "+two[1].thenL.toLowerCase()+". Now look: "+R.sit+" What do you do?",
+      opts:[{e:R.thenE,l:R.thenL,ok:true},{e:other.thenE,l:other.thenL,no:"That is the OTHER rule! Look again: "+R.sit},
+            (function(){const d=pick(RULES_BANK.filter(x=>x!==two[0]&&x!==two[1]));return {e:d.thenE,l:d.thenL,no:"That is not in our rules! Check the rule card!"};})()],
+      yes:"Yes! The computer checked which IF was true, and picked the right THEN. Just like you!",
+    },mode,onDone);
+  }else{
+    const R=pick(RULES_BANK);
+    const other=pick(RULES_BANK.filter(x=>x!==R));
+    const isIf=rint(2)===0;
+    choiceProblem(st,{
+      rule:"IF "+R.ifE+" → "+R.thenE+" &nbsp; ELSE → "+other.thenE,
+      scene:'<span class="floaty">'+(isIf?R.ifE:"🙅"+R.ifE)+'</span>',
+      prompt:(isIf?R.sit:("It is NOT "+R.ifL.toLowerCase()+" today!"))+" IF... or ELSE?",
+      spoken:"The rule is: IF "+R.ifL.toLowerCase()+", THEN "+R.thenL.toLowerCase()+". ELSE — "+other.thenL.toLowerCase()+"! Now: "+(isIf?R.sit:("it is NOT "+R.ifL.toLowerCase()+" today!"))+" What do you do?",
+      opts:[
+        {e:R.thenE,l:R.thenL,ok:isIf,no:isIf?null:"But it is NOT "+R.ifL.toLowerCase()+"! When the IF is not true, the ELSE wins. Try again!"},
+        {e:other.thenE,l:other.thenL+" (ELSE)",ok:!isIf,no:!isIf?null:"The ELSE only wins when the IF is NOT true. But look — "+R.sit+" Try again!"},
+      ],
+      yes:isIf?"Yes! The IF was true, so the THEN happens!":"Yes! The IF was not true — so the ELSE wins! You cracked if-else!",
+    },mode,onDone);
+  }
+}};
+/* ---------- GREEN: Power Match (conditional battle) ---------- */
+SKILLS.powers={ title:"POWER PICKER", emoji:"🦹", blurb:"IF the villain has this, THEN use that!",
+play:function(st,level,mode,onDone){
+  const nRules=level<=1?2:3;
+  const rules=sample(POWER_RULES,nRules);
+  const R=pick(rules);
+  const ruleTxt=rules.map(r=>"IF "+r.vE+" → "+r.pE).join(" &nbsp; ");
+  const opts=rules.map(r=>({e:r.pE,l:r.pL,ok:r===R,no:r===R?null:"That power is for "+r.vL.toLowerCase()+" villains! This one has "+R.vL.toLowerCase()+". Check the rules!"}));
+  if(level>=3)opts.push({e:"🎤",l:"LOUD SINGING",no:"La la laaa! Lovely — but singing is not in the battle rules! Try again!"});
+  choiceProblem(st,{
+    rule:ruleTxt,
+    scene:'<span class="villain" style="font-size:min(60px,14vw);">🦹</span><span style="font-size:min(60px,14vw);">'+R.vE+'</span>',
+    prompt:"This villain uses "+R.vL+"! Pick your power!",
+    spoken:"Battle rules! "+rules.map(r=>"IF the villain has "+r.vL.toLowerCase()+", THEN use "+r.pL.toLowerCase()).join(". ")+". Look — this villain has "+R.vL.toLowerCase()+"! Quick, pick your power!",
+    opts:opts,
+    yes:"KAPOW! "+R.pL+" beats "+R.vL.toLowerCase()+"! You followed the rule like a true hero!",
+  },mode,onDone);
+}};
+/* ---------- BLUE: Memory Box (variables) ---------- */
+SKILLS.membox={ title:"MEMORY BOX", emoji:"📦", blurb:"What does the box remember?",
+play:function(st,level,mode,onDone){
+  const boxName=pick(BOX_NAMES);
+  if(level<=1||level===3){
+    const n=1+rint(8);
+    const wrongs=shuffle([n-1,n+1,n+3].filter(v=>v>=1&&v<=9&&v!==n)).slice(0,2);
+    const useLoop=level>=3;
+    choiceProblem(st,{
+      scene:'<span class="membox" id="mb"><span class="tag">'+boxName+'</span><span class="val" id="mbVal">'+n+'</span></span>',
+      sceneSize:"inherit",
+      prompt:useLoop?("Zap as many times as "+boxName+" remembers!"):("What is inside the "+boxName+" box?"),
+      spoken:"The box named "+boxName+" is holding the number "+NUMWORD[n]+". Remember it! ... "+(useLoop?"Now the box closes! The loop runs as many times as the box remembers. How many zaps?":"Now the box closes! What is it remembering?"),
+      setup:function(scene){
+        setTimeout(function(){
+          const v=scene.querySelector("#mbVal");
+          if(v)v.textContent="❓";
+        },3200);
+      },
+      opts:[{e:NUMEMOJI[n],ok:true}].concat(wrongs.map(w=>({e:NUMEMOJI[w],no:"Think back — what number did the "+boxName+" box show?"}))),
+      yes:"Yes! The box remembered "+NUMWORD[n]+" — and so did you! That is a variable at work!",
+    },mode,onDone);
+  }else{
+    const pets=sample(BOX_PETS,3);
+    const boxes=[{name:"PET",val:pets[0]},{name:"SCORE",val:[String(1+rint(9)),""]}];
+    const target=pick(boxes);
+    const isPet=target.name==="PET";
+    const opts=isPet
+      ? [{e:pets[0][0],l:pets[0][1],ok:true}].concat(pets.slice(1).map(p=>({e:p[0],l:p[1],no:"Hmm — which animal was inside the PET box? Think back!"})))
+      : [{e:boxes[1].val[0],ok:true}].concat(shuffle([1,2,3,4,5,6,7,8,9].filter(v=>String(v)!==boxes[1].val[0])).slice(0,2).map(v=>({e:String(v),no:"Think back to the SCORE box!"})));
+    choiceProblem(st,{
+      scene:'<span class="membox"><span class="tag">PET</span><span class="val pv1">'+pets[0][0]+'</span></span>'+
+            '<span class="membox"><span class="tag">SCORE</span><span class="val pv2">'+boxes[1].val[0]+'</span></span>',
+      sceneSize:"inherit",
+      prompt:"What is inside the "+target.name+" box?",
+      spoken:"TWO boxes! The PET box holds "+pets[0][1].toLowerCase()+". The SCORE box holds "+boxes[1].val[0]+". Remember them! ... Boxes closed! What is inside the "+target.name+" box?",
+      setup:function(scene){
+        setTimeout(function(){
+          scene.querySelectorAll(".val").forEach(v=>v.textContent="❓");
+        },4200);
+      },
+      opts:opts,
+      yes:"Yes! Two boxes, two names, two memories — and you kept track of both! Variable master!",
+    },mode,onDone);
+  }
+}};
+/* ---------- BLUE: Design Your Hero (variables free play) ---------- */
+SKILLS.design={ title:"DESIGN YOUR HERO", emoji:"🦸‍♀️", blurb:"Fill your hero's variables!", noTest:true,
+play:function(st,level,mode,onDone){
   const OPTS={
     power:{lbl:"⚡ POWER",ch:[["❄️","FREEZE BREATH"],["🔥","FIRE POWER"],["⚡","SUPER ZAP"],["💪","MEGA STRENGTH"],["🌈","RAINBOW BEAMS"],["🫧","BUBBLE BLAST"]]},
     ride:{lbl:"🚀 RIDE",ch:[["🚀","A ROCKET"],["🦄","A UNICORN"],["🛹","A HOVER BOARD"],["🐉","A DRAGON"],["☁️","A FLYING CLOUD"],["🚁","A COPTER"]]},
@@ -1110,46 +1146,583 @@ render:function(st,done){
     col:{lbl:"🎨 COLOR",ch:[["💛","GOLD","#FFD900"],["💗","PINK","#FF6BC1"],["💙","BLUE","#29C5FF"],["💜","PURPLE","#9A6BFF"],["💚","GREEN","#2EE86C"],["🧡","ORANGE","#FF8A00"]]},
   };
   const sel={power:0,ride:0,pal:0,col:0};
-  const scene=el('<div class="card"><div id="rows"></div>'+
-    '<div class="btnrow" style="margin-top:16px;"><button class="btn red pulse" id="build" style="font-size:26px;">🦸‍♀️ HERO TIME!</button></div>'+
+  let built=false;
+  const card=el('<div class="card"><div class="sub" style="font-size:14px;">Each choice fills a memory box — a VARIABLE!</div><div id="rows"></div>'+
+    '<div class="btnrow" style="margin-top:14px;"><button class="btn red pulse" id="build" style="font-size:24px;">🦸‍♀️ HERO TIME!</button></div>'+
     '<div id="reveal"></div></div>');
-  st.appendChild(scene);
-  const rows=scene.querySelector("#rows");
+  st.appendChild(card);
+  const rows=card.querySelector("#rows");
   Object.keys(OPTS).forEach(function(k){
     const o=OPTS[k];
     const row=el('<div class="pickrow"><button class="arrowbtn">◀</button>'+
-      '<div style="flex:1;text-align:center;"><div class="sub" style="margin:0;font-size:13px;">'+o.lbl+'</div>'+
-      '<div class="pv"><span style="font-size:30px;">'+o.ch[0][0]+'</span> '+o.ch[0][1]+'</div></div>'+
+      '<div style="flex:1;text-align:center;"><div class="sub" style="margin:0;font-size:12px;">'+o.lbl+'</div>'+
+      '<div class="pv"><span style="font-size:26px;">'+o.ch[0][0]+'</span> '+o.ch[0][1]+'</div></div>'+
       '<button class="arrowbtn">▶</button></div>');
     const pv=row.querySelector(".pv"), btns=row.querySelectorAll(".arrowbtn");
     function setIdx(d){
       sel[k]=(sel[k]+d+o.ch.length)%o.ch.length;
-      pv.innerHTML='<span style="font-size:30px;">'+o.ch[sel[k]][0]+'</span> '+o.ch[sel[k]][1];
+      pv.innerHTML='<span style="font-size:26px;">'+o.ch[sel[k]][0]+'</span> '+o.ch[sel[k]][1];
       speak(o.ch[sel[k]][1].toLowerCase());
     }
-    btns[0].onclick=function(){ setIdx(-1); };
-    btns[1].onclick=function(){ setIdx(1); };
+    btns[0].onclick=function(){setIdx(-1);};
+    btns[1].onclick=function(){setIdx(1);};
     rows.appendChild(row);
   });
-  scene.querySelector("#build").onclick=function(){
+  card.querySelector("#build").onclick=function(){
     const p=OPTS.power.ch[sel.power], r=OPTS.ride.ch[sel.ride], s=OPTS.pal.ch[sel.pal], c=OPTS.col.ch[sel.col];
-    const rev=scene.querySelector("#reveal");
-    rev.innerHTML='<div class="herocard" style="border-color:'+c[2]+';box-shadow:0 0 34px '+c[2]+';margin-top:16px;">'+
-      '<div style="font-size:70px;">🦸‍♀️</div>'+
-      '<div class="banner" style="font-size:32px;color:'+c[2]+';text-shadow:2px 2px 0 var(--ink);">SUPER '+NAME.toUpperCase()+'!</div>'+
-      '<div style="font-size:38px;margin:6px 0;">'+p[0]+' '+r[0]+' '+s[0]+'</div></div>';
-    confetti(36); pow("TA-DA!",c[2]);
+    card.querySelector("#reveal").innerHTML='<div class="herocard" style="border-color:'+c[2]+';box-shadow:0 0 34px '+c[2]+';margin-top:14px;">'+
+      '<div style="font-size:64px;">🦸‍♀️</div>'+
+      '<div class="banner" style="font-size:28px;color:'+c[2]+';text-shadow:2px 2px 0 var(--ink);">SUPER '+NAME.toUpperCase()+'!</div>'+
+      '<div style="font-size:34px;margin:6px 0;">'+p[0]+' '+r[0]+' '+s[0]+'</div></div>';
+    confetti(30); pow("TA-DA!",c[2]);
     P.heroes=(P.heroes||0)+1; save();
-    speak("Ta-daaa! Presenting... SUPER "+NAME+"! With "+p[1].toLowerCase()+", riding "+r[1].toLowerCase()+", with "+s[1].toLowerCase()+" by her side, all in shining "+c[1].toLowerCase()+"! You know what, "+NAME+"? Each choice you picked is what coders call a VARIABLE — a little box where the computer remembers your choice!");
+    speak("Ta-daaa! Presenting SUPER "+NAME+"! Power box: "+p[1].toLowerCase()+". Ride box: "+r[1].toLowerCase()+". Sidekick box: "+s[1].toLowerCase()+". Color box: "+c[1].toLowerCase()+". Four variables, one amazing hero!",
+      {onend:function(){ if(!built){built=true; onDone(true);} }});
   };
-  const intro="Welcome to the hero maker! Tap the arrows to pick your power, your ride, your sidekick, and your color. Then press HERO TIME!";
-  replayFn=function(){ speak(intro); };
+  const intro="Hero maker! Tap the arrows to fill each memory box — power, ride, sidekick, and color. Then press HERO TIME!";
+  replayFn=function(){speak(intro);};
   speak(intro);
-  // Free play: give the shell a way home instead of auto-advance
-  const back=el('<div class="btnrow" style="margin-top:14px;"><button class="btn ghost" id="dback">⬅ ALL DONE</button></div>');
-  back.querySelector("#dback").onclick=function(){ stopSpeech(); go(S.fromPlayground?"playground":"map"); };
-  st.appendChild(back);
 }};
+/* ---------- PURPLE: Fix the Maze (debugging) ---------- */
+SKILLS.fixmaze={ title:"BUG HUNT: SKY CODE", emoji:"🐛", blurb:"One block is wrong — find it!",
+play:function(st,level,mode,onDone){
+  const mz=genMaze(Math.min(level+1,3));
+  const good=mz.solution;
+  let badIdx=-1, badProg=null;
+  for(let t=0;t<40;t++){
+    const i=rint(good.length);
+    const wrongDir=pick(DIRINFO.filter(d=>!(d.dx===good[i].dx&&d.dy===good[i].dy)));
+    const prog=good.slice(); prog[i]={dx:wrongDir.dx,dy:wrongDir.dy};
+    const run=simulateRun(mz.start,mz.goal,mz.walls,prog);
+    if(run.outcome!=="win"){ badIdx=i; badProg=prog; break; }
+  }
+  if(badIdx<0){ badIdx=0; badProg=good.slice(); badProg[0]={dx:-good[0].dx,dy:-good[0].dy}; }
+  let over=false, phase="watch";
+  const card=el('<div class="card">'+
+    '<div class="citygrid" id="grid"></div>'+
+    '<div class="sub" style="margin-top:8px;font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">THE CODE:</div>'+
+    '<div class="progrow" id="prog" style="border-style:solid;"></div>'+
+    '<div class="feedback" id="fb">WATCH WHAT HAPPENS...</div></div>');
+  st.appendChild(card);
+  const grid=card.querySelector("#grid"), progRow=card.querySelector("#prog"), fb=card.querySelector("#fb");
+  const chips=[];
+  badProg.forEach(function(m,i){
+    const ch=el('<div class="chip">'+dirInfo(m).e+'</div>');
+    ch.onclick=function(){
+      if(over||phase!=="hunt")return;
+      if(i===badIdx){
+        over=true;
+        ch.classList.add("fixed");
+        ch.textContent=dirInfo(good[badIdx]).e;
+        fb.textContent="BUG FIXED! WATCH!";
+        pow("FIXED!","var(--green)");
+        speak("You found the bug! Let me fly the fixed code!",{onend:async function(){
+          let pos={x:mz.start.x,y:mz.start.y};
+          const run=simulateRun(mz.start,mz.goal,mz.walls,good);
+          for(const s of run.steps){ pos=s; drawGridInto(grid,mz,pos); await new Promise(r=>setTimeout(r,380)); }
+          confetti(32); fb.textContent="⭐ BUG SQUASHED! ⭐";
+          speak("Perfect flight! One fixed block saved the whole mission. You are a real bug hunter, "+NAME+"!",{onend:function(){onDone(true);}});
+        }});
+      }else{
+        ch.classList.remove("bad"); void ch.offsetWidth; ch.classList.add("bad");
+        if(mode==="test"){
+          over=true;
+          chips[badIdx].classList.add("fixed");
+          fb.textContent="THE BUG IS GLOWING!";
+          speak("Not that block! See the glowing one? That was the bug. On we go!",{onend:function(){onDone(false);}});
+        }else{
+          speak("Hmm, that block looks okay to me! Watch the crash again — where does it go wrong?");
+        }
+      }
+    };
+    chips.push(ch); progRow.appendChild(ch);
+  });
+  drawGridInto(grid,mz,mz.start);
+  async function watchRun(){
+    const run=simulateRun(mz.start,mz.goal,mz.walls,badProg);
+    let pos={x:mz.start.x,y:mz.start.y};
+    await new Promise(r=>setTimeout(r,1500));
+    for(const s of run.steps){ pos=s; drawGridInto(grid,mz,pos); await new Promise(r=>setTimeout(r,420)); }
+    if(!card.isConnected)return;
+    if(run.outcome==="crash"||run.outcome==="out"){
+      drawGridInto(grid,mz,Object.assign({},pos.x!==undefined?pos:mz.start,{crash:true}));
+      pow("CRASH!","var(--red)");
+    }
+    phase="hunt";
+    fb.textContent="TAP THE WRONG BLOCK!";
+    speak("Oh no — the code has a BUG! One block points the wrong way. Look at the code and tap the block that is wrong!");
+  }
+  const intro="Bug hunt! This code is SUPPOSED to fly me to the signal. Watch what happens instead...";
+  replayFn=function(){speak(intro);};
+  speak(intro,{onend:watchRun});
+}};
+/* ---------- PURPLE: Fix the Recipe (debugging order) ---------- */
+SKILLS.fixrecipe={ title:"BUG HUNT: RECIPE", emoji:"🔍", blurb:"A step is in the wrong place — spot it!",
+play:function(st,level,mode,onDone){
+  const R=level<=1?pick(RECIPES3):pick(RECIPES4);
+  const n=R.steps.length;
+  const i=rint(n-1); // swap i and i+1
+  const order=R.steps.map((s,idx)=>idx);
+  const t=order[i]; order[i]=order[i+1]; order[i+1]=t;
+  const opts=order.map((stepIdx,pos)=>({
+    e:R.steps[stepIdx][0],
+    l:(pos+1)+". "+R.steps[stepIdx][1],
+    ok:(pos===i||pos===i+1),
+    no:"That step is in the right place! Which two neighbors got flipped?",
+  }));
+  choiceProblem(st,{
+    scene:'<span style="font-size:min(46px,10vw);">🤖💥</span>',
+    prompt:"The robot tried to "+R.name+" — but the steps are scrambled! Tap a step that is in the wrong spot!",
+    spoken:"Silly robot! It tried to "+R.name+", but two steps got swapped, and everything went wrong! Listen to the steps: "+order.map((si,p)=>NUMWORD[p+1]+", "+R.steps[si][1].toLowerCase()).join(". ")+". Tap a step that is in the wrong place!",
+    opts:opts, noShuffle:true,
+    yes:"Yes! Those two steps were flipped! The right order is: "+R.steps.map(s=>s[1].toLowerCase()).join(", then ")+". Bug squashed!",
+  },mode,onDone);
+}};
+/* Test pool helper: which skills can appear in a belt test */
+function testableSkills(belt){
+  if(belt.id==="black"){
+    return BELTS.filter(b=>b.id!=="black").flatMap(b=>b.skills).filter(id=>!SKILLS[id].noTest);
+  }
+  return belt.skills.filter(id=>!SKILLS[id].noTest);
+}
+/* ============================== STATE + ROUTER ============================== */
+let S={screen:"start",belt:0,lesson:0,slide:0,skill:null,test:null};
+let replayFn=null;
+const app=document.getElementById("app");
+const SKILLBELT={};
+BELTS.forEach(b=>b.skills.forEach(s=>{SKILLBELT[s]=b.id;}));
+function skillLevel(skillId){
+  const beltId=SKILLBELT[skillId]||"white";
+  return Math.min(starsFor(beltId,skillId)+1,3);
+}
+function go(screen){ S.screen=screen; render(); }
+function header(title,back){
+  const h=el('<div class="hdr">'+
+    '<button class="iconbtn" id="hbHome" aria-label="Back">'+(back==="belt"?"⬅️":"🏠")+'</button>'+
+    '<div class="mid">'+title+'</div>'+
+    '<button class="iconbtn" id="hbSay" aria-label="Say it again">🗣️</button>'+
+    '<button class="iconbtn" id="hbMute" aria-label="Sound on or off">'+(muted?"🔇":"🔊")+'</button>'+
+  '</div>');
+  h.querySelector("#hbHome").onclick=function(){ stopSpeech(); go(back==="belt"?"belt":"map"); };
+  h.querySelector("#hbSay").onclick=function(){ if(replayFn)replayFn(); };
+  h.querySelector("#hbMute").onclick=function(ev){ muted=!muted; if(muted)stopSpeech(); ev.target.textContent=muted?"🔇":"🔊"; };
+  return h;
+}
+function render(){
+  stopSpeech(); replayFn=null;
+  app.innerHTML="";
+  const fn={start:renderStart,map:renderMap,belt:renderBelt,lesson:renderLesson,practice:renderPractice,
+            test:renderTest,award:renderAward,playground:renderPlayground,arcade:renderArcade,grown:renderGrown}[S.screen];
+  fn();
+}
+/* ============================== START ============================== */
+function renderStart(){
+  const wrap=el('<div class="stage" style="justify-content:center;text-align:center;">'+
+    '<div style="font-size:min(100px,24vw);" class="floaty">🦸‍♀️</div>'+
+    '<div class="banner">HERO<br>ACADEMY</div>'+
+    '<div class="sub">Aria trains to be a coding hero —<br>belt by belt, with Professor Pixel! 🤖</div>'+
+    '<div class="btnrow"><button class="btn pulse" id="startBtn" style="font-size:28px;padding:18px 40px;">▶ START</button></div>'+
+    '<div class="sub" style="margin-top:14px;font-size:13px;color:#7c86d6;">🔊 Grown-ups: turn the volume up — Professor Pixel talks!</div>'+
+  '</div>');
+  app.appendChild(wrap);
+  wrap.querySelector("#startBtn").onclick=function(){
+    try{ const u=new SpeechSynthesisUtterance(" "); speechSynthesis.speak(u); }catch(e){}
+    go("map");
+  };
+}
+/* ============================== MAP (BELT PATH) ============================== */
+function beltOpen(i){ return i===0 || BP(BELTS[i-1].id).earned; }
+function earnedCount(){ return BELTS.filter(b=>BP(b.id).earned).length; }
+function renderMap(){
+  app.appendChild(header("HERO ACADEMY HQ"));
+  const st=el('<div class="stage"></div>');
+  const rank=earnedCount();
+  const bannerEl=el('<div class="banner" style="font-size:clamp(22px,6.6vw,34px);">'+
+    (rank>=BELTS.length?"🏆 BLACK BELT HERO! 🏆":"⚡ HI "+NAME.toUpperCase()+"! ⚡")+'</div>');
+  let taps=0, tapTimer=null;
+  bannerEl.onclick=function(){
+    taps++;
+    clearTimeout(tapTimer); tapTimer=setTimeout(function(){taps=0;},1500);
+    if(taps>=5){
+      taps=0;
+      BELTS.forEach(function(b){
+        const bp=BP(b.id); bp.earned=true;
+        b.lessons.forEach((_,i)=>bp.les[i]=true);
+        b.skills.forEach(s=>{ if(!bp.cor[s])bp.cor[s]=3; });
+      });
+      save(); pow("UNLOCKED!","var(--green)");
+      setTimeout(render,700);
+    }
+  };
+  st.appendChild(bannerEl);
+  st.appendChild(el('<div class="sub">Belts earned: '+BELTS.map(b=>BP(b.id).earned?b.beltEmoji:"▫️").join(" ")+'</div>'));
+  BELTS.forEach(function(b,i){
+    const open=beltOpen(i), earned=BP(b.id).earned;
+    const totalStars=b.skills.reduce((a,s)=>a+starsFor(b.id,s),0);
+    const card=el('<div class="chapcard'+(open?"":" locked")+'">'+
+      '<div class="beltstripe" style="background:'+b.color+';"></div>'+
+      '<div class="ce">'+b.beltEmoji+'</div>'+
+      '<div class="ct">'+b.name+'<span class="cs">'+b.concept+
+        (earned?" — EARNED!":(open?(b.skills.length?" · "+totalStars+"/"+(b.skills.length*3)+" ⭐":""):" — locked"))+'</span></div>'+
+      '<div class="cb">'+(earned?"✅":(open?"▶️":"🔒"))+'</div>'+
+    '</div>');
+    card.onclick=function(){
+      if(!open){ speak("Not yet, cadet! Earn the "+BELTS[i-1].name.toLowerCase()+" first!"); return; }
+      S.belt=i; go("belt");
+    };
+    st.appendChild(card);
+  });
+  const pg=el('<div class="chapcard play"><div class="ce">🎪</div>'+
+    '<div class="ct">PLAYGROUND<span class="cs">Free play — games, hero maker, star catcher!</span></div><div class="cb">🎉</div></div>');
+  pg.onclick=function(){ go("playground"); };
+  st.appendChild(pg);
+  const gl=el('<div class="tinylink">ⓘ for grown-ups</div>');
+  gl.onclick=function(){ go("grown"); };
+  st.appendChild(gl);
+  app.appendChild(st);
+  const hello=rank===0
+    ? "Welcome to Hero Academy, "+NAME+"! I am Professor Pixel. Heroes here earn belts, just like ninjas! White belt first — tap it and let's train!"
+    : rank>=BELTS.length
+    ? NAME+", the BLACK BELT HERO! You earned every single belt! Play anything you like — or beat your star catcher record!"
+    : "Welcome back, "+NAME+"! You have "+rank+(rank===1?" belt":" belts")+". Your next belt is waiting — tap it!";
+  replayFn=function(){speak(hello);};
+  speak(hello);
+}
+/* ============================== BELT PAGE ============================== */
+function renderBelt(){
+  const b=BELTS[S.belt], bp=BP(b.id);
+  app.appendChild(header(b.beltEmoji+" "+b.name));
+  const st=el('<div class="stage"></div>');
+  st.appendChild(el('<div class="banner" style="font-size:clamp(20px,6vw,30px);color:'+(b.id==="black"?"#fff":b.color)+';">'+b.concept+'</div>'));
+  const lessonsDone=b.lessons.every((_,i)=>bp.les[i]);
+  // lessons
+  st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:2px;">📖 LESSONS</div>'));
+  b.lessons.forEach(function(L,i){
+    const open=i===0||bp.les[i-1], done=!!bp.les[i];
+    const card=el('<div class="chapcard'+(open?"":" locked")+'"><div class="ce">'+L.emoji+'</div>'+
+      '<div class="ct">'+L.title+'<span class="cs">'+(done?"Done! Tap to hear again":(open?"Tap to learn!":"Finish the lesson before"))+'</span></div>'+
+      '<div class="cb">'+(done?"✅":(open?"▶️":"🔒"))+'</div></div>');
+    card.onclick=function(){
+      if(!open){ speak("One lesson at a time, hero! Finish the lesson before this one."); return; }
+      S.lesson=i; S.slide=0; go("lesson");
+    };
+    st.appendChild(card);
+  });
+  // practice
+  if(b.skills.length){
+    st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:2px;margin-top:10px;">💪 PRACTICE ARENA'+(lessonsDone?"":" (finish lessons first)")+'</div>'));
+    b.skills.forEach(function(sid){
+      const sk=SKILLS[sid], stars=starsFor(b.id,sid);
+      const card=el('<div class="chapcard'+(lessonsDone?"":" locked")+'"><div class="ce">'+sk.emoji+'</div>'+
+        '<div class="ct">'+sk.title+'<span class="cs">'+sk.blurb+'</span></div>'+
+        '<div class="cb stars" style="font-size:17px;">'+starStr(stars)+'</div></div>');
+      card.onclick=function(){
+        if(!lessonsDone){ speak("Lessons first, then practice! Tap a lesson up top."); return; }
+        S.skill=sid; go("practice");
+      };
+      st.appendChild(card);
+    });
+  }
+  // test
+  const skillsReady=b.skills.every(sid=>starsFor(b.id,sid)>=1);
+  const testOpen=lessonsDone&&(b.skills.length===0||skillsReady);
+  const testCard=el('<div class="chapcard'+(testOpen?" play":" locked")+'"><div class="ce">'+(bp.earned?"🏅":"🎖️")+'</div>'+
+    '<div class="ct">BELT TEST<span class="cs">'+(bp.earned?"Passed! Tap to take it again for fun"
+      :(testOpen?b.testN+" challenges — get "+b.testPass+" right!":"Earn 1 star in every practice game first"))+'</span></div>'+
+    '<div class="cb">'+(bp.earned?"✅":(testOpen?"⚔️":"🔒"))+'</div></div>');
+  testCard.onclick=function(){
+    if(!testOpen){ speak(lessonsDone?"Almost! Earn one star in every practice game, then take the test!":"Lessons first, cadet! Then practice, then the test!"); return; }
+    const pool=testableSkills(b);
+    let qs=[];
+    while(qs.length<b.testN){ qs=qs.concat(shuffle(pool)); }
+    qs=qs.slice(0,b.testN);
+    S.test={qs:qs,at:0,right:0};
+    go("test");
+  };
+  st.appendChild(testCard);
+  app.appendChild(st);
+  const line=bp.earned
+    ? "You already earned the "+b.name.toLowerCase()+"! Play anything here again, any time!"
+    : !lessonsDone
+    ? "Welcome to "+b.name.toLowerCase()+" training! The secret this time: "+b.concept.toLowerCase()+"! Start with the first lesson!"
+    : !testOpen&&b.skills.length
+    ? "Lessons done! Now hit the practice arena — earn one star in every game to unlock the belt test!"
+    : "You are READY for the belt test, "+NAME+"! Tap it when you feel brave!";
+  replayFn=function(){speak(line);};
+  speak(line);
+}
+/* ============================== LESSON ============================== */
+function renderLesson(){
+  const b=BELTS[S.belt], L=b.lessons[S.lesson], sl=L.slides[S.slide];
+  app.appendChild(header(L.emoji+" "+L.title,"belt"));
+  const last=S.slide===L.slides.length-1;
+  const st=el('<div class="stage"></div>');
+  app.appendChild(st);
+  function advance(){
+    if(last){
+      BP(b.id).les[S.lesson]=true; save();
+      confetti(20); pow("LESSON DONE!");
+      go("belt");
+    } else { S.slide++; render(); }
+  }
+  if(sl.check){
+    const q=sl.check;
+    st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:2px;color:var(--yellow);">⭐ QUICK CHECK ⭐</div>'));
+    choiceProblem(st,{
+      scene:'<span style="font-size:min(54px,12vw);">🤔</span>',
+      prompt:q.t, spoken:q.spoken, opts:q.opts, yes:q.yes,
+    },"practice",function(){ advance(); });
+    return;
+  }
+  st.appendChild(el('<div class="card" style="border-color:'+(b.id==="black"?"#555":b.color)+';">'+
+    '<div class="scene"><span class="floaty">'+sl.e+'</span></div>'+
+    '<div class="bigtext" id="bt"></div>'+
+    '<div class="dots">'+L.slides.map((_,i)=>'<div class="dot'+(i===S.slide?" on":"")+'"></div>').join("")+'</div>'+
+  '</div>'));
+  const nav=el('<div class="btnrow">'+
+    (S.slide>0?'<button class="btn ghost" id="prev">⬅</button>':"")+
+    '<button class="btn" id="next" style="font-size:24px;">'+(last?"FINISH! ⭐":"NEXT ➡")+'</button></div>');
+  st.appendChild(nav);
+  const bt=st.querySelector("#bt");
+  sl.t.split(" ").forEach(function(w){
+    const s=document.createElement("span");s.className="w";s.textContent=w;bt.appendChild(s);
+    bt.appendChild(document.createTextNode(" "));
+  });
+  const spans=Array.from(bt.querySelectorAll(".w"));
+  const nextBtn=nav.querySelector("#next");
+  function tell(){
+    spans.forEach(s=>s.classList.remove("on","done"));
+    speakWords(sl.t,sl.x,spans,function(){ nextBtn.classList.add("pulse"); });
+  }
+  replayFn=tell; tell();
+  nextBtn.onclick=advance;
+  const prev=nav.querySelector("#prev");
+  if(prev)prev.onclick=function(){ S.slide--; render(); };
+}
+/* ============================== PRACTICE ARENA ============================== */
+function renderPractice(){
+  const b=BELTS[S.belt], sid=S.skill, sk=SKILLS[sid];
+  app.appendChild(header(sk.emoji+" "+sk.title,"belt"));
+  const st=el('<div class="stage"></div>');
+  app.appendChild(st);
+  const hud=el('<div class="hudrow"><span class="stars" id="hudStars"></span><span id="hudProg"></span>'+
+    '<button class="btn ghost" id="hudBack" style="font-size:14px;padding:8px 14px;">⬅ DONE</button></div>');
+  st.appendChild(hud);
+  const arena=el('<div id="arena"></div>');
+  st.appendChild(arena);
+  hud.querySelector("#hudBack").onclick=function(){ stopSpeech(); go("belt"); };
+  function updateHud(){
+    const c=BP(b.id).cor[sid]||0, stars=starsFor(b.id,sid);
+    hud.querySelector("#hudStars").textContent=starStr(stars);
+    hud.querySelector("#hudProg").textContent=stars>=3?"MASTERED!":"next ⭐: "+(c-( stars===0?0:stars===1?3:6))+"/"+(stars===0?3:stars===1?3:4);
+  }
+  function nextProblem(){
+    if(S.screen!=="practice"||S.skill!==sid)return;
+    updateHud();
+    arena.innerHTML="";
+    const inner=el('<div></div>');
+    arena.appendChild(inner);
+    sk.play(inner,skillLevel(sid),"practice",function(correct){
+      if(S.screen!=="practice"||S.skill!==sid)return;
+      if(correct){
+        const before=starsFor(b.id,sid);
+        BP(b.id).cor[sid]=(BP(b.id).cor[sid]||0)+1; save();
+        const after=starsFor(b.id,sid);
+        if(after>before){
+          updateHud();
+          confetti(30); pow(after>=3?"MASTERED!":"⭐ STAR! ⭐");
+          speak(after>=3?("THREE STARS! You MASTERED "+sk.title.toLowerCase()+"! The belt test is calling your name!")
+                        :("A new star! You now have "+NUMWORD[after]+(after===1?" star":" stars")+" in "+sk.title.toLowerCase()+"! Keep going, or go back for the belt test!"),
+            {onend:function(){ setTimeout(nextProblem,400); }});
+          return;
+        }
+      }
+      setTimeout(nextProblem,600);
+    });
+  }
+  updateHud();
+  nextProblem();
+}
+/* ============================== BELT TEST ============================== */
+function renderTest(){
+  const b=BELTS[S.belt], T=S.test;
+  app.appendChild(header("⚔️ "+b.name+" TEST","belt"));
+  const st=el('<div class="stage"></div>');
+  app.appendChild(st);
+  const hud=el('<div class="hudrow"><span class="big">CHALLENGE '+(T.at+1)+' OF '+T.qs.length+'</span>'+
+    '<span>'+"🟡".repeat(T.right)+"⚪".repeat(T.at-T.right)+"▫️".repeat(T.qs.length-T.at)+'</span></div>');
+  st.appendChild(hud);
+  const arena=el('<div></div>');
+  st.appendChild(arena);
+  const sid=T.qs[T.at], sk=SKILLS[sid];
+  if(T.at===0){
+    speak("The "+b.name.toLowerCase()+" test begins! "+T.qs.length+" challenges. Get "+b.testPass+" right, and the belt is YOURS. First challenge: "+sk.title.toLowerCase()+"!",
+      {onend:startQ});
+  } else { startQ(); }
+  function startQ(){
+    if(S.screen!=="test")return;
+    sk.play(arena,skillLevel(sid),"test",function(correct){
+      if(S.screen!=="test")return;
+      if(correct)T.right++;
+      T.at++;
+      if(T.at<T.qs.length){ render(); return; }
+      // finished
+      if(T.right>=b.testPass){
+        BP(b.id).earned=true; save();
+        go("award");
+      }else{
+        app.innerHTML="";
+        app.appendChild(header(b.name+" TEST","belt"));
+        const fs=el('<div class="stage" style="justify-content:center;text-align:center;">'+
+          '<div style="font-size:90px;">💪</div>'+
+          '<div class="banner" style="font-size:clamp(22px,7vw,34px);">SO CLOSE!</div>'+
+          '<div class="sub">You got '+T.right+' of '+T.qs.length+'. You need '+b.testPass+'.</div>'+
+          '<div class="btnrow"><button class="btn green" id="again">💪 PRACTICE MORE</button></div></div>');
+        app.appendChild(fs);
+        fs.querySelector("#again").onclick=function(){ go("belt"); };
+        const line="You got "+NUMWORD[T.right]+" out of "+NUMWORD[T.qs.length]+" — SO close! Even the greatest heroes train twice. Practice a little more, and that belt is yours!";
+        replayFn=function(){speak(line);};
+        speak(line);
+      }
+    });
+  }
+}
+/* ============================== BELT AWARD ============================== */
+function renderAward(){
+  const b=BELTS[S.belt];
+  const isBlack=b.id==="black";
+  app.appendChild(header("BELT EARNED!"));
+  const st=el('<div class="stage" style="justify-content:center;text-align:center;">'+
+    '<div class="badgebig">'+(isBlack?"🏆":b.beltEmoji)+'</div>'+
+    '<div style="height:26px;max-width:340px;margin:0 auto;border-radius:14px;border:3px solid var(--ink);background:'+b.color+';box-shadow:0 0 30px '+(isBlack?"#888":b.color)+';"></div>'+
+    '<div class="banner" style="font-size:clamp(24px,8vw,40px);margin-top:14px;">'+b.name+'!</div>'+
+    '<div class="sub">'+b.concept+' — mastered!</div>'+
+    '<div class="btnrow"><button class="btn green pulse" id="cont" style="font-size:24px;">'+(isBlack?"🏆 CELEBRATE!":"BACK TO HQ 🏠")+'</button></div>'+
+  '</div>');
+  app.appendChild(st);
+  confetti(isBlack?80:48); pow(b.beltEmoji+" BELT!");
+  const line=isBlack
+    ? "STOP EVERYTHING! "+NAME+" has earned... the BLACK BELT! Sequences, loops, if-then, variables, bug-hunting — you know them ALL! You are officially a CODING HERO! I am the proudest robot in the whole world!"
+    : "TA-DAAA! "+NAME+" earns the "+b.name+"! You passed the test — no luck, all skill! A brand new belt is waiting at headquarters!";
+  replayFn=function(){speak(line);};
+  speak(line);
+  st.querySelector("#cont").onclick=function(){ if(isBlack)confetti(80); go("map"); };
+}
+/* ============================== PLAYGROUND ============================== */
+function renderPlayground(){
+  app.appendChild(header("🎪 PLAYGROUND"));
+  const st=el('<div class="stage"></div>');
+  st.appendChild(el('<div class="sub">Free play! Stars still count!</div>'));
+  // hero maker always available
+  const hm=el('<div class="chapcard"><div class="ce">🦸‍♀️</div><div class="ct">HERO MAKER<span class="cs">Build a brand new super hero!</span></div><div class="cb">▶️</div></div>');
+  hm.onclick=function(){ S.belt=beltIdx("blue"); S.skill="design"; go("practice"); };
+  st.appendChild(hm);
+  // arcade after orange belt
+  const arcOpen=BP("orange").earned;
+  const arc=el('<div class="chapcard'+(arcOpen?" play":" locked")+'"><div class="ce">🌠</div>'+
+    '<div class="ct">STAR CATCHER<span class="cs">'+(arcOpen?"Tap the falling stars! Best: "+(P.best||0):"Earn the orange belt to unlock!")+'</span></div>'+
+    '<div class="cb">'+(arcOpen?"▶️":"🔒")+'</div></div>');
+  arc.onclick=function(){
+    if(!arcOpen){ speak("The star catcher unlocks with your orange belt! Loops first, stars after!"); return; }
+    go("arcade");
+  };
+  st.appendChild(arc);
+  // unlocked practice skills
+  BELTS.forEach(function(b,i){
+    if(!beltOpen(i))return;
+    const bp=BP(b.id);
+    if(!b.lessons.every((_,j)=>bp.les[j]))return;
+    b.skills.forEach(function(sid){
+      if(sid==="design")return;
+      const sk=SKILLS[sid];
+      const card=el('<div class="chapcard"><div class="ce">'+sk.emoji+'</div>'+
+        '<div class="ct">'+sk.title+'<span class="cs">'+sk.blurb+'</span></div>'+
+        '<div class="cb stars" style="font-size:16px;">'+starStr(starsFor(b.id,sid))+'</div></div>');
+      card.onclick=function(){ S.belt=i; S.skill=sid; go("practice"); };
+      st.appendChild(card);
+    });
+  });
+  const back=el('<div class="btnrow"><button class="btn ghost">⬅ BACK TO HQ</button></div>');
+  back.querySelector("button").onclick=function(){ go("map"); };
+  st.appendChild(back);
+  app.appendChild(st);
+  const line="Welcome to the playground, "+NAME+"! Tap any game you like!";
+  replayFn=function(){speak(line);};
+  speak(line);
+}
+/* ============================== ARCADE: STAR CATCHER ============================== */
+function renderArcade(){
+  app.appendChild(header("🌠 STAR CATCHER"));
+  const st=el('<div class="stage">'+
+    '<div class="hudrow"><span class="big" id="acScore">SCORE: 0</span><span id="acTime">25s</span><span>BEST: '+(P.best||0)+'</span></div>'+
+    '<div class="sky" id="sky"></div>'+
+    '<div class="btnrow" style="margin-top:10px;"><button class="btn green pulse" id="acGo" style="font-size:24px;">▶ GO!</button></div>'+
+    '<div class="feedback" id="acFb"></div></div>');
+  app.appendChild(st);
+  const sky=st.querySelector("#sky"), scoreEl=st.querySelector("#acScore"), timeEl=st.querySelector("#acTime"), fb=st.querySelector("#acFb");
+  let score=0, timeLeft=25, playing=false, spawnT=null, clockT=null;
+  function stopAll(){ if(spawnT)clearInterval(spawnT); if(clockT)clearInterval(clockT); playing=false; }
+  function spawn(){
+    if(!sky.isConnected){ stopAll(); return; }
+    const s=el('<div class="fallstar">'+pick(["⭐","🌟","💫"])+'</div>');
+    s.style.left=(5+rint(85))+"%";
+    const dur=2.6+Math.random()*1.2;
+    s.style.transition="top "+dur+"s linear";
+    sky.appendChild(s);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ s.style.top="105%"; }); });
+    s.onclick=function(){
+      if(!playing)return;
+      score++; scoreEl.textContent="SCORE: "+score;
+      s.classList.add("caught"); pow("+1","var(--yellow)");
+      setTimeout(()=>s.remove(),300);
+    };
+    setTimeout(()=>{ if(s.isConnected)s.remove(); },dur*1000+200);
+  }
+  st.querySelector("#acGo").onclick=function(ev){
+    if(playing)return;
+    playing=true; score=0; timeLeft=25;
+    scoreEl.textContent="SCORE: 0"; timeEl.textContent="25s"; fb.textContent="";
+    ev.target.style.visibility="hidden";
+    speak("Stars are falling! Tap them before they land! Every tap is an EVENT — the game is listening for YOU! Go go go!");
+    spawnT=setInterval(spawn,750);
+    clockT=setInterval(function(){
+      if(!sky.isConnected){ stopAll(); return; }
+      timeLeft--; timeEl.textContent=timeLeft+"s";
+      if(timeLeft<=0){
+        stopAll();
+        ev.target.style.visibility="visible"; ev.target.textContent="▶ AGAIN!";
+        const isBest=score>(P.best||0);
+        if(isBest){ P.best=score; save(); confetti(36); }
+        fb.textContent=isBest?"🏆 NEW BEST: "+score+"!":"SCORE: "+score;
+        speak(isBest?("NEW RECORD! "+score+" stars! Incredible tapping, "+NAME+"!")
+                    :("You caught "+score+" stars! Every tap was an event the game heard. Play again and beat your best!"));
+      }
+    },1000);
+  };
+  const intro="Star catcher! When you tap a star, the game reacts — coders call that an EVENT! Press go, and catch as many as you can in twenty five seconds!";
+  replayFn=function(){speak(intro);};
+  speak(intro);
+}
+/* ============================== GROWN-UPS ============================== */
+function renderGrown(){
+  app.appendChild(header("FOR GROWN-UPS"));
+  const st=el('<div class="stage"><div class="grown">'+
+    '<h3>How Hero Academy works (v3)</h3>'+
+    'A mastery-based curriculum, Code-Ninjas style. Each <b>belt</b> = spoken lessons (with quick checks) → <b>practice arena</b> (problems are randomly generated — mazes, recipes, loop and rule puzzles are different every time, so answers can\'t be memorized) → a <b>belt test</b> of random challenges (pass to unlock the next belt).<br><br>'+
+    '⚪ White — computer basics + history · 💛 Yellow — sequences · 🧡 Orange — loops · 💚 Green — if/then + else · 💙 Blue — variables · 💜 Purple — debugging · 🖤 Black — mixed final mission.<br><br>'+
+    'Stars: each practice game holds 3 stars (3, 6, 10 correct answers). Problems get harder as stars grow. 1 star in every game unlocks the belt test.<br><br>'+
+    '<b>New device?</b> Tap the "HI ARIA" title on the HQ screen 5 times fast to unlock everything. 🗣️ repeats narration; 🔊/🔇 mutes. Progress saves on this device.'+
+  '</div><div class="btnrow"><button class="btn" id="gback">⬅ BACK</button>'+
+  '<button class="btn red" id="greset">RESET PROGRESS</button></div></div>');
+  st.querySelector("#gback").onclick=function(){ go("map"); };
+  const rbtn=st.querySelector("#greset");
+  let armed=false;
+  rbtn.onclick=function(){
+    if(!armed){ armed=true; rbtn.textContent="TAP AGAIN TO CONFIRM"; return; }
+    P={v:3,belts:{},heroes:0,best:0}; save(); go("map");
+  };
+  app.appendChild(st);
+}
 /* ============================== BOOT ============================== */
 render();
 </script>
