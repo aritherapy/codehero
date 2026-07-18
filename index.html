@@ -118,6 +118,7 @@
   .opt.wrong{border-color:rgba(232,137,107,.55);animation:wiggle .5s;}
   .opt.found{border-color:rgba(108,196,143,.6);background:var(--good-soft);opacity:.92;pointer-events:none;}
   .opt.dim{opacity:.35;pointer-events:none;}
+  .opt.reading{border-color:rgba(240,185,90,.75);background:var(--gold-soft);box-shadow:var(--glow-gold);transform:scale(1.04);}
   .chapcard{
     display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--stroke-soft);
     border-radius:var(--r-md);box-shadow:var(--shadow-1);padding:14px 16px;cursor:pointer;
@@ -730,9 +731,25 @@ function choiceProblem(st,cfg,mode,onDone){
     };
     box.appendChild(c);
   });
+  // read each answer choice aloud, one by one, highlighting the tile being said
+  function clearReading(){ Array.from(box.children).forEach(t=>t.classList.remove("reading")); }
+  function readOptions(){
+    const tiles=Array.from(box.children);
+    let i=0;
+    (function step(){
+      if(!card.isConnected||locked)return;
+      clearReading();
+      if(i>=tiles.length)return;
+      tiles[i].classList.add("reading");
+      const o=opts[i];
+      if(o.l){ speak(o.l.replace(/\n/g," "),{onend:function(){ i++; step(); }}); }
+      else { setTimeout(function(){ i++; step(); },600); }
+    })();
+  }
+  box.addEventListener("click",clearReading,true);
   if(cfg.setup)cfg.setup(card.querySelector("#cpScene"));
-  replayFn=function(){ speak(cfg.spoken); };
-  speak(cfg.spoken);
+  replayFn=function(){ speak(cfg.spoken,{onend:readOptions}); };
+  speak(cfg.spoken,{onend:readOptions});
 }
 /* ============================== SKILLS REGISTRY ==============================
    Each skill: {title, emoji, blurb, play(st, level, mode, onDone)}
