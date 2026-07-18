@@ -219,6 +219,124 @@
 <div id="app"></div>
 <script>
 "use strict";
+/* ============================== CLOUD SYNC (SUPABASE) ============================== */
+const SUPABASE_URL = "https://adqgtlmluxjnomrtoytu.supabase.co";
+const SUPABASE_KEY = "sb_publishable_wOH6EXy_EqCHPGTGkudefg_LSWOFs0d";
+let sb = null;          // supabase client, or null if unavailable
+let cloudUser = null;   // signed-in user object, or null
+let syncStatus = "offline"; // "offline" | "idle" | "syncing" | "synced" | "error"
+
+function loadSupabaseSdk(){
+  return new Promise(function(resolve){
+    if(window.supabase && window.supabase.createClient){ resolve(true); return; }
+    try{
+      const s=document.createElement("script");
+      s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js";
+      s.onload=function(){ resolve(!!(window.supabase&&window.supabase.createClient)); };
+      s.onerror=function(){ resolve(false); };
+      document.head.appendChild(s);
+      setTimeout(function(){ resolve(!!(window.supabase&&window.supabase.createClient)); }, 6000); // failsafe timeout
+    }catch(e){ resolve(false); }
+  });
+}
+
+async function initSupabase(){
+  const ok = await loadSupabaseSdk();
+  if(!ok){ syncStatus="offline"; return; }
+  try{
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    syncStatus="idle";
+    const { data: { session } } = await sb.auth.getSession();
+    cloudUser = session ? session.user : null;
+    sb.auth.onAuthStateChange(function(event, session){
+      cloudUser = session ? session.user : null;
+      if(cloudUser){ cloudSyncAll().catch(function(){}); }
+      // if the grown-up screen is currently showing, refresh it to reflect sign-in state
+      if(S.screen==="grown") render();
+    });
+    if(cloudUser){ cloudSyncAll().catch(function(){}); }
+  }catch(e){ sb=null; syncStatus="offline"; }
+}
+
+async function cloudSyncAll(){
+  if(!sb || !cloudUser) return;
+  syncStatus="syncing";
+  if(S.screen==="grown") render();
+  try{
+    const { data: cloudRows, error } = await sb.from("profiles").select("*");
+    if(error) throw error;
+    const cloudById = {};
+    cloudRows.forEach(function(r){ cloudById[r.id]=r; });
+    const handledCloudIds = {};
+    const uid = cloudUser.id;
+
+    for(const lp of PROFILES.list){
+      const progRaw = localStorage.getItem("hero-academy-progress-"+lp.id);
+      let prog = {v:3,belts:{},heroes:0,best:0};
+      try{ if(progRaw) prog = JSON.parse(progRaw); }catch(e){}
+
+      const cloudRow = cloudById[lp.id];
+      if(cloudRow){
+        handledCloudIds[lp.id]=true;
+        const localTime = lp.updatedAt ? Date.parse(lp.updatedAt) : 0;
+        const cloudTime = cloudRow.updated_at ? Date.parse(cloudRow.updated_at) : 0;
+        if(localTime > cloudTime + 1000){
+          // push local -> cloud
+          const { data: upd, error: upErr } = await sb.from("profiles")
+            .update({ name: lp.name, age_band: lp.ageBand, avatar: lp.avatar, progress: prog })
+            .eq("id", lp.id).select().single();
+          if(!upErr && upd){ lp.updatedAt = upd.updated_at; }
+        } else if(cloudTime > localTime + 1000){
+          // pull cloud -> local
+          lp.name = cloudRow.name; lp.ageBand = cloudRow.age_band; lp.avatar = cloudRow.avatar;
+          lp.updatedAt = cloudRow.updated_at;
+          localStorage.setItem("hero-academy-progress-"+lp.id, JSON.stringify(cloudRow.progress||{v:3,belts:{},heroes:0,best:0}));
+          if(activeProfile && activeProfile.id===lp.id){
+            P = cloudRow.progress||{v:3,belts:{},heroes:0,best:0};
+            NAME = lp.name;
+          }
+        }
+      } else {
+        // never synced before -> insert, then MIGRATE local id to the new cloud uuid
+        const { data: inserted, error: insErr } = await sb.from("profiles")
+          .insert({ owner: uid, name: lp.name, age_band: lp.ageBand, avatar: lp.avatar, progress: prog })
+          .select().single();
+        if(!insErr && inserted){
+          const oldId = lp.id;
+          localStorage.setItem("hero-academy-progress-"+inserted.id, JSON.stringify(prog));
+          if(oldId !== inserted.id) localStorage.removeItem("hero-academy-progress-"+oldId);
+          if(PROFILES.active===oldId) PROFILES.active=inserted.id;
+          if(activeProfile && activeProfile.id===oldId) activeProfile=lp;
+          lp.id = inserted.id;
+          lp.updatedAt = inserted.updated_at;
+          handledCloudIds[inserted.id]=true;
+        }
+      }
+    }
+
+    // pull down cloud rows that don't exist locally yet (profiles made on another device)
+    for(const row of cloudRows){
+      if(handledCloudIds[row.id]) continue;
+      PROFILES.list.push({ id: row.id, name: row.name, ageBand: row.age_band, avatar: row.avatar, updatedAt: row.updated_at });
+      localStorage.setItem("hero-academy-progress-"+row.id, JSON.stringify(row.progress||{v:3,belts:{},heroes:0,best:0}));
+    }
+
+    saveProfiles();
+    syncStatus="synced";
+  }catch(e){
+    syncStatus="error";
+  }
+  if(S.screen==="grown"||S.screen==="pick") render();
+}
+
+let lastAutoSyncAt = 0;
+function maybeAutoSync(){
+  if(!sb || !cloudUser) return;
+  const now = Date.now();
+  if(now - lastAutoSyncAt < 30000) return; // 30s cooldown
+  lastAutoSyncAt = now;
+  cloudSyncAll().catch(function(){});
+}
 /* ============================== SPEECH ENGINE ============================== */
 let NAME="Aria";
 function subName(t){ if(typeof t!=="string") return t; return t.split("Aria").join(NAME).split("ARIA").join((NAME||"").toUpperCase()); }
@@ -404,10 +522,17 @@ function selectProfile(id){
   try{ const raw=localStorage.getItem("hero-academy-progress-"+id); if(raw)P=Object.assign(P,JSON.parse(raw)); }catch(e){}
   NAME=prof.name;
 }
-function save(){ if(activeProfile){ try{localStorage.setItem("hero-academy-progress-"+activeProfile.id,JSON.stringify(P));}catch(e){} } }
+function save(){
+  if(activeProfile){
+    try{localStorage.setItem("hero-academy-progress-"+activeProfile.id,JSON.stringify(P));}catch(e){}
+    activeProfile.updatedAt = new Date().toISOString();
+    saveProfiles();
+  }
+}
 function createProfile(name,ageBandVal,avatar){
   const id="p"+Math.random().toString(36).slice(2,9);
   const prof={id:id,name:((name||"").replace(/[<>&]/g,"").trim().slice(0,18))||"Hero",ageBand:ageBandVal||"4-7",avatar:avatar||"🦸‍♀️"};
+  prof.updatedAt = new Date().toISOString();
   PROFILES.list.push(prof);
   saveProfiles();
   selectProfile(id);
@@ -1469,6 +1594,7 @@ function renderStart(){
 }
 /* ============================== PICK PROFILE ============================== */
 function renderPick(){
+  maybeAutoSync();
   const st=el('<div class="stage"></div>');
   st.appendChild(el('<div class="banner" style="font-size:clamp(24px,7.4vw,36px);">WHO\'S PLAYING?</div>'));
   const grid=el('<div class="optgrid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));"></div>');
@@ -1556,6 +1682,7 @@ function renderNewProfile(){
 function beltOpen(i){ return i===0 || BP(BELTS[i-1].id).earned; }
 function earnedCount(){ return BELTS.filter(b=>BP(b.id).earned).length; }
 function renderMap(){
+  maybeAutoSync();
   app.appendChild(header("HERO ACADEMY HQ"));
   const st=el('<div class="stage"></div>');
   st.appendChild(el('<div class="floaty" style="text-align:center;">'+pixelSVG("happy",92)+'</div>'));
@@ -1918,6 +2045,46 @@ function renderArcade(){
 function renderGrown(){
   app.appendChild(header("FOR GROWN-UPS"));
   const st=el('<div class="stage"></div>');
+  /* ---- cloud sync section (additive; safe no-op if Supabase never loaded) ---- */
+  if(!sb){
+    st.appendChild(el('<div class="card" style="text-align:center;color:var(--faint);font-size:14px;">☁️ Sync is unavailable right now.</div>'));
+  }else if(!cloudUser){
+    const syncCard=el('<div class="card">'+
+      '<div class="sub" style="margin:0 0 10px;">☁️ SYNC ACROSS DEVICES</div>'+
+      '<div class="sub" style="font-size:14px;font-weight:400;margin-bottom:12px;">Sign in to save progress across every device.</div>'+
+      '<input id="syncEmail" type="email" placeholder="parent@email.com" style="width:100%;box-sizing:border-box;font-family:var(--disp);font-size:22px;'+
+        'padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--stroke);background:rgba(0,0,0,.25);color:var(--white);'+
+        'text-align:center;outline:none;" autocomplete="off"/>'+
+      '<div class="btnrow" style="margin-top:14px;"><button class="btn" id="syncSend" style="font-size:16px;padding:12px 20px;">SEND SIGN-IN LINK</button></div>'+
+      '<div id="syncStatusLine" class="sub" style="font-size:13px;margin-top:10px;"></div>'+
+    '</div>');
+    const emailInput=syncCard.querySelector("#syncEmail");
+    const statusEl=syncCard.querySelector("#syncStatusLine");
+    syncCard.querySelector("#syncSend").onclick=function(){
+      const emailValue=(emailInput.value||"").trim();
+      if(!emailValue||emailValue.indexOf("@")<0){ statusEl.textContent="Enter a valid email"; return; }
+      statusEl.textContent="Sending…";
+      sb.auth.signInWithOtp({ email: emailValue }).then(function(res){
+        statusEl.textContent = res.error ? ("Error: "+res.error.message) : ("Check "+emailValue+" for a sign-in link!");
+      });
+    };
+    st.appendChild(syncCard);
+  }else{
+    const statusMap={idle:"Ready to sync",syncing:"Syncing…",synced:"✓ Synced",error:"Sync failed — will retry"};
+    const safeEmail=String(cloudUser.email||"").replace(/[<>&]/g,"");
+    const syncedCard=el('<div class="card">'+
+      '<div class="sub" style="margin:0 0 8px;">☁️ SYNCED</div>'+
+      '<div class="sub" style="font-size:14px;font-weight:400;">Signed in as '+safeEmail+'</div>'+
+      '<div class="sub" style="font-size:13px;margin-top:4px;">'+(statusMap[syncStatus]||"Ready to sync")+'</div>'+
+      '<div class="btnrow" style="margin-top:12px;">'+
+        '<button class="btn" id="syncNow" style="font-size:14px;padding:10px 16px;">🔄 SYNC NOW</button>'+
+        '<button class="btn ghost" id="syncOut" style="font-size:14px;padding:10px 16px;">SIGN OUT</button>'+
+      '</div>'+
+    '</div>');
+    syncedCard.querySelector("#syncNow").onclick=function(){ cloudSyncAll().then(function(){ render(); }); };
+    syncedCard.querySelector("#syncOut").onclick=function(){ sb.auth.signOut().then(function(){ render(); }); };
+    st.appendChild(syncedCard);
+  }
   st.appendChild(el('<div class="grown">'+
     '<h3>How Hero Academy works</h3>'+
     'A mastery curriculum, Code-Ninjas style. Each <b>belt</b> = spoken lessons (with quick checks) → a <b>practice arena</b> (problems are randomly generated, so answers can\'t be memorized) → a <b>belt test</b> that unlocks the next belt.<br><br>'+
@@ -1937,6 +2104,7 @@ function renderGrown(){
     pactions.querySelector("#gswitch").onclick=function(){ go("pick"); };
     pactions.querySelector("#gageband").onclick=function(){
       activeProfile.ageBand=activeProfile.ageBand==="7-11"?"4-7":"7-11";
+      activeProfile.updatedAt = new Date().toISOString();
       saveProfiles(); go("grown");
     };
     const delBtn=pactions.querySelector("#gdelete");
@@ -1987,6 +2155,7 @@ function renderGrown(){
 }
 /* ============================== BOOT ============================== */
 if(PROFILES.active){ selectProfile(PROFILES.active); }
+initSupabase();
 render();
 </script>
 
