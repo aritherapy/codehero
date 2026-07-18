@@ -220,7 +220,8 @@
 <script>
 "use strict";
 /* ============================== SPEECH ENGINE ============================== */
-const NAME="Aria";
+let NAME="Aria";
+function subName(t){ if(typeof t!=="string") return t; return t.split("Aria").join(NAME).split("ARIA").join((NAME||"").toUpperCase()); }
 let voices=[], theVoice=null, muted=false;
 function loadVoices(){
   try{ voices=speechSynthesis.getVoices()||[]; }catch(e){ voices=[]; }
@@ -245,7 +246,7 @@ function speak(text,opts){
     if(opts.onend)opts.onend();
   }
   if(muted||!("speechSynthesis" in window)){ setTimeout(finish,500); return; }
-  const u=new SpeechSynthesisUtterance(text);
+  const u=new SpeechSynthesisUtterance(subName(text));
   if(theVoice)u.voice=theVoice;
   u.rate=0.95;u.pitch=1.05;u.volume=1;
   let boundarySeen=false;
@@ -369,11 +370,55 @@ const ENCOURAGE=[
 ];
 function praise(){ return pick(PRAISE); }
 function encourage(){ return pick(ENCOURAGE); }
-/* ============================== PROGRESS ============================== */
-const SAVE_KEY="hero-academy-aria-v3";
+/* ============================== PROFILES + PROGRESS ============================== */
+let PROFILES=loadProfiles();
+let activeProfile=null;
 let P={v:3,belts:{},heroes:0,best:0};
-try{ const raw=localStorage.getItem(SAVE_KEY); if(raw)P=Object.assign(P,JSON.parse(raw)); }catch(e){}
-function save(){ try{localStorage.setItem(SAVE_KEY,JSON.stringify(P));}catch(e){} }
+function loadProfiles(){
+  try{ const r=localStorage.getItem("hero-academy-profiles"); if(r) return JSON.parse(r); }catch(e){}
+  return migrateOrEmpty();
+}
+function migrateOrEmpty(){
+  try{
+    const legacy=localStorage.getItem("hero-academy-aria-v3");
+    if(legacy){
+      const prof={id:"aria",name:"Aria",ageBand:"4-7",avatar:"🦸‍♀️"};
+      try{ localStorage.setItem("hero-academy-progress-aria",legacy); }catch(e){}
+      const reg={active:"aria",list:[prof]};
+      try{ localStorage.setItem("hero-academy-profiles",JSON.stringify(reg)); }catch(e){}
+      return reg;
+    }
+  }catch(e){}
+  const reg={active:null,list:[]};
+  try{ localStorage.setItem("hero-academy-profiles",JSON.stringify(reg)); }catch(e){}
+  return reg;
+}
+function saveProfiles(){ try{localStorage.setItem("hero-academy-profiles",JSON.stringify(PROFILES));}catch(e){} }
+function selectProfile(id){
+  const prof=PROFILES.list.find(function(p){return p.id===id;});
+  if(!prof)return;
+  activeProfile=prof;
+  PROFILES.active=id;
+  saveProfiles();
+  P={v:3,belts:{},heroes:0,best:0};
+  try{ const raw=localStorage.getItem("hero-academy-progress-"+id); if(raw)P=Object.assign(P,JSON.parse(raw)); }catch(e){}
+  NAME=prof.name;
+}
+function save(){ if(activeProfile){ try{localStorage.setItem("hero-academy-progress-"+activeProfile.id,JSON.stringify(P));}catch(e){} } }
+function createProfile(name,ageBandVal,avatar){
+  const id="p"+Math.random().toString(36).slice(2,9);
+  const prof={id:id,name:((name||"").replace(/[<>&]/g,"").trim().slice(0,18))||"Hero",ageBand:ageBandVal||"4-7",avatar:avatar||"🦸‍♀️"};
+  PROFILES.list.push(prof);
+  saveProfiles();
+  selectProfile(id);
+}
+function deleteProfile(id){
+  PROFILES.list=PROFILES.list.filter(function(p){return p.id!==id;});
+  try{ localStorage.removeItem("hero-academy-progress-"+id); }catch(e){}
+  if(PROFILES.active===id){ PROFILES.active=null; activeProfile=null; }
+  saveProfiles();
+}
+function ageBand(){ return activeProfile?activeProfile.ageBand:"4-7"; }
 function BP(beltId){
   if(!P.belts[beltId])P.belts[beltId]={les:{},cor:{},earned:false};
   return P.belts[beltId];
@@ -696,7 +741,7 @@ function choiceProblem(st,cfg,mode,onDone){
   const card=el('<div class="card">'+
     (cfg.rule?('<div class="rulecard">'+cfg.rule+'</div>'):"")+
     '<div class="scene" id="cpScene" style="font-size:'+(cfg.sceneSize||"min(64px,15vw)")+';">'+cfg.scene+'</div>'+
-    '<div class="bigtext" style="font-size:20px;margin-top:12px;">'+cfg.prompt+'</div>'+
+    '<div class="bigtext" style="font-size:20px;margin-top:12px;">'+subName(cfg.prompt)+'</div>'+
     '<div class="optgrid'+(cfg.opts.length===2?" two":"")+'" id="cpOpts"></div>'+
     '<div class="feedback" id="cpFb"></div></div>');
   st.appendChild(card);
@@ -748,8 +793,8 @@ function choiceProblem(st,cfg,mode,onDone){
   }
   box.addEventListener("click",clearReading,true);
   if(cfg.setup)cfg.setup(card.querySelector("#cpScene"));
-  replayFn=function(){ speak(cfg.spoken,{onend:readOptions}); };
-  speak(cfg.spoken,{onend:readOptions});
+  replayFn=function(){ speak(cfg.spoken, ageBand()==="4-7" ? {onend:readOptions} : {}); };
+  speak(cfg.spoken, ageBand()==="4-7" ? {onend:readOptions} : {});
 }
 /* ============================== SKILLS REGISTRY ==============================
    Each skill: {title, emoji, blurb, play(st, level, mode, onDone)}
@@ -1402,7 +1447,7 @@ function header(title,back){
 function render(){
   stopSpeech(); replayFn=null;
   app.innerHTML="";
-  const fn={start:renderStart,map:renderMap,belt:renderBelt,lesson:renderLesson,practice:renderPractice,
+  const fn={start:renderStart,pick:renderPick,newprofile:renderNewProfile,map:renderMap,belt:renderBelt,lesson:renderLesson,practice:renderPractice,
             test:renderTest,award:renderAward,playground:renderPlayground,arcade:renderArcade,grown:renderGrown}[S.screen];
   fn();
 }
@@ -1412,15 +1457,100 @@ function renderStart(){
     '<div style="font-size:13px;letter-spacing:.4em;color:var(--gold);opacity:.85;">✦ &nbsp;WELCOME&nbsp; ✦</div>'+
     '<div class="banner">HERO<br>ACADEMY</div>'+
     '<div class="floaty" style="margin:6px 0;">'+pixelSVG("happy",170)+'</div>'+
-    '<div class="sub">Aria trains to be a coding hero —<br>belt by belt, with Professor Pixel!</div>'+
+    '<div class="sub">'+subName("Aria trains to be a coding hero —<br>belt by belt, with Professor Pixel!")+'</div>'+
     '<div class="btnrow"><button class="btn pulse" id="startBtn" style="font-size:28px;padding:18px 40px;">▶ START</button></div>'+
     '<div class="sub" style="margin-top:14px;font-size:13px;color:#7c86d6;">🔊 Grown-ups: turn the volume up — Professor Pixel talks!</div>'+
   '</div>');
   app.appendChild(wrap);
   wrap.querySelector("#startBtn").onclick=function(){
     try{ const u=new SpeechSynthesisUtterance(" "); speechSynthesis.speak(u); }catch(e){}
+    go(PROFILES.list.length===0 ? "newprofile" : "pick");
+  };
+}
+/* ============================== PICK PROFILE ============================== */
+function renderPick(){
+  const st=el('<div class="stage"></div>');
+  st.appendChild(el('<div class="banner" style="font-size:clamp(24px,7.4vw,36px);">WHO\'S PLAYING?</div>'));
+  const grid=el('<div class="optgrid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));"></div>');
+  PROFILES.list.forEach(function(prof){
+    let earned=0;
+    try{
+      const raw=localStorage.getItem("hero-academy-progress-"+prof.id);
+      if(raw){
+        const pr=JSON.parse(raw);
+        if(pr&&pr.belts)earned=Object.keys(pr.belts).filter(function(k){return pr.belts[k]&&pr.belts[k].earned;}).length;
+      }
+    }catch(e){}
+    const ageLbl=prof.ageBand==="7-11"?"Ages 7–11":"Ages 4–7";
+    const card=el('<div class="chapcard" style="flex-direction:column;text-align:center;">'+
+      '<div class="ce" style="font-size:52px;width:auto;">'+prof.avatar+'</div>'+
+      '<div class="ct" style="text-align:center;">'+prof.name+'<span class="cs">'+ageLbl+' · '+earned+' belt'+(earned===1?"":"s")+'</span></div>'+
+    '</div>');
+    card.onclick=function(){ selectProfile(prof.id); go("map"); };
+    grid.appendChild(card);
+  });
+  st.appendChild(grid);
+  const add=el('<div class="chapcard play" style="margin-top:12px;"><div class="ce">＋</div>'+
+    '<div class="ct">NEW HERO<span class="cs">Create a new player</span></div><div class="cb">✨</div></div>');
+  add.onclick=function(){ go("newprofile"); };
+  st.appendChild(add);
+  app.appendChild(st);
+  const line="Who is playing today? Tap your hero!";
+  replayFn=function(){speak(line);};
+  speak(line);
+}
+/* ============================== NEW PROFILE ============================== */
+function renderNewProfile(){
+  const st=el('<div class="stage"></div>');
+  st.appendChild(el('<div class="banner" style="font-size:clamp(24px,7.4vw,36px);">NEW HERO</div>'));
+  const card=el('<div class="card">'+
+    '<div class="sub" style="font-size:14px;">Grown-ups: type the hero\'s name!</div>'+
+    '<input id="npName" placeholder="Type a name" style="width:100%;box-sizing:border-box;font-family:var(--disp);font-size:22px;'+
+      'padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--stroke);background:rgba(0,0,0,.25);color:var(--white);'+
+      'text-align:center;outline:none;" autocomplete="off"/>'+
+    '<div class="sub" style="font-size:14px;margin-top:14px;">Pick an age</div>'+
+    '<div class="btnrow" id="npAge"></div>'+
+    '<div class="sub" style="font-size:14px;margin-top:14px;">Pick a hero</div>'+
+    '<div class="btnrow" id="npAvatar"></div>'+
+    '<div class="btnrow" style="margin-top:16px;"><button class="btn green pulse" id="npCreate" style="font-size:24px;">✨ CREATE!</button></div>'+
+  '</div>');
+  st.appendChild(card);
+  const nameInput=card.querySelector("#npName");
+  let selAge="4-7", selAvatar="🦸‍♀️";
+  const ageRow=card.querySelector("#npAge");
+  [["4-7","Ages 4–7"],["7-11","Ages 7–11"]].forEach(function(a){
+    const b=el('<button class="btn '+(a[0]===selAge?"":"ghost")+'" style="font-size:16px;">'+a[1]+'</button>');
+    b.onclick=function(){
+      selAge=a[0];
+      Array.from(ageRow.children).forEach(function(x){x.className="btn ghost"; x.style.fontSize="16px";});
+      b.className="btn"; b.style.fontSize="16px";
+    };
+    ageRow.appendChild(b);
+  });
+  const avatarRow=card.querySelector("#npAvatar");
+  const AVATARS=["🦸‍♀️","🦸‍♂️","🦸","🐱","🐼","🦊"];
+  AVATARS.forEach(function(av,i){
+    const b=el('<button class="btn '+(i===0?"":"ghost")+'" style="font-size:30px;padding:12px 16px;">'+av+'</button>');
+    b.onclick=function(){
+      selAvatar=av;
+      Array.from(avatarRow.children).forEach(function(x){x.className="btn ghost"; x.style.padding="12px 16px"; x.style.fontSize="30px";});
+      b.className="btn"; b.style.padding="12px 16px"; b.style.fontSize="30px";
+    };
+    avatarRow.appendChild(b);
+  });
+  card.querySelector("#npCreate").onclick=function(){
+    createProfile(nameInput.value,selAge,selAvatar);
     go("map");
   };
+  if(PROFILES.list.length>0){
+    const back=el('<div class="tinylink">⬅ Back</div>');
+    back.onclick=function(){ go("pick"); };
+    st.appendChild(back);
+  }
+  app.appendChild(st);
+  const line="Let's make a new hero! Grown-ups, type the hero's name, pick an age, and choose a hero!";
+  replayFn=function(){speak(line);};
+  speak(line);
 }
 /* ============================== MAP (BELT PATH) ============================== */
 function beltOpen(i){ return i===0 || BP(BELTS[i-1].id).earned; }
@@ -1493,7 +1623,7 @@ function renderBelt(){
     b.skills.forEach(function(sid){
       const sk=SKILLS[sid], stars=starsFor(b.id,sid);
       const card=el('<div class="chapcard'+(lessonsDone?"":" locked")+'"><div class="ce">'+sk.emoji+'</div>'+
-        '<div class="ct">'+sk.title+'<span class="cs">'+sk.blurb+'</span></div>'+
+        '<div class="ct">'+sk.title+'<span class="cs">'+subName(sk.blurb)+'</span></div>'+
         '<div class="cb stars" style="font-size:17px;">'+starStr(stars)+'</div></div>');
       card.onclick=function(){
         if(!lessonsDone){ speak("Lessons first, then practice! Tap a lesson up top."); return; }
@@ -1549,7 +1679,7 @@ function renderLesson(){
     st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:2px;color:var(--yellow);">⭐ QUICK CHECK ⭐</div>'));
     choiceProblem(st,{
       scene:'<span style="font-size:min(54px,12vw);">🤔</span>',
-      prompt:q.t, spoken:q.spoken, opts:q.opts, yes:q.yes,
+      prompt:subName(q.t), spoken:q.spoken, opts:q.opts, yes:q.yes,
     },"practice",function(){ advance(); });
     return;
   }
@@ -1563,7 +1693,8 @@ function renderLesson(){
     '<button class="btn" id="next" style="font-size:24px;">'+(last?"FINISH! ⭐":"NEXT ➡")+'</button></div>');
   st.appendChild(nav);
   const bt=st.querySelector("#bt");
-  sl.t.split(" ").forEach(function(w){
+  const slT=subName(sl.t), slX=subName(sl.x);
+  slT.split(" ").forEach(function(w){
     const s=document.createElement("span");s.className="w";s.textContent=w;bt.appendChild(s);
     bt.appendChild(document.createTextNode(" "));
   });
@@ -1571,7 +1702,7 @@ function renderLesson(){
   const nextBtn=nav.querySelector("#next");
   function tell(){
     spans.forEach(s=>s.classList.remove("on","done"));
-    speakWords(sl.t,sl.x,spans,function(){ nextBtn.classList.add("pulse"); });
+    speakWords(slT,slX,spans,function(){ nextBtn.classList.add("pulse"); });
   }
   replayFn=tell; tell();
   nextBtn.onclick=advance;
@@ -1716,7 +1847,7 @@ function renderPlayground(){
       if(sid==="design")return;
       const sk=SKILLS[sid];
       const card=el('<div class="chapcard"><div class="ce">'+sk.emoji+'</div>'+
-        '<div class="ct">'+sk.title+'<span class="cs">'+sk.blurb+'</span></div>'+
+        '<div class="ct">'+sk.title+'<span class="cs">'+subName(sk.blurb)+'</span></div>'+
         '<div class="cb stars" style="font-size:16px;">'+starStr(starsFor(b.id,sid))+'</div></div>');
       card.onclick=function(){ S.belt=i; S.skill=sid; go("practice"); };
       st.appendChild(card);
@@ -1793,6 +1924,33 @@ function renderGrown(){
     '⚪ White — computer basics + history · 🟡 Yellow — sequences · 🟠 Orange — loops · 🟢 Green — if/then + else · 🔵 Blue — variables · 🟣 Purple — debugging · ⚫ Black — mixed final mission.<br><br>'+
     'Each practice game holds 3 stars (3 / 6 / 10 correct); problems get harder as stars grow. 🗣️ repeats narration, 🔊/🔇 mutes. Progress saves on this device.'+
   '</div>'));
+  st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:1px;margin-top:6px;">👤 CURRENT PLAYER</div>'));
+  if(activeProfile){
+    st.appendChild(el('<div class="grown">'+
+      '<b>'+activeProfile.avatar+' '+activeProfile.name+'</b> — '+(activeProfile.ageBand==="7-11"?"Ages 7–11":"Ages 4–7")+
+    '</div>'));
+    const pactions=el('<div class="btnrow" style="margin-top:10px;">'+
+      '<button class="btn blue" id="gswitch" style="font-size:14px;padding:10px 16px;">👤 SWITCH PLAYER</button>'+
+      '<button class="btn ghost" id="gageband" style="font-size:14px;padding:10px 16px;">🔁 CHANGE AGE BAND</button>'+
+      '<button class="btn red" id="gdelete" style="font-size:14px;padding:10px 16px;">DELETE THIS PLAYER</button>'+
+    '</div>');
+    pactions.querySelector("#gswitch").onclick=function(){ go("pick"); };
+    pactions.querySelector("#gageband").onclick=function(){
+      activeProfile.ageBand=activeProfile.ageBand==="7-11"?"4-7":"7-11";
+      saveProfiles(); go("grown");
+    };
+    const delBtn=pactions.querySelector("#gdelete");
+    let delArmed=false;
+    delBtn.onclick=function(){
+      if(!delArmed){ delArmed=true; delBtn.textContent="TAP AGAIN TO CONFIRM"; return; }
+      const id=activeProfile.id;
+      deleteProfile(id);
+      go("pick");
+    };
+    st.appendChild(pactions);
+  }else{
+    st.appendChild(el('<div class="grown">No player selected.</div>'));
+  }
   st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:1px;margin-top:6px;">🔒 BELT CONTROLS</div>'));
   st.appendChild(el('<div class="sub" style="font-size:13px;margin:0 0 4px;">Unlock or re-lock any belt. Locking keeps her lessons &amp; stars — she just re-takes that belt test. White belt is always open.</div>'));
   const list=el('<div style="display:flex;flex-direction:column;gap:8px;"></div>');
@@ -1815,7 +1973,7 @@ function renderGrown(){
   st.appendChild(list);
   const actions=el('<div class="btnrow" style="margin-top:12px;">'+
     '<button class="btn ghost" id="gback">⬅ BACK</button>'+
-    '<button class="btn red" id="greset">RESET ALL</button></div>');
+    '<button class="btn red" id="greset">RESET THIS PLAYER</button></div>');
   actions.querySelector("#gback").onclick=function(){ go("map"); };
   const rbtn=actions.querySelector("#greset");
   let armed=false;
@@ -1828,6 +1986,7 @@ function renderGrown(){
   replayFn=function(){ speak("This is the grown-up page. Here you can unlock or re-lock any belt, or reset everything."); };
 }
 /* ============================== BOOT ============================== */
+if(PROFILES.active){ selectProfile(PROFILES.active); }
 render();
 </script>
 
