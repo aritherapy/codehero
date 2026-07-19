@@ -287,6 +287,37 @@
   .bsw.ro{cursor:default;pointer-events:none;}
   .bsval{font-family:var(--disp);font-size:13px;color:var(--faint);}
   .bsum{text-align:center;font-family:var(--disp);font-size:22px;color:var(--gold);margin:8px 0 2px;min-height:28px;}
+  /* code runner (track 2 blue belt) */
+  .codebox{background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:var(--r-md);
+    padding:12px 14px;margin:8px 0;text-align:left;font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:15px;line-height:1.75;overflow-x:auto;}
+  .codebox .cl{white-space:pre;}
+  .codebox .cln{display:inline-block;min-width:20px;color:#5a64b8;user-select:none;margin-right:10px;text-align:right;}
+  .codebox .kwd{color:#A99BE8;font-weight:600;}
+  .codebox .str{color:var(--gold);}
+  .codebox .num{color:#8FD8F2;}
+  .blankchip{display:inline-block;min-width:64px;border-bottom:2px dashed var(--gold);color:var(--gold);
+    text-align:center;border-radius:4px;background:rgba(240,185,90,.08);padding:0 6px;}
+  .term{background:#0b081c;border:1px solid var(--stroke);border-radius:var(--r-md);padding:12px 14px;
+    margin:8px 0;text-align:left;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;
+    line-height:1.8;min-height:52px;overflow-x:auto;}
+  .term .tl{color:#9be8b7;animation:fadeDown .3s ease both;}
+  .term .tl::before{content:"▸ ";color:#4a5490;}
+  .term .terr{color:#ff9b8f;animation:fadeDown .3s ease both;}
+  .term .terr::before{content:"⚠ ";}
+  .term .tdim{color:#4a5490;font-style:italic;}
+  .termta{width:100%;box-sizing:border-box;background:rgba(0,0,0,.35);border:1px solid var(--stroke);
+    border-radius:var(--r-md);color:var(--off);font-family:ui-monospace,Menlo,Consolas,monospace;
+    font-size:16px;line-height:1.7;padding:12px 14px;min-height:130px;outline:none;resize:vertical;}
+  .termta:focus{border-color:var(--gold);}
+  .termta::-webkit-scrollbar{width:8px;}
+  .termta::-webkit-scrollbar-thumb{background:#3a3560;border-radius:4px;}
+  .termta::-webkit-scrollbar-track{background:transparent;}
+  /* data table (track 2 green belt) */
+  .dtable{border-collapse:collapse;margin:6px auto;font-size:15px;font-family:var(--body,inherit);}
+  .dtable th{font-family:var(--disp);font-size:12px;letter-spacing:1px;color:var(--gold);
+    border-bottom:2px solid var(--stroke);padding:6px 14px;}
+  .dtable td{padding:6px 14px;border-bottom:1px solid var(--stroke-soft);color:var(--off);text-align:center;}
   .pixel-mascot .pixel-antenna-light{transform-box:fill-box;transform-origin:center;animation:pixelAntenna 2.4s ease-in-out infinite;}
   .pixel-mascot .pixel-lid-left,.pixel-mascot .pixel-lid-right{transform-box:fill-box;transform-origin:top center;animation:pixelBlink 5.2s ease-in-out infinite;}
   .pixel-mascot.pixel-wave .pixel-arm-right{transform-box:view-box;transform-origin:173.5px 158px;animation:pixelWave .7s ease-in-out infinite;}
@@ -758,6 +789,7 @@ const LESSON_ART={
   "THE MEMORY BOX":"scene-variables","BUGS HAPPEN!":"scene-debugging","THE FINAL MISSION":"scene-final",
   "MEET THE MACHINE":"scene-hardware","ONE TAP'S JOURNEY":"scene-sequence",
   "EVERYTHING IS SWITCHES":"scene-computer","THE TIME MACHINE":"scene-history",
+  "THE MEMORY OF THE WORLD":"scene-variables","ERRORS ARE CLUES":"scene-debugging",
 };
 function pixelSVG(pose,size){
   size=size||150; pose=(PIXEL_POSES[pose]?pose:"idle");
@@ -1211,11 +1243,167 @@ const BELTS2=[
        yes:"Traveling. Sometimes across the actual ocean floor. Give it a second."}},
    ]},
   ]},
-{ id:"orange2", name:"ORANGE BELT", concept:"WHAT APPS ARE MADE OF", beltEmoji:"🟠", color:"#EE9A5C", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
-{ id:"green2", name:"GREEN BELT", concept:"DATABASES", beltEmoji:"🟢", color:"#6CC48F", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
-{ id:"blue2", name:"BLUE BELT", concept:"REAL CODE", beltEmoji:"🔵", color:"#7FA9DB", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
-{ id:"purple2", name:"PURPLE BELT", concept:"DEBUGGING", beltEmoji:"🟣", color:"#A98FE0", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
-{ id:"black2", name:"BLACK BELT", concept:"AI + THE FINAL BUILD", beltEmoji:"⚫", color:"#4A4460", soon:true, skills:[], testN:8, testPass:6, lessons:[]},
+{ id:"orange2", name:"ORANGE BELT", concept:"WHAT APPS ARE MADE OF", beltEmoji:"🟠", color:"#EE9A5C",
+  skills:["organs","journey","crew"], testN:6, testPass:5,
+  lessons:[
+   { title:"THE FOUR ORGANS", emoji:"🧩", slides:[
+     {e:"🧩", t:"Every app is four parts.",
+      x:"Every app you love — same four organs inside. The FRONTEND you see and touch. The BACKEND thinking far away. The DATABASE remembering everything. And the API — the messenger sprinting between them. Learn these four, and no app is ever a mystery again."},
+     {e:"📱", t:"Frontend: what you see.",
+      x:"Buttons, colors, animations, the keyboard, the loading spinner. If your eyes see it or your finger touches it — that's frontend, living right on your device."},
+     {e:"🖥️", t:"Backend: the far-away brain.",
+      x:"Checking your password. Picking your next video. Matching you with players your level. The heavy thinking happens on servers — the backend — because your phone can't know what millions of other people are doing. The backend can."},
+     {e:"🗄️", t:"Database: the forever memory.",
+      x:"Your score, your friends, every comment ever posted — the database keeps it all safe. Even when your phone is off. Even if your tablet takes a bath. Ahem. ESPECIALLY then."},
+     {e:"📨", t:"API: the messenger.",
+      x:"When you tap, the frontend writes a tiny message, and the A P I carries it to the backend — then sprints the answer back home. Millions of little messengers, running, every single second."},
+     {check:{t:"Your high score lives FOREVER in the...", spoken:"Check! Your high score has to survive forever. Which organ keeps it?",
+       opts:[{e:"🗄️",l:"THE DATABASE",ok:true},{e:"📱",l:"THE FRONTEND",no:"The frontend SHOWS the score — but showing isn't remembering. Again."},{e:"⏳",l:"THE SPINNER",no:"The spinner just spins. It remembers absolutely nothing. Again."}],
+       yes:"The database. Forever is its whole job."}},
+   ]},
+   { title:"THE CREW + UPDATE DAY", emoji:"👷", slides:[
+     {e:"👷", t:"Apps are built by crews.",
+      x:"A real app team: the DESIGNER makes it beautiful. The FRONTEND DEV builds what you touch. The BACKEND DEV builds the far-away brain. The DATA ENGINEER guards the memory. The PM decides what gets built next. And the TESTER... tries to break everything. On purpose. It's their job."},
+     {e:"🔗", t:"Nobody works alone.",
+      x:"The designer's gorgeous button? Does nothing without backend code behind it. The backend? Has nothing to say without the database. Every part needs every other part. Apps are a team sport."},
+     {e:"🚀", t:"Why apps update.",
+      x:"That little UPDATE button? The crew fixed bugs, added features, patched security holes. 'Bug fixes and performance improvements' secretly means: we found the broken bits before you did. Mostly before."},
+     {check:{t:"Who tries to BREAK the app on purpose?", spoken:"Check! Someone on the crew breaks the app on purpose, every day. Who?",
+       opts:[{e:"🧪",l:"THE TESTER",ok:true},{e:"🎨",l:"THE DESIGNER",no:"The designer makes it lovely — someone else does the smashing. Again."},{e:"🦹",l:"A VILLAIN",no:"Ha — no villains needed. The team hires their own breaker. Again."}],
+       yes:"The tester — breaking it in private, so it never breaks on you."}},
+   ]},
+  ]},
+{ id:"green2", name:"GREEN BELT", concept:"DATABASES", beltEmoji:"🟢", color:"#6CC48F",
+  skills:["tables","dbmatch","pickcol"], testN:6, testPass:5,
+  lessons:[
+   { title:"THE MEMORY OF THE WORLD", emoji:"🗄️", slides:[
+     {e:"🗄️", t:"Databases remember everything.",
+      x:"Every score, every message, every account on Earth lives in a DATABASE — the most under-famous invention in all of tech. Time you two met properly."},
+     {e:"📋", t:"Tables: rows and columns.",
+      x:"A database keeps TABLES. Each ROW is one thing's whole entry — one pet, one player, one order. Each COLUMN is one kind of info for everyone — every name, every age. A grid with a perfect memory."},
+     {e:"📱", t:"One is in your pocket. Right now.",
+      x:"A tiny database called S Q Lite lives inside your phone THIS SECOND, holding your texts and settings. You've carried a database around for years without knowing its name. Now you know its name."},
+     {e:"🌍", t:"Postgres. MySQL. MongoDB.",
+      x:"The big engines: Postgres and MySQL run half the internet's tables. MongoDB keeps flexible boxes instead of strict grids. Real technology names. Drop them at dinner. Watch the grown-ups blink."},
+     {check:{t:"One ROW in the pets table is...", spoken:"Check! In a table of pets — what is one row?",
+       opts:[{e:"🐶",l:"ONE PET'S WHOLE ENTRY",ok:true},{e:"📊",l:"ONE KIND OF INFO",no:"That's a COLUMN — everyone's age, everyone's name. A row is one whole pet. Again."},{e:"🚣",l:"A TINY BOAT",no:"Different kind of row, sailor. Again."}],
+       yes:"One row, one pet — name, species, age, the works."}},
+   ]},
+   { title:"ASK THE DATA ANYTHING", emoji:"🔍", slides:[
+     {e:"🔍", t:"Queries: questions for data.",
+      x:"A QUERY is a question you ask a database. Show me every player above level nine! Which pet is oldest? The database answers across MILLIONS of rows — in milliseconds. That's the superpower."},
+     {e:"⚡", t:"When apps feel instant...",
+      x:"...you're feeling a database being very good at its job. Finding your account among two billion accounts takes it milliseconds. It is genuinely showing off."},
+     {e:"👻", t:"Data outlives the app.",
+      x:"Here's one worth remembering forever: DELETE the app, and your account still exists — far away, in the database. The delete button on your screen doesn't reach the server. Which means: think BEFORE you post, not after."},
+     {check:{t:"You delete the app. Your account...", spoken:"Check. You delete the app from your phone. What happens to your account?",
+       opts:[{e:"🗄️",l:"STILL LIVES IN THE DATABASE",ok:true},{e:"💨",l:"VANISHES FOREVER",no:"Your phone only deleted its own copy. The server never noticed. Again."},{e:"🗑️",l:"HIDES IN THE TRASH",no:"Not in your trash — in a data center, far away. Again."}],
+       yes:"Still there, on the server. Screens forget. Databases don't."}},
+   ]},
+  ]},
+{ id:"blue2", name:"BLUE BELT", concept:"REAL CODE", beltEmoji:"🔵", color:"#7FA9DB",
+  skills:["pyread","pyfill","pyfork"], testN:6, testPass:5,
+  lessons:[
+   { title:"HELLO, REAL CODE", emoji:"💬", slides:[
+     {e:"⌨️", t:"Time. Actual code.",
+      x:"Everything so far — the machine, the internet, the organs of an app — was the map. Today you write the territory. Real syntax, in a real terminal, really running. Ready? You're ready."},
+     {e:"💬", t:'print("hi")',
+      x:"print is an instruction: put this on the screen. The round brackets hold WHAT to print. The quotes say: these are words, exactly as written. Every coder on Earth started with this exact line. Every single one."},
+     {e:"🔤", t:"Quotes = words. No quotes = trouble.",
+      x:"Write print, and in quotes, pizza — the terminal says pizza. Forget the quotes, and the machine goes hunting for a BOX named pizza, finds nothing, and throws an error. Quotes matter. A lot."},
+     {e:"➕", t:'print("ha" + "ha") → haha',
+      x:"With words, plus is GLUE. Two ha's glue into haha — no space appears unless you put one inside the quotes yourself. The machine does exactly what you wrote. Never what you meant. Remember that one."},
+     {check:{t:'print("boom") shows...', spoken:"First check! print, and in quotes, boom. What appears in the terminal?",
+       opts:[{e:"💥",l:"boom",ok:true},{e:"✏️",l:'"boom" — QUOTES AND ALL',no:"The quotes are for the machine, not the screen. They never get printed. Again."},{e:"🖨️",l:"print",no:"print is the instruction, not the message. Again."}],
+       yes:"Just boom. The quotes stay behind the curtain."}},
+     {e:"🖥️", t:"Your terminal awaits.",
+      x:"In the playground there's now a REAL terminal with your name on it — type code, run it, break it, nobody minds. And the practice arena opens after these lessons. Let's write."},
+   ]},
+   { title:"BOXES, BUT REAL", emoji:"📦", slides:[
+     {e:"📦", t:"score = 7",
+      x:"Memory boxes, real syntax. score, equals, seven — that MAKES a box called score with seven inside. One equals sign means: STORE this."},
+     {e:"🏷️", t:'name = "Zoe"',
+      x:"Boxes hold words too — with quotes. And then: print, quote hi space quote, plus name — the terminal says hi Zoe. print opens the box and uses what's inside."},
+     {e:"🔄", t:"score = score + 1",
+      x:"The most famous line in video games. Take what's in score, add one, store it BACK. Every coin grabbed, every point ever scored, in every game ever made — this line was running."},
+     {check:{t:"score = 4, then score = score + 1. Now the box holds...", spoken:"Check! score equals four. Then: score equals score plus one. What's in the box now?",
+       opts:[{e:"5️⃣",l:"5",ok:true},{e:"4️⃣",l:"4",no:"The second line updated the box — old value out, new value in. Again."},{e:"🔢",l:"41",no:"Ha — no gluing here! Both are real numbers, so real math. Again."}],
+       yes:"Five. The box always keeps the newest value."}},
+     {e:"🧠", t:"Numbers add. Words glue.",
+      x:"Three plus four is seven. But quote-three plus quote-four is... thirty-four! Numbers in quotes aren't numbers — they're words in a number costume. This trips up REAL programmers. Not you though. Now you know."},
+   ]},
+   { title:"THE FORK: if / else", emoji:"🔱", slides:[
+     {e:"🔱", t:'if password == "otter":',
+      x:"The fork, in real syntax. IF, then the rule, then a colon. The line under it — pushed in with spaces — runs ONLY if the rule is true. That pushing-in is called INDENTING, and it shows the machine what belongs to the if."},
+     {e:"⚖️", t:"== asks. = stores.",
+      x:"One equals sign STORES into a box. Two equals signs ASK: are these the same? Store with one. Ask with two. The machine never confuses them — so you can't either."},
+     {e:"🔀", t:"else: — the other path.",
+      x:"else, colon, its own indented line. Rule true? The if-path runs. Rule false? The else-path. One rule, two doors — and the machine walks through exactly one. Every time."},
+     {check:{t:"power = 3. if power > 5: mega, else: mini. Which prints?", spoken:"Check! power is three. If power is bigger than five, print mega. Else, print mini. Which one prints?",
+       opts:[{e:"🐜",l:"mini",ok:true},{e:"💪",l:"mega",no:"Three is not bigger than five — the if-door stays shut, the else-door opens. Again."},{e:"👯",l:"BOTH",no:"Never both! One rule, one door, one path. Again."}],
+       yes:"mini. Three lost to five, so else took over."}},
+     {e:"🧭", t:"> and < compare numbers.",
+      x:"If temp is greater than twenty-five: shorts. Else: jacket. Congratulations — you now read the exact logic that runs games, apps, and robots. The arena is open. Go fork some paths."},
+   ]},
+  ]},
+{ id:"purple2", name:"PURPLE BELT", concept:"DEBUGGING", beltEmoji:"🟣", color:"#A98FE0",
+  skills:["errfix","verorder"], testN:6, testPass:5,
+  lessons:[
+   { title:"ERRORS ARE CLUES", emoji:"🐛", slides:[
+     {e:"🦋", t:"The first bug was a real moth.",
+      x:"True story. 1947 — a computer the size of a room stops working. Engineer Grace Hopper's team opens it up and finds an actual MOTH stuck inside. They tape it into the logbook and write: first actual case of bug being found. Computer mistakes have been BUGS ever since."},
+     {e:"🚨", t:"An error is not an insult.",
+      x:"When the terminal prints an error, it isn't angry at you. It's POINTING: this line, this name, this problem. Beginners look away from errors. Pros read them like treasure maps."},
+     {e:"🧭", t:"Read it: line, name, hint.",
+      x:"Line 2 — I don't know scor. That's the WHERE, the WHAT, and usually the fix, all in one sentence. And here's a secret: ninety percent of bugs are typos, missing quotes, or a missing colon. You've already met all three."},
+     {e:"🔁", t:"Guess. Check. Fix ONE thing. Run.",
+      x:"The debugging loop. Fix one thing at a time — change five things at once and you'll never know which one mattered. Then run again. And again. That loop is the actual daily life of every programmer alive."},
+     {check:{t:"The terminal shows an error. A pro...", spoken:"Check! The terminal shows an error. What does a professional do?",
+       opts:[{e:"🔍",l:"READS IT — IT'S A CLUE",ok:true},{e:"🔌",l:"RESTARTS THE PHONE",no:"The classic move! But the bug will be sitting there waiting after the restart. Read the clue. Again."},{e:"😭",l:"GIVES UP",no:"Never. Bugs lose to patience, every time. Again."}],
+       yes:"Reads it. Line, name, hint — the error already knows where the treasure is."}},
+   ]},
+   { title:"HOW REAL SOFTWARE SHIPS", emoji:"🚢", slides:[
+     {e:"🚢", t:"Nobody writes it perfect.",
+      x:"Not beginners. Not pros. NOBODY writes correct code on the first try. Real software gets written, tested, broken, fixed, and tested again — on purpose, every day, at every tech company on Earth."},
+     {e:"🧪", t:"Test before you ship.",
+      x:"Before an update ever reaches your tablet, testers and testing robots hammer it — tap every button, break every screen, try every silly thing. What survives, ships. What doesn't goes back to the bench."},
+     {e:"1️⃣", t:"Version 1.0 is a beginning.",
+      x:"One point oh is never the end — it's the first survivor. Then one point one fixes what users found. Two point oh brings the big ideas. Software is never finished. It's just... currently shipped."},
+     {check:{t:"Why do apps update so often?", spoken:"Check! Why do your apps update so often?",
+       opts:[{e:"🛠️",l:"FIXES + NEW FEATURES",ok:true},{e:"🧹",l:"THE ICON GETS DUSTY",no:"Icons are dust-proof, I checked. Again."},{e:"😤",l:"TO ANNOY YOU",no:"It can FEEL that way at bedtime. But no. Again."}],
+       yes:"Bug fixes, new features, security patches. The crew never stops."}},
+   ]},
+  ]},
+{ id:"black2", name:"BLACK BELT", concept:"AI + THE FINAL TEST", beltEmoji:"⚫", color:"#4A4460",
+  skills:[], testN:8, testPass:6,
+  lessons:[
+   { title:"WHAT AI ACTUALLY IS", emoji:"✨", slides:[
+     {e:"✨", t:"AI is not magic. It's patterns.",
+      x:"Artificial intelligence learns by seeing MILLIONS of examples. Show it a million cat photos — it learns the PATTERN of cat. Then it guesses: is this new thing a cat? It doesn't think. It doesn't dream. It pattern-guesses. Very, very fast."},
+     {e:"🎓", t:"Training = showing examples.",
+      x:"Teaching an AI is called TRAINING, and training is mostly showing examples with answers attached. Good examples make a good guesser. Bad or unfair examples make a bad or unfair guesser. The examples ARE the teacher."},
+     {e:"🤖", t:"You used AI today. Several times.",
+      x:"Autocorrect guessing your word. Your video app guessing what you'll love next. Voice assistants guessing what you said. All pattern-guessers. All trained on examples. All around you, all day long."},
+     {check:{t:"AI learns by...", spoken:"Check! How does an AI actually learn?",
+       opts:[{e:"📚",l:"SEEING MILLIONS OF EXAMPLES",ok:true},{e:"🧠",l:"BEING BORN SMART",no:"Before training, an AI knows exactly nothing. The examples build everything. Again."},{e:"🔮",l:"READING MINDS",no:"No minds are read. Patterns are guessed. Again."}],
+       yes:"Examples, examples, examples. The pattern is the knowledge."}},
+     {e:"⚠️", t:"It guesses. Guesses can be wrong.",
+      x:"An AI sounds confident even when it's wrong — because it isn't checking facts, it's completing patterns. Smart people double-check what AI tells them. Now you know exactly why."},
+   ]},
+   { title:"THE PILOT RULE", emoji:"✈️", slides:[
+     {e:"✈️", t:"AI writes code now. Really.",
+      x:"True fact: AI can write code today. Whole programs. So... was learning all this pointless? Hold that thought."},
+     {e:"👩‍✈️", t:"Autopilot flies. Pilots still exist.",
+      x:"Autopilot can fly a plane for hours — and airlines STILL put pilots up front. Because someone must understand what the plane is doing, catch its mistakes, and take over when things get weird. The autopilot doesn't know when it's wrong."},
+     {e:"🔍", t:"Ask. Read. Verify. Fix.",
+      x:"That's how coders work with AI now: ASK it for code, READ what it wrote, VERIFY it's right, FIX what isn't. Every step after asking needs a human who understands the machine. That human... is now you."},
+     {check:{t:"AI writes the code. The human must...", spoken:"Check. The AI writes the code. What must the human do?",
+       opts:[{e:"🧐",l:"UNDERSTAND AND CHECK IT",ok:true},{e:"🤞",l:"JUST TRUST IT",no:"That's how planes fly into mountains. Verify. Always. Again."},{e:"🖨️",l:"PRINT IT OUT",no:"Paper won't catch the bug. Understanding does. Again."}],
+       yes:"Understand it, check it, fix it. The pilot rule."}},
+     {e:"⚫", t:"The final test awaits.",
+      x:"Hardware. The internet. App organs. Databases. Real code. Debugging. And the truth about AI. Eight challenges, everything mixed together. Deep breath, insider... go show the machine who understands it."},
+   ]},
+  ]},
 ];
 function TRACK(){ return ageBand()==="7-11" ? BELTS2 : BELTS; }
 function beltIdx(id){ return TRACK().findIndex(b=>b.id===id); }
@@ -2416,6 +2604,560 @@ play:function(st,level,mode,onDone){
     yes:R.why,
   },mode,onDone);
 }};
+/* ============================== TRACK 2: THE CODE RUNNER (blue belt) ============================== */
+function escT(t){ return String(t).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}); }
+function levDist(a,b){
+  const m=a.length,n=b.length; if(!m)return n; if(!n)return m;
+  let prev=[]; for(let j=0;j<=n;j++)prev[j]=j;
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++)cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    prev=cur;
+  }
+  return prev[n];
+}
+/* tiny sandboxed interpreter: print / string+number variables / + / if-else with == > < */
+function pixRun(code){
+  const out=[], vars={};
+  const raw=String(code||"").replace(/\t/g,"  ").split("\n");
+  const st=[];
+  for(let i=0;i<raw.length;i++){
+    if(!raw[i].trim())continue;
+    st.push({ln:i+1, txt:raw[i].trim(), ind:raw[i].match(/^ */)[0].length});
+  }
+  function fail(ln,msg){ return {out:out,err:{ln:ln,msg:msg}}; }
+  function nearest(name){
+    let best=null,bd=3;
+    Object.keys(vars).forEach(function(k){ const d=levDist(k,name); if(d<bd){bd=d;best=k;} });
+    return best;
+  }
+  function evalExpr(src){
+    src=String(src).trim();
+    if(!src)return {e:"there's nothing to work with here."};
+    const parts=[]; let cur="",q=null;
+    for(const ch of src){
+      if(q){ cur+=ch; if(ch===q)q=null; continue; }
+      if(ch==='"'||ch==="'"){ q=ch; cur+=ch; continue; }
+      if(ch==='+'){ parts.push(cur); cur=""; continue; }
+      cur+=ch;
+    }
+    if(q)return {e:"a quote got opened but never closed. Every quote needs a partner."};
+    parts.push(cur);
+    const vals=[];
+    for(let p of parts){
+      p=p.trim();
+      if(!p)return {e:"there's a + with nothing on one side of it."};
+      let m;
+      if((m=p.match(/^"([^"]*)"$/))||(m=p.match(/^'([^']*)'$/))){ vals.push(m[1]); continue; }
+      if(/^-?\d+(\.\d+)?$/.test(p)){ vals.push(parseFloat(p)); continue; }
+      if(/^[A-Za-z_][A-Za-z0-9_]*$/.test(p)){
+        if(!(p in vars)){
+          const s=nearest(p);
+          return {e:"I don't know «"+p+"». "+(s?("Did you mean «"+s+"»?"):"Words need quotes — or put "+p+" in a box first.")};
+        }
+        vals.push(vars[p]); continue;
+      }
+      return {e:"I can't read «"+p+"». Words need quotes, like \"hello\"."};
+    }
+    if(vals.some(function(v){return typeof v==="string";}))return {v:vals.map(String).join("")};
+    return {v:vals.reduce(function(a,b){return a+b;},0)};
+  }
+  function evalCond(src){
+    let op=null,idx=-1;
+    if((idx=src.indexOf("=="))>=0)op="==";
+    else if((idx=src.indexOf(">"))>=0)op=">";
+    else if((idx=src.indexOf("<"))>=0)op="<";
+    if(!op)return {e:"an if needs a comparison: ==, > or <."};
+    const L=evalExpr(src.slice(0,idx)); if(L.e)return L;
+    const R=evalExpr(src.slice(idx+op.length)); if(R.e)return R;
+    if(op==="=="){
+      if(typeof L.v==="number"&&typeof R.v==="number")return {v:L.v===R.v};
+      return {v:String(L.v)===String(R.v)};
+    }
+    if(typeof L.v!=="number"||typeof R.v!=="number")return {e:"I can only compare numbers with "+op+"."};
+    return {v:op===">"?L.v>R.v:L.v<R.v};
+  }
+  function execSimple(s){
+    let m;
+    if((m=s.txt.match(/^print\s*\((.*)\)\s*$/))){
+      const r=evalExpr(m[1]); if(r.e)return r.e;
+      out.push(String(r.v)); return null;
+    }
+    if(/^print\b/.test(s.txt))return "print needs round brackets: print(\"hi\")";
+    if((m=s.txt.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=(?!=)\s*(.+)$/))){
+      const r=evalExpr(m[2]); if(r.e)return r.e;
+      vars[m[1]]=r.v; return null;
+    }
+    if(/^else\b/.test(s.txt))return "this else has no if to belong to.";
+    return "I don't understand this line. Try print(...), a box like score = 7, or if ...:";
+  }
+  let i=0, steps=0;
+  while(i<st.length){
+    if(++steps>500)return fail(st[i].ln,"that is a LOT of steps. My terminal stops at five hundred.");
+    const s=st[i];
+    if(/^if\b/.test(s.txt)){
+      if(!/:\s*$/.test(s.txt))return fail(s.ln,"an if needs a colon at the end, like: if score > 5:");
+      const m=s.txt.match(/^if\s+(.+):\s*$/);
+      if(!m)return fail(s.ln,"an if needs a rule to check, like: if score > 5:");
+      const cond=evalCond(m[1]); if(cond.e)return fail(s.ln,cond.e);
+      const base=s.ind; i++;
+      const thenB=[];
+      while(i<st.length&&st[i].ind>base){ thenB.push(st[i]); i++; }
+      if(!thenB.length)return fail(s.ln,"the if has no indented line under it to run.");
+      let elseB=[];
+      if(i<st.length&&/^else\b/.test(st[i].txt)&&st[i].ind===base){
+        if(!/^else\s*:\s*$/.test(st[i].txt))return fail(st[i].ln,"else needs a colon too: else:");
+        const eln=st[i].ln; i++;
+        while(i<st.length&&st[i].ind>base){ elseB.push(st[i]); i++; }
+        if(!elseB.length)return fail(eln,"the else has no indented line under it to run.");
+      }
+      const body=cond.v?thenB:elseB;
+      for(const b of body){
+        if(/^if\b/.test(b.txt))return fail(b.ln,"one fork at a time in my terminal! No if inside an if... yet.");
+        const e=execSimple(b); if(e)return fail(b.ln,e);
+        if(++steps>500)return fail(b.ln,"too many steps!");
+      }
+      continue;
+    }
+    const e=execSimple(s); if(e)return fail(s.ln,e);
+    i++;
+  }
+  return {out:out,err:null};
+}
+/* code display helpers */
+function colorCode(line){
+  const rest=escT(line);
+  const re=/("[^"]*"|'[^']*')/g;
+  let outH="",last=0,m;
+  function plain(seg){
+    return seg.replace(/\b(print|if|else)\b/g,'<span class="kwd">$1</span>')
+              .replace(/\b(\d+)\b/g,'<span class="num">$1</span>');
+  }
+  while((m=re.exec(rest))){
+    outH+=plain(rest.slice(last,m.index))+'<span class="str">'+m[1]+'</span>';
+    last=m.index+m[1].length;
+  }
+  outH+=plain(rest.slice(last));
+  return outH;
+}
+function codeBoxHTML(lines){
+  return '<div class="codebox">'+lines.map(function(l,i){
+    return '<div class="cl"><span class="cln">'+(i+1)+'</span>'+colorCode(l)+'</div>';
+  }).join("")+'</div>';
+}
+function termHTML(res){
+  let h='<div class="term">';
+  res.out.forEach(function(l,i){ h+='<div class="tl" style="animation-delay:'+(i*0.22)+'s">'+escT(l)+'</div>'; });
+  if(res.err)h+='<div class="terr" style="animation-delay:'+(res.out.length*0.22)+'s">Line '+res.err.ln+' — '+escT(res.err.msg)+'</div>';
+  if(!res.out.length&&!res.err)h+='<div class="tdim">…nothing printed</div>';
+  return h+'</div>';
+}
+/* fill-the-blank runner problem: pick a chip, RUN it for real, match the mission */
+function runnerFill(st,cfg,mode,onDone){
+  let picked=null, over=false;
+  const missionTxt=cfg.mission.join("  ·  ");
+  const card=el('<div class="card">'+
+    '<div class="sub" style="font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">MISSION — MAKE IT PRINT: <span style="color:var(--white);">'+escT(missionTxt)+'</span></div>'+
+    '<div id="cbx"></div>'+
+    '<div class="palette" id="chips" style="margin:8px 0;"></div>'+
+    '<div class="btnrow"><button class="btn green" id="run" style="font-size:22px;">▶ RUN</button></div>'+
+    '<div id="tout"></div>'+
+    '<div class="feedback" id="fb"></div></div>');
+  st.appendChild(card);
+  const fb=card.querySelector("#fb"), chipRow=card.querySelector("#chips");
+  function renderBox(){
+    card.querySelector("#cbx").innerHTML='<div class="codebox">'+cfg.lines.map(function(l,i){
+      let inner;
+      if(l.indexOf("____")>=0){
+        const seg=l.split("____");
+        inner=colorCode(seg[0])+'<span class="blankchip">'+(picked===null?"· · ·":escT(cfg.chips[picked]))+'</span>'+colorCode(seg[1]||"");
+      } else inner=colorCode(l);
+      return '<div class="cl"><span class="cln">'+(i+1)+'</span>'+inner+'</div>';
+    }).join("")+'</div>';
+  }
+  cfg.chips.forEach(function(t,idx){
+    const c=el('<div class="chip" style="font-family:ui-monospace,Menlo,monospace;font-size:16px;">'+escT(t)+'</div>');
+    c.onclick=function(){
+      if(over)return;
+      picked=idx;
+      Array.from(chipRow.children).forEach(function(x){x.style.borderColor="";x.style.boxShadow="";});
+      c.style.borderColor="var(--gold)"; c.style.boxShadow="0 0 12px rgba(240,185,90,.4)";
+      renderBox();
+    };
+    chipRow.appendChild(c);
+  });
+  card.querySelector("#run").onclick=function(){
+    if(over)return;
+    if(picked===null){ speak("Pick a chip for the blank first, then run!"); return; }
+    const code=cfg.lines.map(function(l){return l.replace("____",cfg.chips[picked]);}).join("\n");
+    const res=pixRun(code);
+    card.querySelector("#tout").innerHTML=termHTML(res);
+    const good=!res.err&&res.out.join("\n")===cfg.mission.join("\n");
+    if(good){
+      over=true; confetti(26); pow("RUN!");
+      fb.textContent="⭐ MISSION COMPLETE! ⭐";
+      speak(cfg.yes||"It ran — and printed exactly what the mission asked. That is real code, working.",{onend:function(){onDone(true);}});
+      return;
+    }
+    if(mode==="test"){
+      over=true; fb.textContent="NOT QUITE!";
+      speak(res.err?"The code hit an error. Read the clue, remember it, next one!":"It ran, but printed the wrong thing. On to the next!",{onend:function(){onDone(false);}});
+      return;
+    }
+    fb.textContent=res.err?"ERROR — READ THE CLUE!":"WRONG OUTPUT — TRY ANOTHER CHIP!";
+    speak(res.err?("Error! Line "+res.err.ln+" — "+res.err.msg+" Try a different chip!")
+                 :("Hmm — it printed «"+(res.out.join(", ")||"nothing")+"», but the mission wants «"+missionTxt+"». Swap the chip and run again!"));
+  };
+  renderBox();
+  const intro=cfg.intro||("Mission: make the code print «"+missionTxt+"». Tap a chip to fill the blank, then hit run — the code really runs!");
+  replayFn=function(){speak(intro);};
+  speak(intro);
+}
+/* generated problems */
+const PY_WORDS=["pizza","ninja","boom","wow","robot","magic","taco","zap"];
+const PY_NAMES=["Maya","Leo","Zoe","Kai","Ari","Sam"];
+function genPyRead(level){
+  const t=level<=1?rint(2):(level===2?2+rint(3):5+rint(3));
+  let w,n,a,b,s,v,g;
+  switch(t){
+    case 0: w=pick(PY_WORDS);
+      return {lines:['print("'+w+'")'],ans:w,wrongs:['"'+w+'"',pick(PY_WORDS.filter(function(x){return x!==w;}))],
+        why:"Quotes tell the machine what to print — but the quotes themselves never get printed."};
+    case 1: w=pick(PY_WORDS);
+      return {lines:['print("'+w+'" + "'+w+'")'],ans:w+w,wrongs:[w+" "+w,w],
+        why:"Plus glues strings together, with no space unless YOU put one in."};
+    case 2: n=pick(PY_NAMES);
+      return {lines:['name = "'+n+'"','print("hi " + name)'],ans:"hi "+n,wrongs:["hi name","hi"+n],
+        why:"name is a box. print opens the box and uses what's inside."};
+    case 3: a=2+rint(4); b=2+rint(4);
+      return {lines:['a = '+a,'b = '+b,'print(a + b)'],ans:String(a+b),wrongs:[''+a+b,String(a+b+1)],
+        why:"Two numbers and a plus — real math. Only quoted things glue."};
+    case 4: s=3+rint(5);
+      return {lines:['score = '+s,'score = score + 1','print(score)'],ans:String(s+1),wrongs:[String(s),String(s+2)],
+        why:"The box keeps the NEWEST value. That line runs in every game ever made."};
+    case 5: v=3+rint(7);
+      return {lines:['power = '+v,'if power > 5:','  print("mega")','else:','  print("mini")'],
+        ans:v>5?"mega":"mini",wrongs:[v>5?"mini":"mega","mega mini"],
+        why:"The machine checks the rule, then runs exactly ONE path. "+v+(v>5?" is":" is not")+" bigger than 5."};
+    case 6: g=pick(["otter","otter","tiger","comet"]);
+      return {lines:['password = "'+g+'"','if password == "otter":','  print("door opens")','else:','  print("no entry")'],
+        ans:g==="otter"?"door opens":"no entry",wrongs:[g==="otter"?"no entry":"door opens","password"],
+        why:"Double equals ASKS if they match — it never changes the box."};
+    default:
+      return {lines:['a = 3','b = "4"','print(a + b)'],ans:"34",wrongs:["7","3 + 4"],
+        why:"Sneaky! b is in quotes — so plus GLUES instead of adding. Numbers in quotes aren't numbers."};
+  }
+}
+function genPyFill(level){
+  const t=level<=1?rint(2):(level===2?2+rint(2):4+rint(2));
+  let n,w,s;
+  switch(t){
+    case 0: n=pick(PY_NAMES);
+      return {mission:["hi "+n],lines:['name = ____','print("hi " + name)'],chips:['"'+n+'"',n,'"name"'],
+        yes:"Quotes around "+n+" made it a word the machine can keep in the box. Mission complete."};
+    case 1: w=pick(PY_WORDS);
+      return {mission:[w],lines:['print(____)'],chips:['"'+w+'"',w,'"'+pick(PY_WORDS.filter(function(x){return x!==w;}))+'"'],
+        yes:"print plus quotes — the first spell every coder learns."};
+    case 2:
+      return {mission:["7"],lines:['a = 3','b = ____','print(a + b)'],chips:['4','"4"','7'],
+        yes:"A real 4, no quotes — so three plus four made seven. Quotes would have glued them into thirty-four!"};
+    case 3: s=5+rint(4);
+      return {mission:["score is "+(s+1)],lines:['score = '+s,'score = score + ____','print("score is " + score)'],chips:['1','2','"1"'],
+        yes:"Plus one, saved back into the box. The most famous line in games."};
+    case 4:
+      return {mission:["door opens"],lines:['password = "otter"','if password == ____:','  print("door opens")','else:','  print("no entry")'],chips:['"otter"','"banana"','otter'],
+        yes:"The passwords matched, so the if-path ran. Double equals checks; it never changes."};
+    default:
+      return {mission:["shorts"],lines:['temp = 8','if temp ____ 5:','  print("shorts")','else:','  print("jacket")'],chips:['>','<','=='],
+        yes:"Eight is bigger than five, so the greater-than fork chose shorts. You just steered an if!"};
+  }
+}
+SKILLS.pyread={ title:"OUTPUT ORACLE", emoji:"🔮", blurb:"Read real code — predict what it prints!",
+play:function(st,level,mode,onDone){
+  const P=genPyRead(level);
+  choiceProblem(st,{
+    scene:codeBoxHTML(P.lines), sceneSize:"15px",
+    prompt:"What will this code print?",
+    spoken:"Read the code like the machine would — top to bottom. What will it print?",
+    opts:[{l:"▸ "+P.ans,ok:true}].concat(P.wrongs.map(function(x){return {l:"▸ "+x};})),
+    yes:P.why,
+  },mode,onDone);
+}};
+SKILLS.pyfill={ title:"CODE COMPLETER", emoji:"🧩", blurb:"Fill the blank — then really RUN it!",
+play:function(st,level,mode,onDone){
+  runnerFill(st,genPyFill(level),mode,onDone);
+}};
+SKILLS.pyfork={ title:"FORK MASTER", emoji:"🔱", blurb:"if... else — command the two paths!",
+play:function(st,level,mode,onDone){
+  if(rint(2)===0){
+    const v=3+rint(7), k=5;
+    const tpl=rint(2)===0
+      ? {lines:['power = '+v,'if power > '+k+':','  print("mega")','else:','  print("mini")'],ans:v>k?"mega":"mini",wrongs:[v>k?"mini":"mega","nothing"],
+         why:v+(v>k?" beats ":" does not beat ")+k+" — so that path ran. One rule, one path, every time."}
+      : (function(){ const g=pick(["otter","otter","tiger"]);
+         return {lines:['password = "'+g+'"','if password == "otter":','  print("door opens")','else:','  print("no entry")'],
+           ans:g==="otter"?"door opens":"no entry",wrongs:[g==="otter"?"no entry":"door opens","otter"],
+           why:"The machine compared the two words and picked its path. No guessing, ever."}; })();
+    choiceProblem(st,{
+      scene:codeBoxHTML(tpl.lines), sceneSize:"15px",
+      prompt:"Which path runs — what prints?",
+      spoken:"An if and an else — two paths, but the machine only ever takes one. Which prints?",
+      opts:[{l:"▸ "+tpl.ans,ok:true}].concat(tpl.wrongs.map(function(x){return {l:"▸ "+x};})),
+      yes:tpl.why,
+    },mode,onDone);
+    return;
+  }
+  runnerFill(st,genPyFill(4),mode,onDone);
+}};
+/* ============================== TRACK 2: ORANGE (app anatomy) ============================== */
+const ORG_OPTS=[{e:"📱",l:"FRONTEND — WHAT YOU SEE"},{e:"🖥️",l:"BACKEND — THINKS FAR AWAY"},{e:"🗄️",l:"DATABASE — REMEMBERS"}];
+const ORG_BANK=[
+ {q:"The button you tap to play the video",a:0,why:"If you can see it or touch it, it's the frontend."},
+ {q:"The colors, the fonts, the fun animations",a:0,why:"All frontend — the part built to be looked at."},
+ {q:"The keyboard that slides up when you type",a:0,why:"On your screen, under your fingers — frontend."},
+ {q:"The loading spinner going round and round",a:0,why:"The frontend's way of saying: I asked, we're waiting."},
+ {q:"Checking your password is actually right",a:1,why:"The backend checks it, far away — so nobody can cheat on your device."},
+ {q:"Deciding which video to recommend next",a:1,why:"That thinking happens on the backend's big computers."},
+ {q:"Matching you against players of your level",a:1,why:"The backend plays matchmaker for millions at once."},
+ {q:"Adding up the likes from the whole world",a:1,why:"Counting for everyone has to happen in the middle — backend."},
+ {q:"Your high score, remembered forever",a:2,why:"Forever is the database's whole job."},
+ {q:"Every player's inventory list",a:2,why:"Rows and rows of items — that's database country."},
+ {q:"Your friend list, still there tomorrow",a:2,why:"Anything that must SURVIVE lives in the database."},
+ {q:"All the comments anyone ever posted",a:2,why:"Millions of rows, safe in the database."},
+];
+const ORG_API=[
+ {q:"The messenger that carries your tap to the server",why:"The API is the messenger between frontend and backend."},
+ {q:"The rule book for how the app talks to the server",why:"An API is an agreement: ask like THIS, get answers like THAT."},
+];
+SKILLS.organs={ title:"APP ANATOMY", emoji:"🫀", blurb:"Frontend, backend, or database — where does it live?",
+play:function(st,level,mode,onDone){
+  if(level>=2&&rint(4)===0){
+    const R=pick(ORG_API);
+    choiceProblem(st,{
+      scene:'<span class="floaty">📨</span>', prompt:R.q, spoken:R.q+" Which part is that?",
+      opts:[{e:"📨",l:"THE API — THE MESSENGER",ok:true},ORG_OPTS[0],ORG_OPTS[1]],
+      yes:R.why,
+    },mode,onDone);
+    return;
+  }
+  const R=pick(ORG_BANK);
+  choiceProblem(st,{
+    scene:'<span class="floaty">🧩</span>', prompt:R.q,
+    spoken:R.q+". Frontend, backend, or database?",
+    noShuffle:true,
+    opts:ORG_OPTS.map(function(o,i){return {e:o.e,l:o.l,ok:i===R.a};}),
+    yes:R.why,
+  },mode,onDone);
+}};
+const APP_JOURNEYS=[
+ {name:"like a photo", steps:[["👆","YOU TAP THE HEART — FRONTEND"],["📨","THE API CARRIES YOUR TAP"],["🖥️","THE BACKEND COUNTS THE LIKE"],["🗄️","THE DATABASE SAVES IT FOREVER"],["📳","YOUR FRIEND SEES +1"]]},
+ {name:"post a comment", steps:[["⌨️","YOU TYPE IT — FRONTEND"],["📨","THE API DELIVERS IT"],["🖥️","THE BACKEND CHECKS IT'S OK"],["🗄️","THE DATABASE STORES IT"],["🌍","EVERYONE CAN SEE IT"]]},
+ {name:"buy a game item", steps:[["👆","YOU TAP BUY — FRONTEND"],["📨","THE API SENDS THE ORDER"],["🖥️","THE BACKEND CHECKS YOUR COINS"],["🗄️","THE DATABASE UPDATES YOUR BAG"],["🎉","THE ITEM APPEARS!"]]},
+ {name:"change your avatar", steps:[["🖼️","YOU PICK THE NEW LOOK"],["📨","THE API CARRIES IT UP"],["🖥️","THE BACKEND APPROVES IT"],["🗄️","THE DATABASE REMEMBERS IT"],["👀","FRIENDS SEE THE NEW YOU"]]},
+];
+SKILLS.journey={ title:"ONE TAP, FULL TRIP", emoji:"🎢", blurb:"Ride a tap through all four organs!",
+play:function(st,level,mode,onDone){
+  const C=pick(APP_JOURNEYS);
+  const len=Math.min(3+(level-1),5);
+  orderChain(st,{
+    headline:"THE TRIP: "+C.name.toUpperCase(),
+    steps:C.steps.slice(0,len).map(function(s){return {e:s[0],l:s[1]};}),
+    intro:"One tap: "+C.name+". Ride it through the app's organs, in the exact order it really travels.",
+    doneLine:"Frontend, API, backend, database — the full trip. Every tap you make rides this exact train.",
+  },mode,onDone);
+}};
+const CREW=[
+ ["🎨","THE DESIGNER","decides how it looks and feels"],
+ ["📱","THE FRONTEND DEV","builds the part you see and touch"],
+ ["🖥️","THE BACKEND DEV","builds the far-away thinking part"],
+ ["🗄️","THE DATA ENGINEER","keeps the memory safe and fast"],
+ ["🗺️","THE PM","decides what gets built next"],
+ ["🧪","THE TESTER","tries to break it before you do"],
+];
+const CREW_FACTS=[
+ {q:"The designer's beautiful button does NOTHING without...",a:"THE BACKEND DEV'S CODE",w:["MORE COLORS","A BIGGER BUTTON"],why:"A button with no backend is a doorbell wired to nothing. Apps are a team sport."},
+ {q:"The backend has nothing to say without...",a:"THE DATABASE",w:["THE LOGO","LOUDER SPEAKERS"],why:"No memory, no answers. Every part needs the others."},
+ {q:"Before an update ships, who tries to BREAK it on purpose?",a:"THE TESTER",w:["THE DESIGNER","NOBODY — IT JUST SHIPS"],why:"Testers break it in private so it doesn't break for you."},
+];
+SKILLS.crew={ title:"MEET THE CREW", emoji:"👷", blurb:"Who builds what? Match the crew to the job!",
+play:function(st,level,mode,onDone){
+  if(level>=2&&rint(3)===0){
+    const R=pick(CREW_FACTS);
+    choiceProblem(st,{
+      scene:'<span class="floaty">🤝</span>', prompt:R.q, spoken:R.q,
+      opts:[{l:R.a,ok:true}].concat(R.w.map(function(x){return {l:x};})),
+      yes:R.why,
+    },mode,onDone);
+    return;
+  }
+  const R=pick(CREW);
+  const others=sample(CREW.filter(function(c){return c[1]!==R[1];}),2);
+  if(rint(2)===0){
+    choiceProblem(st,{
+      scene:'<span class="floaty">'+R[0]+'</span>',
+      prompt:"Who "+R[2]+"?",
+      spoken:"On an app team — who "+R[2]+"?",
+      opts:[{e:R[0],l:R[1],ok:true}].concat(others.map(function(o){return {e:o[0],l:o[1]};})),
+      yes:"Right — "+R[1].toLowerCase()+" "+R[2]+".",
+    },mode,onDone);
+  } else {
+    choiceProblem(st,{
+      scene:'<span class="floaty">'+R[0]+'</span>',
+      prompt:"What does "+R[1]+" do?",
+      spoken:"What does "+R[1].toLowerCase()+" actually do all day?",
+      opts:[{l:R[2].toUpperCase(),ok:true}].concat(others.map(function(o){return {l:o[2].toUpperCase()};})),
+      yes:"Yep — and without them, the whole app wobbles. Team sport.",
+    },mode,onDone);
+  }
+}};
+/* ============================== TRACK 2: GREEN (databases) ============================== */
+function genTable(level){
+  const theme=rint(2)===0
+    ? {title:"PETS",cols:["NAME","SPECIES","AGE"],names:["Rex","Milo","Coco","Bubbles","Luna","Ziggy"],cats:["dog","cat","parrot","fish"],numName:"AGE",bigWord:"older"}
+    : {title:"PLAYERS",cols:["NAME","LEVEL","TEAM"],names:["Maya","Leo","Zoe","Kai","Ari","Sam"],cats:["RED","BLUE","GOLD"],numName:"LEVEL",bigWord:"above"};
+  const isPets=theme.title==="PETS";
+  const names=sample(theme.names,4);
+  let rows=names.map(function(nm){
+    const num=1+rint(isPets?9:12);
+    return isPets?[nm,pick(theme.cats),num]:[nm,num,pick(theme.cats)];
+  });
+  const numIdx=isPets?2:1, catIdx=isPets?1:2;
+  const html='<table class="dtable"><tr>'+theme.cols.map(function(c){return '<th>'+c+'</th>';}).join("")+'</tr>'+
+    rows.map(function(r){return '<tr>'+r.map(function(v){return '<td>'+escT(v)+'</td>';}).join("")+'</tr>';}).join("")+'</table>';
+  const kind=rint(3);
+  if(kind===0){ // lookup
+    const row=pick(rows);
+    const ans=String(row[catIdx]);
+    const wrongs=sample(theme.cats.filter(function(c){return String(c)!==ans;}),2).map(String);
+    return {html:html,q:"What "+(isPets?"SPECIES":"TEAM")+" is "+row[0]+"?",ans:ans.toUpperCase(),wrongs:wrongs.map(function(w){return w.toUpperCase();}),
+      why:"Find the row, slide across to the column. That's a database lookup."};
+  }
+  if(kind===1){ // filter count
+    for(let tries=0;tries<20;tries++){
+      const N=3+rint(6);
+      const cnt=rows.filter(function(r){return r[numIdx]>N;}).length;
+      if(cnt>=1&&cnt<=3){
+        return {html:html,q:"How many are "+theme.bigWord+" "+theme.numName.toLowerCase()+" "+N+"?",
+          ans:String(cnt),wrongs:[String(cnt+1),String(Math.max(0,cnt-1))],
+          why:"You just ran a QUERY: show me every row where "+theme.numName.toLowerCase()+" is bigger than "+N+"."};
+      }
+    }
+    const row=pick(rows);
+    return {html:html,q:"What "+(isPets?"SPECIES":"TEAM")+" is "+row[0]+"?",ans:String(row[catIdx]).toUpperCase(),
+      wrongs:sample(theme.cats.filter(function(c){return String(c)!==String(row[catIdx]);}),2).map(function(w){return String(w).toUpperCase();}),
+      why:"Row first, then column. Lookup complete."};
+  }
+  // max — ensure unique
+  let maxV=-1,maxN=null,tie=false;
+  rows.forEach(function(r){ if(r[numIdx]>maxV){maxV=r[numIdx];maxN=r[0];tie=false;} else if(r[numIdx]===maxV)tie=true; });
+  if(tie){ rows[0][numIdx]=13; maxN=rows[0][0]; }
+  const rebuilt='<table class="dtable"><tr>'+theme.cols.map(function(c){return '<th>'+c+'</th>';}).join("")+'</tr>'+
+    rows.map(function(r){return '<tr>'+r.map(function(v){return '<td>'+escT(v)+'</td>';}).join("")+'</tr>';}).join("")+'</table>';
+  return {html:rebuilt,q:"Who has the highest "+theme.numName+"?",ans:maxN,
+    wrongs:sample(rows.map(function(r){return r[0];}).filter(function(n){return n!==maxN;}),2),
+    why:"Scanning a column for the biggest value — databases do that across MILLIONS of rows in a blink."};
+}
+SKILLS.tables={ title:"TABLE DETECTIVE", emoji:"🔎", blurb:"Read real data tables like a pro!",
+play:function(st,level,mode,onDone){
+  const T=genTable(level);
+  choiceProblem(st,{
+    scene:T.html, sceneSize:"15px",
+    prompt:T.q, spoken:T.q+" Read the table!",
+    opts:[{l:String(T.ans),ok:true}].concat(T.wrongs.map(function(w){return {l:String(w)};})),
+    yes:T.why,
+  },mode,onDone);
+}};
+const DB_BANK=[
+ {q:"Which database is inside your phone RIGHT NOW, holding your texts?",a:"SQLITE",w:["POSTGRES","MONGODB"],why:"SQLite — tiny, quiet, and already living in your pocket."},
+ {q:"Which pair are big engines running huge websites?",a:"POSTGRES + MYSQL",w:["WIFI + BLUETOOTH","COPY + PASTE"],why:"Postgres and MySQL hold up half the internet."},
+ {q:"Which database keeps flexible boxes instead of strict tables?",a:"MONGODB",w:["MYSQL","SQLITE"],why:"MongoDB stores bendy documents — boxes of stuff, not rigid grids."},
+ {q:"One ROW in a pets table is...",a:"ONE PET'S WHOLE ENTRY",w:["ONE KIND OF INFO","A TYPE OF BOAT"],why:"A row is one thing's full entry — one pet, one player, one order."},
+ {q:"One COLUMN in a pets table is...",a:"ONE KIND OF INFO FOR EVERYONE",w:["ONE PET'S ENTRY","A ROMAN STATUE"],why:"A column is one kind of info — everyone's age, everyone's name."},
+ {q:"Delete the app from your phone. Your account...",a:"STILL LIVES IN THE DATABASE",w:["IS GONE FOREVER","MOVES TO THE BATTERY"],why:"The database is far away on a server. Deleting the app doesn't touch it — worth remembering."},
+ {q:"A query is...",a:"A QUESTION YOU ASK THE DATA",w:["A TYPE OF BUG","A LOUD PARROT"],why:"Show me every player above level nine — that's a query."},
+ {q:"The database answers most questions in...",a:"MILLISECONDS",w:["ABOUT AN HOUR","THREE DAYS"],why:"Milliseconds — that's why apps feel instant."},
+];
+SKILLS.dbmatch={ title:"NAME THAT ENGINE", emoji:"🏷️", blurb:"SQLite, Postgres, MongoDB — real names, real jobs!",
+play:function(st,level,mode,onDone){
+  const R=pick(DB_BANK);
+  choiceProblem(st,{
+    scene:'<span class="floaty">🗄️</span>', prompt:R.q, spoken:R.q,
+    opts:[{l:R.a,ok:true}].concat(R.w.map(function(x){return {l:x};})),
+    yes:R.why,
+  },mode,onDone);
+}};
+const COL_SCEN=[
+ {app:"a pet-shop app",ok:"NAME · SPECIES · PRICE",miss:"NAME · SPECIES",missWhy:"Without a PRICE column the shop can't sell a thing! Try again.",silly:"NAME · SPECIES · FAVORITE MOVIE",sillyWhy:"Pets don't have favorite movies. Every column must earn its place! Try again."},
+ {app:"a class-list app",ok:"NAME · GRADE · TEACHER",miss:"NAME",missWhy:"Just names? Which grade? Whose class? Too little to be useful. Try again.",silly:"NAME · GRADE · SHOE SIZE",sillyWhy:"Shoe size?! The school does not need that. Useful columns only. Try again."},
+ {app:"a game-inventory app",ok:"ITEM · POWER · OWNER",miss:"ITEM · POWER",missWhy:"No OWNER column — whose sword is whose? Chaos! Try again.",silly:"ITEM · POWER · SMELL",sillyWhy:"The SMELL of a sword. Really? Columns that matter, please. Try again."},
+ {app:"a pizza-order app",ok:"PIZZA · SIZE · ADDRESS",miss:"PIZZA · SIZE",missWhy:"No ADDRESS — where does the pizza GO? Disaster. Try again.",silly:"PIZZA · SIZE · DRIVER'S BIRTHDAY",sillyWhy:"The driver's birthday will not deliver this pizza. Try again."},
+];
+SKILLS.pickcol={ title:"DESIGN THE TABLE", emoji:"📐", blurb:"Pick the columns a real app would need!",
+play:function(st,level,mode,onDone){
+  const R=pick(COL_SCEN);
+  choiceProblem(st,{
+    scene:'<span class="floaty">📐</span>',
+    prompt:"Design the table for "+R.app+" — which columns?",
+    spoken:"You're the data engineer for "+R.app+"! Which set of columns does its table need?",
+    opts:[{l:R.ok,ok:true},{l:R.miss,no:R.missWhy},{l:R.silly,no:R.sillyWhy}],
+    yes:"Every column earns its place, nothing missing, nothing silly. Real table design.",
+  },mode,onDone);
+}};
+/* ============================== TRACK 2: PURPLE (debugging) ============================== */
+function genErrFix(level){
+  const t=level<=1?rint(3):rint(5);
+  let s,w;
+  switch(t){
+    case 0: s=3+rint(6);
+      return {lines:['score = '+s,'print(scor)'],fixLn:2,mission:String(s),
+        fix:'print(score)',wrongs:['print("scor")','scor = 7'],
+        why:"The error said it: I don't know scor. One missing letter — classic typo bug."};
+    case 1: w=pick(PY_WORDS);
+      return {lines:['print('+w+')'],fixLn:1,mission:w,
+        fix:'print("'+w+'")',wrongs:['print('+w+' + '+w+')','print(print)'],
+        why:"Without quotes, the machine hunts for a BOX named "+w+" — and finds nothing. Quotes make it a word."};
+    case 2:
+      return {lines:['power = 9','if power > 5','  print("mega")'],fixLn:2,mission:"mega",
+        fix:'if power > 5:',wrongs:['if power > 5;','print(if power)'],
+        why:"The colon tells the machine: the choosing starts here. Tiny character, big job."};
+    case 3:
+      return {lines:['age = 12','if age < 10:','  print("big kid")','else:','  print("little kid")'],fixLn:2,mission:"big kid",
+        fix:'if age > 10:',wrongs:['if age == 10:','if age < 5:'],
+        why:"No error this time — the code RAN, just wrong. The rule pointed the wrong way. Logic bugs hide quietly."};
+    default:
+      return {lines:['a = 3','b = "4"','print(a + b)'],fixLn:2,mission:"7",
+        fix:'b = 4',wrongs:['a = "3"','print(a)'],
+        why:"The quotes turned 4 into a word, so plus GLUED instead of adding. Sneakiest bug in the book."};
+  }
+}
+SKILLS.errfix={ title:"ERROR HUNTER", emoji:"🐛", blurb:"Read the error. Find the fix. Squash the bug!",
+play:function(st,level,mode,onDone){
+  const P=genErrFix(level);
+  const res=pixRun(P.lines.join("\n"));
+  choiceProblem(st,{
+    scene:codeBoxHTML(P.lines)+termHTML(res), sceneSize:"15px",
+    prompt:"Mission: print «"+P.mission+"». What should line "+P.fixLn+" be?",
+    spoken:(res.err?"The terminal is showing an error — read it, it's a clue! ":"No error — but it printed the WRONG thing. ")+"What should line "+P.fixLn+" be instead?",
+    opts:[{l:P.fix,ok:true}].concat(P.wrongs.map(function(x){return {l:x};})),
+    yes:P.why,
+  },mode,onDone);
+}};
+const SHIP_CHAINS=[
+ {name:"ship an update", steps:[["💡","PLAN THE NEW FEATURE"],["⌨️","WRITE THE CODE"],["🧪","TEST IT HARD"],["🐛","FIX WHAT BROKE"],["🚀","SHIP THE UPDATE"]]},
+ {name:"fix a crash — fast!", steps:[["😱","PLAYERS REPORT A CRASH"],["🔍","READ THE ERROR CLUES"],["🛠️","FIX THE BUG"],["🧪","TEST THE FIX"],["🚀","PUSH THE EMERGENCY UPDATE"]]},
+ {name:"hunt a bug", steps:[["🤔","GUESS WHAT'S WRONG"],["🧪","CHECK THE GUESS"],["🛠️","FIX ONE THING"],["▶️","RUN IT AGAIN"],["🎉","IT WORKS!"]]},
+];
+SKILLS.verorder={ title:"SHIP IT!", emoji:"🚀", blurb:"How real software really gets made!",
+play:function(st,level,mode,onDone){
+  const C=pick(SHIP_CHAINS);
+  const len=Math.min(3+(level-1),5);
+  orderChain(st,{
+    headline:"THE JOB: "+C.name.toUpperCase(),
+    steps:C.steps.slice(0,len).map(function(s){return {e:s[0],l:s[1]};}),
+    intro:"Real software teams: "+C.name+". Tap the steps in the order the pros really do them.",
+    doneLine:"That's the real loop. Nobody writes it perfect first try — not even the pros. ESPECIALLY not the pros.",
+  },mode,onDone);
+}};
 /* Test pool helper: which skills can appear in a belt test */
 function testableSkills(belt){
   if(/^black/.test(belt.id)){
@@ -2453,7 +3195,7 @@ function render(){
   stopSpeech(); replayFn=null;
   app.innerHTML="";
   const fn={start:renderStart,pick:renderPick,newprofile:renderNewProfile,map:renderMap,belt:renderBelt,lesson:renderLesson,practice:renderPractice,
-            test:renderTest,award:renderAward,playground:renderPlayground,arcade:renderArcade,grown:renderGrown}[S.screen];
+            test:renderTest,award:renderAward,playground:renderPlayground,arcade:renderArcade,terminal:renderTerminal,grown:renderGrown}[S.screen];
   fn();
 }
 /* ============================== START ============================== */
@@ -2828,7 +3570,9 @@ function renderAward(){
   app.appendChild(st);
   confetti(isBlack?80:48); pow(b.beltEmoji+" BELT!");
   const line=isBlack
-    ? "STOP EVERYTHING! "+NAME+" has earned... the BLACK BELT! Sequences, loops, if-then, variables, bug-hunting — you know them ALL! You are officially a CODING HERO! I am the proudest robot in the whole world!"
+    ? (b.id==="black2"
+      ? "STOP EVERYTHING! "+NAME+" has earned... the BLACK BELT! Hardware, the internet, app anatomy, databases, real code, debugging, and the truth about AI — you know how the machine world actually WORKS. You are officially an INSIDER. Proudest robot alive, right here."
+      : "STOP EVERYTHING! "+NAME+" has earned... the BLACK BELT! Sequences, loops, if-then, variables, bug-hunting — you know them ALL! You are officially a CODING HERO! I am the proudest robot in the whole world!")
     : "TA-DAAA! "+NAME+" earns the "+b.name+"! You passed the test — no luck, all skill! "+((!nxt||nxt.soon)?"You've finished every open class — new belts are coming soon!":"A brand new belt is waiting at headquarters!");
   replayFn=function(){speak(line);};
   speak(line);
@@ -2856,6 +3600,13 @@ function renderPlayground(){
     go("arcade");
   };
   st.appendChild(arc);
+  // pixel's terminal — free code play for the older track
+  if(ageBand()==="7-11"){
+    const tm=el('<div class="chapcard play"><div class="ce">🖥️</div>'+
+      '<div class="ct">PIXEL\'S TERMINAL<span class="cs">Type real code — run it, break it, fix it!</span></div><div class="cb">▶️</div></div>');
+    tm.onclick=function(){ go("terminal"); };
+    st.appendChild(tm);
+  }
   // unlocked practice skills
   TRACK().forEach(function(b,i){
     if(!beltOpen(i))return;
@@ -2929,6 +3680,47 @@ function renderArcade(){
     },1000);
   };
   const intro="Star catcher! When you tap a star, the game reacts — coders call that an EVENT! Press go, and catch as many as you can in twenty five seconds!";
+  replayFn=function(){speak(intro);};
+  speak(intro);
+}
+/* ============================== PIXEL'S TERMINAL (free play, 7-11) ============================== */
+function renderTerminal(){
+  app.appendChild(header("🖥️ PIXEL'S TERMINAL"));
+  const EX=[
+    {n:"👋 hello",c:'name = "'+NAME+'"\nprint("hi " + name)'},
+    {n:"➕ math",c:'a = 12\nb = 30\nprint(a + b)'},
+    {n:"🔱 fork",c:'power = 9\nif power > 5:\n  print("MEGA MODE")\nelse:\n  print("mini mode")'},
+    {n:"🐛 broken",c:'score = 7\nprint(scor)'},
+  ];
+  const st=el('<div class="stage">'+
+    '<div class="sub" style="font-size:15px;">Real code. It really runs. Break it — that\'s allowed.<br>'+
+    '<span style="color:var(--faint);font-size:13px;">This terminal understands print(...), boxes like score = 7, and if / else.</span></div>'+
+    '<div class="card">'+
+      '<textarea class="termta" id="tta" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>'+
+      '<div class="btnrow" style="margin-top:10px;"><button class="btn green" id="trun" style="font-size:22px;">▶ RUN</button>'+
+      '<button class="btn ghost" id="tclear">🧹</button></div>'+
+      '<div class="palette" id="texs" style="margin-top:10px;"></div>'+
+      '<div id="tout"></div>'+
+    '</div></div>');
+  app.appendChild(st);
+  const ta=st.querySelector("#tta"), tout=st.querySelector("#tout");
+  ta.value=EX[0].c;
+  let firstRun=true;
+  EX.forEach(function(ex){
+    const c=el('<div class="chip" style="font-size:14px;">'+ex.n+'</div>');
+    c.onclick=function(){ ta.value=ex.c; tout.innerHTML=""; };
+    st.querySelector("#texs").appendChild(c);
+  });
+  st.querySelector("#tclear").onclick=function(){ ta.value=""; tout.innerHTML=""; ta.focus(); };
+  st.querySelector("#trun").onclick=function(){
+    const res=pixRun(ta.value);
+    tout.innerHTML=termHTML(res);
+    if(firstRun){
+      firstRun=false;
+      speak(res.err?("An error — line "+res.err.ln+". Read it, it's a clue!"):"It ran! Your code, really running. Change something and run it again!");
+    }
+  };
+  const intro="Welcome to my terminal, "+NAME+". Type real code, press run, and watch it obey — or watch it complain! Try the example chips, or break things on purpose. Breaking things here is one hundred percent allowed.";
   replayFn=function(){speak(intro);};
   speak(intro);
 }
