@@ -274,6 +274,19 @@
   .villain img{width:min(52px,11vw);height:auto;display:block;}
   .hq-arch{display:block;margin:0 auto -18px;width:min(72%,380px);opacity:.9;filter:drop-shadow(0 6px 24px rgba(240,185,90,.15));}
   .fallstar img{width:48px;height:48px;display:block;pointer-events:none;}
+  /* binary switchboard (track 2) */
+  .bswrap{display:flex;gap:10px;justify-content:center;margin:10px 0 2px;}
+  .bscol{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .bsw{width:50px;height:76px;border-radius:15px;background:rgba(0,0,0,.3);border:1px solid var(--stroke);
+    display:flex;align-items:flex-end;justify-content:center;padding:6px;cursor:pointer;
+    transition:all .25s cubic-bezier(.3,1.4,.6,1);}
+  .bsw .knob{width:34px;height:34px;border-radius:50%;background:#3a3560;
+    transition:all .25s cubic-bezier(.3,1.4,.6,1);}
+  .bsw.on{background:rgba(240,185,90,.16);border-color:var(--gold);box-shadow:0 0 18px rgba(240,185,90,.35);}
+  .bsw.on .knob{transform:translateY(-28px);background:var(--gold);box-shadow:0 0 12px rgba(240,185,90,.8);}
+  .bsw.ro{cursor:default;pointer-events:none;}
+  .bsval{font-family:var(--disp);font-size:13px;color:var(--faint);}
+  .bsum{text-align:center;font-family:var(--disp);font-size:22px;color:var(--gold);margin:8px 0 2px;min-height:28px;}
   .pixel-mascot .pixel-antenna-light{transform-box:fill-box;transform-origin:center;animation:pixelAntenna 2.4s ease-in-out infinite;}
   .pixel-mascot .pixel-lid-left,.pixel-mascot .pixel-lid-right{transform-box:fill-box;transform-origin:top center;animation:pixelBlink 5.2s ease-in-out infinite;}
   .pixel-mascot.pixel-wave .pixel-arm-right{transform-box:view-box;transform-origin:173.5px 158px;animation:pixelWave .7s ease-in-out infinite;}
@@ -743,6 +756,8 @@ const LESSON_ART={
   "AGAIN AND AGAIN!":"scene-loops","READING LOOPS":"scene-loops",
   "MAKING CHOICES":"scene-ifthen","IF... ELSE!":"scene-ifthen",
   "THE MEMORY BOX":"scene-variables","BUGS HAPPEN!":"scene-debugging","THE FINAL MISSION":"scene-final",
+  "MEET THE MACHINE":"scene-hardware","ONE TAP'S JOURNEY":"scene-sequence",
+  "EVERYTHING IS SWITCHES":"scene-computer","THE TIME MACHINE":"scene-history",
 };
 function pixelSVG(pose,size){
   size=size||150; pose=(PIXEL_POSES[pose]?pose:"idle");
@@ -813,6 +828,7 @@ const BELT_GEMS={
   black:{hi:"#6B6386",base:"#3B3654",glow:.22,shine:.35,glowColor:"#F0B95A",stroke:"rgba(240,185,90,.5)"},
 };
 function beltGemSVG(beltId,size){
+  beltId=String(beltId).replace(/2$/,"");
   const g=BELT_GEMS[beltId]||BELT_GEMS.white; size=size||40;
   const gid="gm-"+beltId; // same id => same gradient per belt, so cross-instance collisions are harmless
   return '<svg viewBox="0 0 80 80" width="'+size+'" height="'+size+'" style="vertical-align:middle;" aria-hidden="true">'+
@@ -1070,7 +1086,139 @@ const BELTS=[
    ]},
   ]},
 ];
-function beltIdx(id){ return BELTS.findIndex(b=>b.id===id); }
+/* ============================== TRACK 2: AGES 7-11 (content filled in separately) ============================== */
+const BELTS2=[
+{ id:"white2", name:"WHITE BELT", concept:"HOW COMPUTERS WORK", beltEmoji:"⚪", color:"#EDE9E0",
+  skills:["parts","tapchain","binary","timemachine"], testN:6, testPass:5,
+  lessons:[
+   { title:"MEET THE MACHINE", emoji:"🔧", slides:[
+     {e:"🤖", t:"New class. Real answers.",
+      x:"Hey — Pixel here. You use computers all day: phone, tablet, console... all computers. Today someone finally shows you what's actually inside. Welcome to the real stuff."},
+     {e:"🧠", t:"The CPU — the brain.",
+      x:"The C P U is the part that does the thinking. Every tap, every game move, every message — the CPU runs the instructions. Billions of steps. Every second. Billions."},
+     {e:"📝", t:"RAM — the desk.",
+      x:"RAM is the computer's desk. Everything it's working on RIGHT NOW sits there — your open game, your half-typed message. Too much on the desk and things get shoved off. That's why a phone with too many open apps gets slow."},
+     {e:"📦", t:"Storage — the shelf.",
+      x:"Storage is the shelf where everything is kept for later — photos, apps, downloads. When the shelf is full, you get the dreaded STORAGE FULL. The desk is small and fast. The shelf is big and slower. Different jobs."},
+     {check:{t:"The game you're playing RIGHT NOW sits mostly on the...", spoken:"Quick one. The stuff the computer is actively working on, right now — where does it sit?",
+       opts:[{e:"📝",l:"RAM — THE DESK",ok:true},{e:"📦",l:"STORAGE — THE SHELF",no:"Storage keeps things for LATER. Right-now work sits on the desk — RAM. Again."},{e:"🔋",l:"THE BATTERY",no:"The battery just delivers power. Nothing sits on it. Again."}],
+       yes:"Yep — RAM. Working stuff sits on the desk."}},
+     {e:"🎨", t:"The GPU — the artist.",
+      x:"The G P U draws every single pixel you see — and redraws the whole screen about sixty times a second. Smooth graphics? Thank the GPU. It's the part game consoles brag about."},
+     {e:"📡", t:"The radio — your invisible cable.",
+      x:"WiFi, Bluetooth, mobile data — there's a tiny radio inside, talking through the air. No bars in the elevator? Nothing is broken. The radio just can't hear the tower through all that metal."},
+     {check:{t:"The graphics look SILKY smooth. Who takes the credit?", spoken:"The graphics look silky smooth. Which part takes the credit?",
+       opts:[{e:"🎨",l:"THE GPU",ok:true},{e:"📦",l:"STORAGE",no:"Storage just keeps the game's files on the shelf. The drawing is someone else's job. Again."},{e:"🔊",l:"THE SPEAKER",no:"The speaker handles sound, not pictures. Again."}],
+       yes:"The GPU — the artist. Sixty repaints a second, zero complaints."}},
+   ]},
+   { title:"ONE TAP'S JOURNEY", emoji:"👆", slides:[
+     {e:"👆", t:"You tap. Then what?",
+      x:"You tap an app and it opens. Feels instant, right? In that blink, a whole chain of steps ran in a precise order. Let me slow time down for you."},
+     {e:"⏰", t:"Step 1: the OS notices.",
+      x:"The operating system — the boss program that runs the whole device — feels your tap and gives the order: wake up, you're needed."},
+     {e:"📦", t:"Step 2: shelf to desk.",
+      x:"The app gets copied from storage — the shelf — into RAM — the desk. That little wait when a big game starts? That's the copying, happening live."},
+     {e:"🧠", t:"Step 3: the CPU runs it.",
+      x:"Now the CPU starts running the app's instructions — millions of them, one after another, in exact order. No skipping. Ever."},
+     {e:"🎨", t:"Step 4: the GPU draws it.",
+      x:"The GPU paints the screen — and keeps repainting it, sixty times a second, for as long as the app is open."},
+     {check:{t:"What happens FIRST after your tap?", spoken:"Check. What happens FIRST, right after your finger taps the icon?",
+       opts:[{e:"⏰",l:"THE OS NOTICES",ok:true},{e:"🎨",l:"THE GPU DRAWS THE APP",no:"Drawing comes last — you can't draw an app nobody has woken up yet. Again."},{e:"📦",l:"THE APP COPIES INTO RAM",no:"Close — but someone has to give that order first. The boss notices, THEN the copying starts. Again."}],
+       yes:"The OS notices first. Boss program. Always on duty."}},
+     {e:"⚡", t:"All of that — in one blink.",
+      x:"Notice what that was: a SEQUENCE. Exact steps, exact order, ridiculous speed. Computers never skip steps — they're just too fast for you to catch them. In the arena, you'll rebuild these chains yourself."},
+   ]},
+   { title:"EVERYTHING IS SWITCHES", emoji:"🎛️", slides:[
+     {e:"🔦", t:"Ready for the big secret?",
+      x:"Here's the actual secret of every computer on Earth. Deep, deep down... it's all tiny switches. On. Off. That's it. That's the whole trick."},
+     {e:"💡", t:"On = 1. Off = 0.",
+      x:"A switch that's on, we call one. Off, we call zero. One switch can't say much. But BILLIONS of switches, flipping billions of times a second? That's your phone. Seriously."},
+     {e:"🔢", t:"Switches can count.",
+      x:"Line up five switches and give them values: sixteen, eight, four, two, one. Flip some on, add them up. Eight plus two is ten. Congratulations — you just counted in binary, the language of every machine."},
+     {e:"🔤", t:"And numbers can be letters.",
+      x:"Give every letter a number — A is one, B is two, all the way to Z at twenty six. Now switches can SPELL. Every message you've ever sent was secretly switches, spelling with numbers."},
+     {check:{t:"Deep down, a computer is really...", spoken:"So — deep down, what is a computer, really?",
+       opts:[{e:"💡",l:"BILLIONS OF TINY SWITCHES",ok:true},{e:"🧠",l:"A LITTLE BRAIN THAT THINKS",no:"No brain, no thoughts — just switches following instructions. Which is weirder AND cooler. Again."},{e:"🪄",l:"PURE MAGIC",no:"It genuinely looks like magic. It's switches. Honestly, that's better. Again."}],
+       yes:"Billions of switches, on and off. Everything else is built on top of that."}},
+     {e:"🎛️", t:"Your turn.",
+      x:"In the practice arena there's a switchboard waiting with your name on it. You're going to spell real letters in pure binary. Yes, actual binary. You're ready."},
+   ]},
+   { title:"THE TIME MACHINE", emoji:"🕰️", slides:[
+     {e:"🕰️", t:"Same jobs. New tools.",
+      x:"Kids always did homework, made plans, listened to music, and bugged their friends. The JOBS never changed — the TOOLS did. Hop in the time machine. Let's go see how people managed."},
+     {e:"🏫", t:"School, 1975.",
+      x:"No laptops, no search. You looked things up in an encyclopedia — twenty heavy books, already out of date. Worksheets came off a hand-cranked copy machine with purple ink. And homework was one hundred percent paper."},
+     {e:"☎️", t:"Making plans, 1980.",
+      x:"One phone. Wired to the wall. If your friend was out — you simply did not reach them. People memorized their friends' numbers! Ask your grandparents — they still remember numbers from fifty years ago."},
+     {e:"📼", t:"Music, 1990.",
+      x:"You waited by the radio for your favorite song with a finger on the record button. Missed the start? Wait another hour. A tape held about fifteen songs. Your playlist holds fifteen thousand."},
+     {check:{t:"It's 1980. Your friend isn't home. You...", spoken:"Time machine check. It's nineteen eighty. You call, and your friend is not home. What can you actually do?",
+       opts:[{e:"⏳",l:"WAIT AND TRY LATER",ok:true},{e:"💬",l:"JUST TEXT THEM",no:"Text them WHERE? No mobile phones, no texting — that's twenty years away. Again."},{e:"📨",l:"DM THEM",no:"The internet barely exists and nobody is on it. Again."}],
+       yes:"You waited. Or biked to their house and knocked. Plans took actual planning."}},
+     {e:"🔁", t:"But look closer...",
+      x:"Kids in 1980 still made plans. Still shared music. Still passed notes in class — paper DMs, basically. The jobs never changed. The tools just got so fast that the waiting disappeared. THAT is what computers did to the world."},
+     {check:{t:"So what really changed between THEN and NOW?", spoken:"So what really changed between then and now?",
+       opts:[{e:"🛠️",l:"THE TOOLS — NOT THE JOBS",ok:true},{e:"🗣️",l:"PEOPLE STOPPED TALKING",no:"People talk more than ever — just through different tools. Again."},{e:"💯",l:"ABSOLUTELY EVERYTHING",no:"Look again — making plans, music, homework... the jobs are all still here. What changed is HOW. Again."}],
+       yes:"Exactly. Same jobs, faster tools. That's the smartest way to think about all technology."}},
+   ]},
+  ]},
+{ id:"yellow2", name:"YELLOW BELT", concept:"THE INTERNET", beltEmoji:"🟡", color:"#F2C94C",
+  skills:["urltrip","packet","cs"], testN:6, testPass:5,
+  lessons:[
+   { title:"WHERE THE CLOUD LIVES", emoji:"☁️", slides:[
+     {e:"☁️", t:"'The cloud' is a building.",
+      x:"Your photos are 'in the cloud'. Cool. Here's the thing — the cloud is a real building called a DATA CENTER. A giant warehouse packed with thousands of computers, humming in the dark, kept freezing cold so they don't overheat."},
+     {e:"🖥️", t:"Racks and racks of servers.",
+      x:"Those computers are called SERVERS. No screens, no keyboards — just stacked machines with blinking lights, working for millions of people at once. Your photos live on a few of them right now, in a building you will never visit."},
+     {e:"🧊", t:"Cold air. Backup power.",
+      x:"Data centers need monster air conditioning, and backup generators too — because if one loses power, a chunk of the internet goes dark with it. Somewhere out there, someone's whole job is keeping those rooms cold."},
+     {check:{t:"So where IS the cloud, really?", spoken:"So — where is the cloud, really?",
+       opts:[{e:"🏢",l:"A BUILDING FULL OF SERVERS",ok:true},{e:"🌦️",l:"UP IN THE SKY",no:"The sky has regular clouds. Your photos are in a very cold warehouse. Less poetic — more true. Again."},{e:"📱",l:"INSIDE YOUR PHONE",no:"If it lived in your phone, losing the phone would lose everything. It lives in a data center — which is exactly why it's safe. Again."}],
+       yes:"A building full of servers. Every cloud thing you use lives in one."}},
+     {e:"🌍", t:"They're everywhere.",
+      x:"Big tech companies run HUNDREDS of these buildings all over the world, so there's always one near-ish to you. Next time someone says 'the cloud', picture it properly: racks, blinking lights, cold air, hum."},
+   ]},
+   { title:"ASK + ANSWER", emoji:"🏓", slides:[
+     {e:"🏓", t:"The internet's only rule.",
+      x:"Everything online is one single pattern: somebody ASKS, somebody ANSWERS. Your device asks. A server answers. Ask, answer, ask, answer, forever. That's it. That's the internet."},
+     {e:"📱", t:"Your device = the CLIENT.",
+      x:"The asker is called the CLIENT. Your phone, your tablet, your console — all clients. When you open a video, your device is asking a server: hey, send me that video. Please. Well... without the please."},
+     {e:"🖥️", t:"The answerer = the SERVER.",
+      x:"The server has the stuff — the videos, the messages, the game worlds. It sits in that freezing data center answering MILLIONS of asks every second, without ever getting bored. Servers don't do bored."},
+     {check:{t:"You hit play on a video. Who actually HAS the video?", spoken:"You hit play on a video. Who actually has the video file?",
+       opts:[{e:"🖥️",l:"THE SERVER",ok:true},{e:"📱",l:"YOUR PHONE",no:"If the whole video were already on your phone, you wouldn't need internet to watch it. Your phone asks — the server sends. Again."},{e:"🎨",l:"THE SCREEN",no:"The screen just shows what it's given. The file lives far away. Again."}],
+       yes:"The server. Your phone asks, and the video streams over, piece by piece."}},
+     {e:"💬", t:"Where messages wait.",
+      x:"Send a message while your friend's phone is dead. Where does it go? It waits ON THE SERVER. When their phone wakes up, it asks the server: anything for me? — and gets your message. Messages never fly phone to phone. They always go through the middle."},
+     {check:{t:"Friend's phone is OFF. Your message...", spoken:"Your friend's phone is completely off. What happens to your message?",
+       opts:[{e:"🖥️",l:"WAITS ON THE SERVER",ok:true},{e:"↩️",l:"BOUNCES BACK TO YOU",no:"Nothing bounces — the middle just holds it. Again."},{e:"✨",l:"TELEPORTS INTO THEIR PHONE",no:"Into a phone that's OFF? Nothing enters a dead phone. The server holds it until the phone asks. Again."}],
+       yes:"It waits on the server — which is exactly why it arrives the second they're back online."}},
+   ]},
+   { title:"A MESSAGE'S JOURNEY", emoji:"✉️", slides:[
+     {e:"⌨️", t:"You type a site's name...",
+      x:"...and hit enter. Here's the secret journey. First problem: the internet doesn't know NAMES — it knows number addresses. So your device asks a phonebook service called D N S: what's the address for this name?"},
+     {e:"📖", t:"DNS — the phonebook.",
+      x:"D N S answers with the server's address in a few milliseconds. This happens for every site, every single time — so fast you've never even noticed it exists. Now you know one of the internet's secret services."},
+     {e:"✂️", t:"Data travels in packets.",
+      x:"And here's the weird part. Your data doesn't travel in one piece! It gets chopped into thousands of little chunks called PACKETS. Each packet races across the internet on its own — hopping from router to router — and everything gets rebuilt at the other end. One photo can be a thousand packets."},
+     {check:{t:"DNS's job is to...", spoken:"Quick check. What is D N S's job?",
+       opts:[{e:"📖",l:"TURN NAMES INTO ADDRESSES",ok:true},{e:"📦",l:"CARRY THE PACKETS",no:"Routers do the carrying. D N S is the phonebook you check BEFORE the trip. Again."},{e:"🎨",l:"DRAW THE WEBSITE",no:"Your browser draws the page — at the very end. D N S works at the very start. Again."}],
+       yes:"The phonebook. Name in, address out, journey begins."}},
+     {e:"⏳", t:"Why the spinner spins.",
+      x:"When you see the loading spinner, nothing is broken. Your request is literally TRAVELING — maybe across an ocean, through cables lying on the sea floor — and the answer has to travel all the way back. Far server, slower answer. Near server, snappy. Distance is real, even online."},
+     {check:{t:"The spinner is spinning. What's ACTUALLY happening?", spoken:"The spinner is spinning. What is actually happening?",
+       opts:[{e:"✈️",l:"THE ANSWER IS STILL TRAVELING",ok:true},{e:"🤔",l:"THE PHONE IS THINKING HARD",no:"Your phone finished asking ages ago — it's waiting for the answer to travel back. Again."},{e:"😤",l:"THE APP IS SULKING",no:"Apps don't sulk. Data travels. Sometimes across the literal ocean floor. Again."}],
+       yes:"Traveling. Sometimes across the actual ocean floor. Give it a second."}},
+   ]},
+  ]},
+{ id:"orange2", name:"ORANGE BELT", concept:"WHAT APPS ARE MADE OF", beltEmoji:"🟠", color:"#EE9A5C", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
+{ id:"green2", name:"GREEN BELT", concept:"DATABASES", beltEmoji:"🟢", color:"#6CC48F", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
+{ id:"blue2", name:"BLUE BELT", concept:"REAL CODE", beltEmoji:"🔵", color:"#7FA9DB", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
+{ id:"purple2", name:"PURPLE BELT", concept:"DEBUGGING", beltEmoji:"🟣", color:"#A98FE0", soon:true, skills:[], testN:6, testPass:5, lessons:[]},
+{ id:"black2", name:"BLACK BELT", concept:"AI + THE FINAL BUILD", beltEmoji:"⚫", color:"#4A4460", soon:true, skills:[], testN:8, testPass:6, lessons:[]},
+];
+function TRACK(){ return ageBand()==="7-11" ? BELTS2 : BELTS; }
+function beltIdx(id){ return TRACK().findIndex(b=>b.id===id); }
 /* ============================== PROBLEM POOLS ============================== */
 const HUNT_YES=[["📱","TABLET"],["📺","TV"],["💻","LAPTOP"],["🎮","GAME CONSOLE"],["🤖","ROBOT VACUUM"],["⌚","SMART WATCH"],["📷","CAMERA"],["🚗","CAR"],["🛸","DRONE"],["🖥️","COMPUTER"]];
 const HUNT_NO=[["🧸","TEDDY"],["⚽","BALL"],["🍕","PIZZA"],["🪴","PLANT"],["📖","STORY BOOK"],["🖍️","CRAYONS"],["🧦","SOCKS"],["🥪","SANDWICH"],["🌳","TREE"],["🥄","SPOON"],["🧺","BASKET"],["🎈","BALLOON"]];
@@ -1895,10 +2043,383 @@ play:function(st,level,mode,onDone){
     yes:"Yes! Those two steps were flipped! The right order is: "+R.steps.map(s=>s[1].toLowerCase()).join(", then ")+". Bug squashed!",
   },mode,onDone);
 }};
+/* ============================== TRACK 2 (7-11) POOLS + SKILLS ============================== */
+const PARTS2=[
+ {k:"cpu",e:"🧠",l:"CPU — THE BRAIN"},
+ {k:"ram",e:"📝",l:"RAM — THE DESK"},
+ {k:"sto",e:"📦",l:"STORAGE — THE SHELF"},
+ {k:"gpu",e:"🎨",l:"GPU — THE ARTIST"},
+ {k:"bat",e:"🔋",l:"THE BATTERY"},
+ {k:"rad",e:"📡",l:"THE RADIO — WIFI + DATA"},
+ {k:"scr",e:"🖥️",l:"THE TOUCHSCREEN"},
+ {k:"spk",e:"🔊",l:"THE SPEAKER"},
+];
+const PARTS_SIT=[
+ {k:"cpu",e:"🐌",sit:"The game is thinking SO slowly — every move takes forever.",ask:"Which part is overloaded?",why:"The CPU runs every instruction — overload it, and everything thinks slowly."},
+ {k:"cpu",e:"⚡",sit:"Billions of instructions are being followed every single second.",ask:"Which part does that?",why:"That's the CPU's whole job — billions of steps a second."},
+ {k:"ram",e:"🤯",sit:"Twelve apps open — and the phone starts forgetting what it was doing.",ask:"Whose desk is too full?",why:"RAM is the desk. Overload the desk, and things fall off."},
+ {k:"ram",e:"🗂️",sit:"Everything being worked on RIGHT NOW sits in this part.",ask:"Which part is it?",why:"RAM holds the right-now work. Fast, small, busy."},
+ {k:"sto",e:"🚫",sit:"STORAGE FULL! No room for even one more photo.",ask:"Which part ran out of space?",why:"Storage is the shelf — full shelf, no new photos."},
+ {k:"sto",e:"⬇️",sit:"The new game finished downloading and is kept for later.",ask:"Where is it kept?",why:"Downloads sit on storage until you open them."},
+ {k:"gpu",e:"✨",sit:"The picture is redrawn sixty times every second — silky smooth.",ask:"Which part draws it?",why:"The GPU repaints the whole screen sixty times a second."},
+ {k:"gpu",e:"🎮",sit:"Game consoles LOVE to brag about how strong this part is.",ask:"Which part?",why:"Better GPU, smoother graphics — that's the brag."},
+ {k:"bat",e:"🪫",sit:"Forty percent at lunch... black screen by three.",ask:"Which part gave up?",why:"No battery, no anything. Power comes first."},
+ {k:"rad",e:"🛗",sit:"In the elevator, nothing loads. Zero bars.",ask:"Which part can't reach the tower?",why:"The radio can't hear the tower through all that metal."},
+ {k:"rad",e:"📶",sit:"WiFi at home, mobile data outside — something is talking through the air.",ask:"Which part talks through the air?",why:"WiFi, Bluetooth, mobile data — all the radio's department."},
+ {k:"scr",e:"👆",sit:"You tap and tap... but the taps aren't being felt.",ask:"Which part feels your taps?",why:"The touchscreen is how the machine feels you."},
+ {k:"spk",e:"🔇",sit:"The video is playing... in total silence.",ask:"Which part isn't doing its job?",why:"Sound is the speaker's one and only job."},
+];
+const CHAINS2=[
+ {name:"open a game", steps:[["👆","YOU TAP THE GAME ICON"],["⏰","THE OS NOTICES THE TAP"],["📦","GAME COPIES INTO RAM"],["🧠","CPU RUNS THE GAME CODE"],["🎨","GPU DRAWS THE MENU"]]},
+ {name:"snap a photo", steps:[["👆","YOU TAP THE SHUTTER"],["📸","THE CAMERA CATCHES THE LIGHT"],["🧠","CPU TURNS IT INTO A PHOTO FILE"],["📦","THE FILE SAVES TO STORAGE"],["🖼️","THE GALLERY SHOWS IT"]]},
+ {name:"send a message", steps:[["⌨️","YOU TYPE THE MESSAGE"],["👆","YOU TAP SEND"],["📡","THE RADIO BEAMS IT TO A TOWER"],["🖥️","A SERVER PASSES IT ALONG"],["📳","YOUR FRIEND'S PHONE BUZZES"]]},
+ {name:"play a video", steps:[["👆","YOU TAP PLAY"],["📡","YOUR DEVICE ASKS THE SERVER"],["🖥️","THE SERVER STREAMS THE VIDEO"],["🎨","GPU DRAWS EVERY FRAME"],["🔊","THE SPEAKER PLAYS THE SOUND"]]},
+ {name:"wake up to an alarm", steps:[["⏰","ALARM TIME ARRIVES"],["🧠","CPU WAKES THE ALARM APP"],["🔊","THE SPEAKER STARTS THE SOUND"],["👆","YOU TAP SNOOZE"],["😴","FIVE MORE MINUTES"]]},
+];
+const NET_JOURNEYS=[
+ {name:"load a website", steps:[["⌨️","TYPE THE WEBSITE NAME"],["📖","DNS FINDS THE SERVER'S ADDRESS"],["📡","YOUR REQUEST RACES ACROSS THE NET"],["🖥️","THE SERVER SENDS THE PAGE BACK"],["🎨","YOUR BROWSER DRAWS THE PAGE"]]},
+ {name:"watch a video", steps:[["👆","TAP THE VIDEO"],["📖","DNS FINDS THE VIDEO SERVER"],["📡","YOUR DEVICE ASKS FOR THE VIDEO"],["🖥️","THE SERVER STREAMS IT BACK"],["▶️","THE VIDEO PLAYS"]]},
+ {name:"message a friend", steps:[["⌨️","TYPE THE MESSAGE"],["👆","TAP SEND"],["📡","IT TRAVELS TO THE SERVER"],["🖥️","THE SERVER HOLDS IT SAFE"],["📳","FRIEND OPENS THE APP — DELIVERED"]]},
+ {name:"save a photo to the cloud", steps:[["📸","SNAP THE PHOTO"],["✂️","IT'S CHOPPED INTO PACKETS"],["📡","PACKETS RACE ACROSS THE NET"],["🖥️","THE SERVER REBUILDS THE PHOTO"],["☁️","SAVED IN THE DATA CENTER"]]},
+ {name:"make a move in an online game", steps:[["🕹️","YOU MAKE YOUR MOVE"],["📡","THE MOVE ZOOMS TO THE SERVER"],["🖥️","THE SERVER UPDATES THE WORLD"],["📡","THE NEW WORLD ZOOMS BACK"],["🎨","EVERYONE'S SCREEN UPDATES"]]},
+];
+const TM_ITEMS=[
+ {e:"📚",l:"SEARCH A 20-BOOK ENCYCLOPEDIA",cat:"then",why:"Now the answer takes three seconds online."},
+ {e:"🔎",l:"LOOK UP THE ANSWER ONLINE",cat:"now",why:"Before the internet, this meant a trip to the library."},
+ {e:"📝",l:"DO HOMEWORK",cat:"both",why:"Homework survived every era. Sorry."},
+ {e:"☎️",l:"MEMORIZE YOUR FRIEND'S PHONE NUMBER",cat:"then",why:"One wall phone, no contacts app — numbers lived in your head."},
+ {e:"💬",l:"TEXT 'HERE!' FROM THE CAR",cat:"now",why:"In 1980 you just stood outside and hoped."},
+ {e:"🤝",l:"MAKE PLANS WITH FRIENDS",cat:"both",why:"The job never changed — only the tool did."},
+ {e:"📼",l:"RECORD YOUR SONG OFF THE RADIO",cat:"then",why:"Finger on the record button, waiting. Miss it? Wait another hour."},
+ {e:"🎧",l:"STREAM ANY SONG INSTANTLY",cat:"now",why:"Fifteen thousand songs in your pocket."},
+ {e:"🎵",l:"LISTEN TO MUSIC",cat:"both",why:"Different machines every era — same joy."},
+ {e:"🎞️",l:"WAIT DAYS TO SEE YOUR PHOTOS",cat:"then",why:"Film had to be developed at a shop. DAYS."},
+ {e:"🤳",l:"SEE THE PHOTO THE INSTANT YOU TAKE IT",cat:"now",why:"Click — there it is. Film kids would faint."},
+ {e:"🖼️",l:"KEEP PHOTOS OF PEOPLE YOU LOVE",cat:"both",why:"Shoeboxes then, camera rolls now — same love."},
+ {e:"✉️",l:"PASS PAPER NOTES IN CLASS",cat:"then",why:"The original DM. Foldable. Interceptable."},
+ {e:"🗞️",l:"CATCH UP ON THE NEWS",cat:"both",why:"Paper then, feed now — still the news."},
+ {e:"🗺️",l:"PLAN THE WHOLE ROUTE ON A PAPER MAP",cat:"then",why:"Before GPS, someone in the car was the navigator. Usually arguing."},
+ {e:"🧭",l:"FIND YOUR WAY SOMEWHERE NEW",cat:"both",why:"Maps got smarter; getting lost got harder."},
+ {e:"📞",l:"WAIT AT HOME SO YOU DON'T MISS A CALL",cat:"then",why:"The phone was bolted to the wall — so YOU waited by it."},
+ {e:"📹",l:"VIDEO CALL FAMILY FAR AWAY",cat:"now",why:"Grandma, live, in one second. 1980 would call this sorcery."},
+];
+const TM_ORDER=[
+ {q:"Music machines — which came FIRST?",first:{e:"📼",l:"CASSETTE TAPE"},later:[{e:"💿",l:"CD"},{e:"🎧",l:"STREAMING"}]},
+ {q:"Talking to far-away family — which came FIRST?",first:{e:"✉️",l:"PAPER LETTER"},later:[{e:"☎️",l:"HOME TELEPHONE"},{e:"📹",l:"VIDEO CALL"}]},
+ {q:"Finding your way — which came FIRST?",first:{e:"🗺️",l:"PAPER MAP"},later:[{e:"🚗",l:"CAR GPS"},{e:"📱",l:"PHONE MAPS"}]},
+ {q:"Finding answers — which came FIRST?",first:{e:"📚",l:"PAPER ENCYCLOPEDIA"},later:[{e:"💿",l:"ENCYCLOPEDIA ON CD"},{e:"🔎",l:"SEARCH ENGINE"}]},
+ {q:"Photos — which came FIRST?",first:{e:"🎞️",l:"FILM CAMERA"},later:[{e:"📷",l:"DIGITAL CAMERA"},{e:"🤳",l:"PHONE CAMERA"}]},
+ {q:"Watching shows — which came FIRST?",first:{e:"📺",l:"LIVE TV ONLY"},later:[{e:"📼",l:"VHS TAPES"},{e:"📱",l:"STREAMING APPS"}]},
+];
+const CS_OPTS=[{e:"📱",l:"YOUR DEVICE — THE CLIENT"},{e:"🖥️",l:"THE SERVER — IN THE DATA CENTER"}];
+const CS_BANK=[
+ {q:"The video file itself lives on...",a:1,why:"Your device only borrows it, piece by piece. The file stays on the server."},
+ {q:"Your finger's tap gets felt by...",a:0,why:"Everything you touch and see — that's the client's department."},
+ {q:"A message for your OFFLINE friend waits on...",a:1,why:"The server holds it until their phone comes back and asks."},
+ {q:"The screen gets drawn by...",a:0,why:"Drawing the screen is client work — sixty times a second."},
+ {q:"Your password gets checked by...",a:1,why:"The server checks it — so a stolen phone can't just say 'trust me'."},
+ {q:"Your photos back up overnight to...",a:1,why:"Off your device, into the data center. That's what a backup IS."},
+ {q:"The ASKER in every internet conversation is...",a:0,why:"Clients ask. Servers answer. That's the whole dance."},
+ {q:"The ANSWERER with all the stuff is...",a:1,why:"Millions of asks a second, answered from the racks."},
+ {q:"The shared world of an online game is kept by...",a:1,why:"One world for every player — it has to live in the middle."},
+ {q:"Your volume buttons are handled by...",a:0,why:"Strictly local. No internet needed to get louder."},
+];
+const CLOUD_FACTS=[
+ {q:"'The cloud' is REALLY...",opts:[["🏢","A BUILDING FULL OF SERVERS",1],["🌦️","ACTUAL CLOUDS IN THE SKY",0],["👻","A GHOST DIMENSION",0]],why:"A very cold warehouse full of humming computers."},
+ {q:"Data centers are kept...",opts:[["🥶","FREEZING COLD",1],["🔥","NICE AND TOASTY",0],["🎈","FULL OF BALLOONS",0]],why:"Thousands of computers make heat — the cold keeps them alive."},
+ {q:"The loading spinner means...",opts:[["✈️","YOUR REQUEST IS STILL TRAVELING",1],["😡","THE APP IS ANGRY AT YOU",0],["💀","THE PHONE IS BROKEN",0]],why:"Ask, travel, answer, travel back. Distance takes time — even online."},
+ {q:"A server far, far away means...",opts:[["🐢","A SLOWER ANSWER",1],["🔊","A LOUDER PHONE",0],["🔍","A BIGGER SCREEN",0]],why:"Longer trip, longer wait — that's why they build data centers near you."},
+ {q:"If a data center loses power...",opts:[["🔋","BACKUP GENERATORS KICK IN",1],["🫥","THE INTERNET IS DELETED",0],["😴","EVERYONE'S PHONE TAKES A NAP",0]],why:"Backup batteries and generators — the internet is not allowed naps."},
+ {q:"A server is basically...",opts:[["🖥️","A COMPUTER THAT ANSWERS ASKS",1],["🍽️","A ROBOT WAITER",0],["📶","A TYPE OF WIFI",0]],why:"No screen, no keyboard — just a machine answering requests all day long."},
+];
+/* ---------- shared: tap-the-steps-in-order engine (track 2) ---------- */
+function orderChain(st,cfg,mode,onDone){
+  const steps=cfg.steps.map(function(s,i){return {e:s.e,l:s.l,idx:i};});
+  const cards=shuffle(steps.slice());
+  let need=0, over=false, anyWrong=false;
+  const card=el('<div class="card">'+
+    '<div class="sub" style="font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">'+cfg.headline+'</div>'+
+    '<div class="slotrow" id="slots"></div>'+
+    '<div class="optgrid" id="cards" style="grid-template-columns:repeat('+Math.min(cards.length,3)+',1fr);"></div>'+
+    '<div class="feedback" id="fb">What happens FIRST?</div></div>');
+  st.appendChild(card);
+  const slots=card.querySelector("#slots"), fb=card.querySelector("#fb");
+  steps.forEach(function(){slots.appendChild(el('<div class="slot">·</div>'));});
+  cards.forEach(function(o){
+    const c=el('<div class="opt"><span class="e">'+o.e+'</span><span class="l">'+o.l+'</span></div>');
+    c.onclick=function(){
+      if(over||c.classList.contains("dim"))return;
+      if(o.idx===need){
+        c.classList.add("dim");
+        const slot=slots.children[need];
+        slot.textContent=o.e; slot.classList.add("filled");
+        need++;
+        if(need>=steps.length){
+          over=true;
+          const win=(mode!=="test"||!anyWrong);
+          pow("DONE!"); if(win)confetti(24);
+          fb.textContent="⭐ SEQUENCE COMPLETE! ⭐";
+          speak(win?cfg.doneLine:"Finished — but a few steps got tangled on the way. Watch the order next time!",
+            {onend:function(){onDone(win);}});
+        }else{ fb.textContent="What happens NEXT?"; speak(pick(["Right. Then?","Correct. Next?","Yep. What now?","Good. Keep going."])); }
+      }else{
+        anyWrong=true;
+        c.classList.remove("wrong"); void c.offsetWidth; c.classList.add("wrong");
+        speak("Not that one yet. What really happens "+(need===0?"first":"next")+"?");
+      }
+    };
+    card.querySelector("#cards").appendChild(c);
+  });
+  replayFn=function(){speak(cfg.intro);};
+  speak(cfg.intro);
+}
+/* ---------- WHITE2: Part Detective ---------- */
+SKILLS.parts={ title:"PART DETECTIVE", emoji:"🕵️", blurb:"Which part of the machine does the job?",
+play:function(st,level,mode,onDone){
+  const R=pick(PARTS_SIT);
+  const right=PARTS2.find(function(p){return p.k===R.k;});
+  let wrongs;
+  if(level>=2&&(R.k==="ram"||R.k==="sto")){
+    wrongs=[PARTS2.find(function(p){return p.k===(R.k==="ram"?"sto":"ram");})]
+      .concat(sample(PARTS2.filter(function(p){return p.k!==R.k&&p.k!=="ram"&&p.k!=="sto";}),1));
+  } else {
+    wrongs=sample(PARTS2.filter(function(p){return p.k!==R.k;}),2);
+  }
+  choiceProblem(st,{
+    scene:'<span class="floaty">'+R.e+'</span>',
+    prompt:R.sit,
+    spoken:R.sit+" "+R.ask,
+    opts:[{e:right.e,l:right.l,ok:true}].concat(wrongs.map(function(w){return {e:w.e,l:w.l};})),
+    yes:"Case closed, detective. "+R.why,
+  },mode,onDone);
+}};
+/* ---------- WHITE2: Inside the Machine (order the chain) ---------- */
+SKILLS.tapchain={ title:"INSIDE THE MACHINE", emoji:"⚙️", blurb:"Order the machine's hidden steps!",
+play:function(st,level,mode,onDone){
+  const C=pick(CHAINS2);
+  const len=Math.min(3+(level-1),5);
+  orderChain(st,{
+    headline:"THE MISSION: "+C.name.toUpperCase(),
+    steps:C.steps.slice(0,len).map(function(s){return {e:s[0],l:s[1]};}),
+    intro:"Inside the machine: "+C.name+". Tap the steps in the exact order they really happen. What happens first?",
+    doneLine:"Perfect order. That whole chain runs in less than a blink — and now you actually know it.",
+  },mode,onDone);
+}};
+/* ---------- WHITE2: The Switchboard (binary) ---------- */
+const BITVALS=[16,8,4,2,1];
+function letterOf(n){ return (n>=1&&n<=26)?String.fromCharCode(64+n):null; }
+const EASY_LETTERS="ABCDEFHIJLPQRTX";
+SKILLS.binary={ title:"THE SWITCHBOARD", emoji:"🎛️", blurb:"Spell real letters in pure binary!",
+play:function(st,level,mode,onDone){
+  if(level>=2&&rint(2)===0){
+    const num=1+rint(26);
+    const L=letterOf(num);
+    const others=sample("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter(function(c){return c!==L;}),2);
+    const onVals=BITVALS.filter(function(v){return num&v;});
+    const row='<div class="bswrap">'+BITVALS.map(function(v){
+      return '<div class="bscol"><div class="bsw ro'+((num&v)?" on":"")+'"><div class="knob"></div></div><div class="bsval">'+v+'</div></div>';
+    }).join("")+'</div>';
+    choiceProblem(st,{
+      scene:row, sceneSize:"16px",
+      prompt:"Read the switches — which letter is lit up?",
+      spoken:"Read the switchboard! Add up the switches that are ON, then find the letter. A is one, B is two, and so on.",
+      opts:[{e:L,ok:true}].concat(others.map(function(c){return {e:c,no:"Add up only the gold switches, then count into the alphabet. Again."};})),
+      yes:"Yes! "+(onVals.length>1?onVals.join(" plus ")+" makes "+num:"Just the "+num+" switch")+" — the letter "+L+". You just read binary.",
+    },mode,onDone);
+    return;
+  }
+  let n=0, over=false;
+  const nameL=((NAME||"").toUpperCase().replace(/[^A-Z]/g,"")[0])||null;
+  let wl;
+  if(level<=1){ wl=(rint(3)===0&&nameL&&EASY_LETTERS.indexOf(nameL)>=0)?nameL:EASY_LETTERS[rint(EASY_LETTERS.length)]; }
+  else { wl=(rint(4)===0&&nameL)?nameL:String.fromCharCode(65+rint(26)); }
+  const want=wl.charCodeAt(0)-64;
+  const showLetter=level<3;
+  const card=el('<div class="card">'+
+    '<div class="bigtext" style="font-size:21px;text-align:center;">Light up the letter <span style="color:var(--gold);font-size:30px;">'+wl+'</span> <span style="color:var(--faint);font-size:15px;">(letter number '+want+')</span></div>'+
+    '<div class="bswrap" id="bsw"></div>'+
+    '<div class="bsum" id="bsum">0'+(showLetter?" = ?":"")+'</div>'+
+    '<div class="btnrow"><button class="btn green" id="bcheck" style="font-size:22px;">⚡ CHECK!</button></div>'+
+    '<div class="feedback" id="bfb"></div></div>');
+  st.appendChild(card);
+  const wrap=card.querySelector("#bsw"), sum=card.querySelector("#bsum"), fb=card.querySelector("#bfb");
+  const state=[0,0,0,0,0];
+  BITVALS.forEach(function(v,i){
+    const col=el('<div class="bscol"><div class="bsw"><div class="knob"></div></div><div class="bsval">'+v+'</div></div>');
+    const sw=col.querySelector(".bsw");
+    sw.onclick=function(){
+      if(over)return;
+      state[i]=state[i]?0:1;
+      sw.classList.toggle("on",!!state[i]);
+      n=BITVALS.reduce(function(a,vv,ii){return a+(state[ii]?vv:0);},0);
+      const L=letterOf(n);
+      sum.textContent=(BITVALS.filter(function(vv,ii){return state[ii];}).join("+")||"0")+" = "+n+(showLetter?(" = "+(L||(n===0?"?":"too big!"))):"");
+    };
+    wrap.appendChild(col);
+  });
+  card.querySelector("#bcheck").onclick=function(){
+    if(over)return;
+    if(n===want){
+      over=true; confetti(28); pow(wl+"!");
+      fb.textContent="⭐ THAT'S "+wl+"! ⭐";
+      const onVals=BITVALS.filter(function(v,i){return state[i];});
+      speak((onVals.length>1?onVals.join(" plus ")+" is "+want:String(want))+" — the letter "+wl+"! You are literally writing binary. Machines everywhere are impressed.",{onend:function(){onDone(true);}});
+      return;
+    }
+    if(mode==="test"){
+      over=true;
+      fb.textContent="THE TARGET WAS "+want+"!";
+      speak(wl+" is letter number "+want+", and your switches added up to "+n+". The next one is yours.",{onend:function(){onDone(false);}});
+      return;
+    }
+    fb.textContent=n<want?"TOO SMALL — ADD MORE!":"TOO BIG — SWITCH SOME OFF!";
+    speak(n<want?("That adds up to "+n+". "+wl+" needs "+want+" — flip on a bit more."):("That adds up to "+n+". Too big! "+wl+" only needs "+want+"."));
+  };
+  const intro="The switchboard! Every letter has a number — A is one, B is two, up to Z at twenty six. "+wl+" is number "+want+". Flip switches so they ADD UP to exactly "+want+", then hit check!";
+  replayFn=function(){speak(intro);};
+  speak(intro);
+}};
+/* ---------- WHITE2: Time Machine ---------- */
+SKILLS.timemachine={ title:"TIME MACHINE", emoji:"🕰️", blurb:"THEN, NOW — or BOTH? Sort the eras!",
+play:function(st,level,mode,onDone){
+  if(level>=2&&rint(2)===0){
+    const R=pick(TM_ORDER);
+    choiceProblem(st,{
+      scene:'<span class="floaty">🕰️</span>',
+      prompt:R.q, spoken:R.q,
+      opts:[{e:R.first.e,l:R.first.l,ok:true}].concat(R.later.map(function(x){return {e:x.e,l:x.l,no:"That one came later. Which is the OLDEST tool here?"};})),
+      yes:"Right — the "+R.first.l.toLowerCase()+" came first. Tools keep upgrading. The job stays.",
+    },mode,onDone);
+    return;
+  }
+  const R=pick(TM_ITEMS);
+  choiceProblem(st,{
+    scene:'<span class="floaty">'+R.e+'</span>',
+    prompt:R.l,
+    spoken:"Time machine check: "+R.l.toLowerCase()+". Is that a THEN thing, a NOW thing... or BOTH?",
+    noShuffle:true,
+    opts:[
+      {e:"🕰️",l:"THEN",ok:R.cat==="then",no:R.cat==="both"?"Careful — people did this long ago AND still do it today. That makes it BOTH!":"Nope — this one needs today's tech. Think NOW."},
+      {e:"⚡",l:"NOW",ok:R.cat==="now",no:R.cat==="both"?"True today — but kids did this long before computers too. That makes it BOTH!":"This one is from the before-times. Think THEN."},
+      {e:"♾️",l:"BOTH",ok:R.cat==="both",no:R.cat==="then"?"Not quite — today we still do the JOB, but not THIS way. It's a THEN.":"Not quite — this one only exists with today's tech. It's a NOW."},
+    ],
+    yes:R.why+" Same jobs, new tools.",
+  },mode,onDone);
+}};
+/* ---------- YELLOW2: Net Navigator (order the journey) ---------- */
+SKILLS.urltrip={ title:"NET NAVIGATOR", emoji:"🌐", blurb:"Order the internet's secret steps!",
+play:function(st,level,mode,onDone){
+  const C=pick(NET_JOURNEYS);
+  const len=Math.min(3+(level-1),5);
+  orderChain(st,{
+    headline:"THE MISSION: "+C.name.toUpperCase(),
+    steps:C.steps.slice(0,len).map(function(s){return {e:s[0],l:s[1]};}),
+    intro:"Behind the scenes of: "+C.name+". Tap the steps in the exact order the internet really does them. What happens first?",
+    doneLine:"That's the real journey — and the whole thing happens faster than you can blink.",
+  },mode,onDone);
+}};
+/* ---------- YELLOW2: Packet Runner (maze reskin) ---------- */
+SKILLS.packet={ title:"PACKET RUNNER", emoji:"📦", blurb:"Route the data packet to the server tower!",
+play:function(st,level,mode,onDone){
+  const mz=genMaze(level);
+  const DIRP=[{dx:1,dy:0,e:"➡️",n:"hop right"},{dx:-1,dy:0,e:"⬅️",n:"hop left"},{dx:0,dy:-1,e:"⬆️",n:"hop up"},{dx:0,dy:1,e:"⬇️",n:"hop down"}];
+  let prog=[], running=false, over=false, fails=0;
+  const card=el('<div class="card">'+
+    '<div class="citygrid" id="grid"></div>'+
+    '<div class="sub" style="margin-top:8px;font-family:var(--disp);letter-spacing:1px;color:var(--yellow);">THE ROUTE (max '+mz.max+' hops):</div>'+
+    '<div class="progrow" id="prog"></div>'+
+    '<div class="palette" id="pal" style="margin-top:10px;"></div>'+
+    '<div class="btnrow" style="margin-top:12px;">'+
+      '<button class="btn green" id="launch" style="font-size:24px;">📨 SEND!</button>'+
+      '<button class="btn ghost" id="clear">🧹</button>'+
+    '</div><div class="feedback" id="fb"></div></div>');
+  st.appendChild(card);
+  const grid=card.querySelector("#grid"), progRow=card.querySelector("#prog"), fb=card.querySelector("#fb");
+  function drawProg(){
+    progRow.innerHTML="";
+    if(prog.length===0)progRow.appendChild(el('<span style="color:#5a64b8;font-size:14px;">your route goes here…</span>'));
+    prog.forEach(function(d,i){
+      const ch=el('<div class="chip">'+d.e+'</div>');
+      ch.onclick=function(){ if(running||over)return; prog.splice(i,1); drawProg(); };
+      progRow.appendChild(ch);
+    });
+  }
+  DIRP.forEach(function(d){
+    const ch=el('<div class="chip">'+d.e+'</div>');
+    ch.onclick=function(){
+      if(running||over)return;
+      if(prog.length>=mz.max){ speak("That is the most hops! Tap a block in your route to remove one."); return; }
+      prog.push(d); drawProg(); speak(d.n+"!");
+    };
+    card.querySelector("#pal").appendChild(ch);
+  });
+  card.querySelector("#clear").onclick=function(){ if(running||over)return; prog=[]; drawProg(); speak("All clear! Code a new route!"); };
+  card.querySelector("#launch").onclick=async function(){
+    if(running||over)return;
+    if(prog.length===0){ speak("Your route is empty! Tap some arrow blocks first, then send!"); return; }
+    running=true; fb.textContent="HOPPING...";
+    speak("Packet away!");
+    await new Promise(function(r){setTimeout(r,1100);});
+    if(!card.isConnected)return;
+    const run=simulateRun(mz.start,mz.goal,mz.walls,prog);
+    let pos={x:mz.start.x,y:mz.start.y};
+    for(const s of run.steps){ pos=s; drawGridInto(grid,mz,pos); await new Promise(function(r){setTimeout(r,480);}); }
+    if(!card.isConnected)return;
+    if(run.outcome==="win"){
+      over=true; running=false;
+      confetti(36); pow("DELIVERED!");
+      fb.textContent="⭐ PACKET DELIVERED! ⭐";
+      speak("Delivered! The packet reached the tower, and the server snaps the pieces back together. That is really how the internet moves, "+NAME+"!",{onend:function(){onDone(true);}});
+      return;
+    }
+    if(run.outcome==="crash"||run.outcome==="out"){
+      drawGridInto(grid,mz,Object.assign({},pos,{crash:true}));
+      pow("LOST!","var(--red)");
+    }
+    fails++;
+    if(mode==="test"&&fails>=2){
+      over=true; running=false; fb.textContent="ON TO THE NEXT ONE!";
+      speak("Tricky route! The next delivery is yours. Onward!",{onend:function(){onDone(false);}});
+      return;
+    }
+    fb.textContent=run.outcome==="short"?"ALMOST — MORE HOPS!":"💥 PACKET LOST!";
+    speak(run.outcome==="crash"?"Crash! The packet hit a building — packets follow their route EXACTLY. Fix the code and resend!"
+         :run.outcome==="out"?"The packet flew right out of the city! Fix the route and resend!"
+         :"The route ran out before the tower. Add more hops!");
+    running=false;
+    setTimeout(function(){ if(!over)drawGridInto(grid,mz,mz.start); },1200);
+  };
+  drawGridInto(grid,mz,mz.start); drawProg();
+  const intro="Special delivery! A photo got chopped into packets, and this one is yours. Code the route — hop by hop — to the signal tower. And do not smack into buildings!";
+  replayFn=function(){speak(intro);};
+  speak(intro);
+}};
+/* ---------- YELLOW2: Client or Server? ---------- */
+SKILLS.cs={ title:"CLIENT OR SERVER?", emoji:"🏓", blurb:"Who asks, who answers — you decide!",
+play:function(st,level,mode,onDone){
+  if(level>=2&&rint(2)===0){
+    const R=pick(CLOUD_FACTS);
+    choiceProblem(st,{
+      scene:'<span class="floaty">☁️</span>', prompt:R.q, spoken:R.q,
+      opts:R.opts.map(function(o){return {e:o[0],l:o[1],ok:!!o[2]};}),
+      yes:R.why,
+    },mode,onDone);
+    return;
+  }
+  const R=pick(CS_BANK);
+  choiceProblem(st,{
+    scene:'<span class="floaty">🏓</span>', prompt:R.q,
+    spoken:R.q+" Your device — the client? Or the server, far away in the data center?",
+    noShuffle:true,
+    opts:CS_OPTS.map(function(o,i){return {e:o.e,l:o.l,ok:i===R.a,
+      no:i===0?"Not this one — your device just asks. The stuff and the checking live on the server.":"Not this one — this happens right in your hands, on the client."};}),
+    yes:R.why,
+  },mode,onDone);
+}};
 /* Test pool helper: which skills can appear in a belt test */
 function testableSkills(belt){
-  if(belt.id==="black"){
-    return BELTS.filter(b=>b.id!=="black").flatMap(b=>b.skills).filter(id=>!SKILLS[id].noTest);
+  if(/^black/.test(belt.id)){
+    return TRACK().filter(b=>!/^black/.test(b.id)).flatMap(b=>b.skills).filter(id=>!SKILLS[id].noTest);
   }
   return belt.skills.filter(id=>!SKILLS[id].noTest);
 }
@@ -1907,7 +2428,7 @@ let S={screen:"start",belt:0,lesson:0,slide:0,skill:null,test:null};
 let replayFn=null;
 const app=document.getElementById("app");
 const SKILLBELT={};
-BELTS.forEach(b=>b.skills.forEach(s=>{SKILLBELT[s]=b.id;}));
+BELTS.concat(BELTS2).forEach(b=>b.skills.forEach(s=>{SKILLBELT[s]=b.id;}));
 function skillLevel(skillId){
   const beltId=SKILLBELT[skillId]||"white";
   return Math.min(starsFor(beltId,skillId)+1,3);
@@ -2040,8 +2561,8 @@ function renderNewProfile(){
   speak(line);
 }
 /* ============================== MAP (BELT PATH) ============================== */
-function beltOpen(i){ return i===0 || BP(BELTS[i-1].id).earned; }
-function earnedCount(){ return BELTS.filter(b=>BP(b.id).earned).length; }
+function beltOpen(i){ return !TRACK()[i].soon && (i===0 || BP(TRACK()[i-1].id).earned); }
+function earnedCount(){ return TRACK().filter(b=>BP(b.id).earned).length; }
 function renderMap(){
   maybeAutoSync();
   app.appendChild(header("HERO ACADEMY HQ"));
@@ -2050,22 +2571,23 @@ function renderMap(){
   st.appendChild(el('<div class="floaty" style="text-align:center;">'+pixelSVG("idle",92)+'</div>'));
   const rank=earnedCount();
   const bannerEl=el('<div class="banner" style="font-size:clamp(22px,6.6vw,34px);">'+
-    (rank>=BELTS.length?"🏆 BLACK BELT HERO! 🏆":"⚡ HI "+NAME.toUpperCase()+"! ⚡")+'</div>');
+    (rank>=TRACK().length?"🏆 BLACK BELT HERO! 🏆":"⚡ HI "+NAME.toUpperCase()+"! ⚡")+'</div>');
   st.appendChild(bannerEl);
   st.appendChild(el('<div style="text-align:center;font-size:24px;letter-spacing:5px;margin:2px 0 6px;">'+
-    BELTS.map(b=>'<span style="margin:0 2px;'+(BP(b.id).earned?"":"opacity:.24;filter:grayscale(.5);")+'">'+beltGemSVG(b.id,26)+'</span>').join("")+'</div>'));
-  BELTS.forEach(function(b,i){
+    TRACK().map(b=>'<span style="margin:0 2px;'+(BP(b.id).earned?"":"opacity:.24;filter:grayscale(.5);")+'">'+beltGemSVG(b.id,26)+'</span>').join("")+'</div>'));
+  TRACK().forEach(function(b,i){
     const open=beltOpen(i), earned=BP(b.id).earned;
     const totalStars=b.skills.reduce((a,s)=>a+starsFor(b.id,s),0);
-    const card=el('<div class="chapcard'+(open?"":" locked")+'">'+
+    const card=el('<div class="chapcard'+((open&&!b.soon)?"":" locked")+'">'+
       '<div class="beltstripe" style="background:'+b.color+';"></div>'+
       '<div class="ce">'+beltGemSVG(b.id,42)+'</div>'+
       '<div class="ct">'+b.name+'<span class="cs">'+b.concept+
-        (earned?" — EARNED!":(open?(b.skills.length?" · "+totalStars+"/"+(b.skills.length*3)+" ⭐":""):" — locked"))+'</span></div>'+
-      '<div class="cb">'+(earned?"✅":(open?artIcon("ui-play",30,"▶️"):artIcon("ui-lock",30,"🔒")))+'</div>'+
+        (b.soon?" — COMING SOON":(earned?" — EARNED!":(open?(b.skills.length?" · "+totalStars+"/"+(b.skills.length*3)+" ⭐":""):" — locked")))+'</span></div>'+
+      '<div class="cb">'+(b.soon?artIcon("ui-lock",30,"🔒"):(earned?"✅":(open?artIcon("ui-play",30,"▶️"):artIcon("ui-lock",30,"🔒"))))+'</div>'+
     '</div>');
     card.onclick=function(){
-      if(!open){ speak("Not yet, cadet! Earn the "+BELTS[i-1].name.toLowerCase()+" first!"); return; }
+      if(b.soon){ speak("That class isn't open yet! Professor Pixel is still building it. New belts coming soon!"); return; }
+      if(!open){ speak("Not yet, cadet! Earn the "+TRACK()[i-1].name.toLowerCase()+" first!"); return; }
       S.belt=i; go("belt");
     };
     st.appendChild(card);
@@ -2080,7 +2602,7 @@ function renderMap(){
   app.appendChild(st);
   const hello=rank===0
     ? "Welcome to Hero Academy, "+NAME+"! I am Professor Pixel. Heroes here earn belts, just like ninjas! White belt first — tap it and let's train!"
-    : rank>=BELTS.length
+    : rank>=TRACK().length
     ? NAME+", the BLACK BELT HERO! You earned every single belt! Play anything you like — or beat your star catcher record!"
     : "Welcome back, "+NAME+"! You have "+rank+(rank===1?" belt":" belts")+". Your next belt is waiting — tap it!";
   replayFn=function(){speak(hello);};
@@ -2088,10 +2610,10 @@ function renderMap(){
 }
 /* ============================== BELT PAGE ============================== */
 function renderBelt(){
-  const b=BELTS[S.belt], bp=BP(b.id);
+  const b=TRACK()[S.belt], bp=BP(b.id);
   app.appendChild(header(b.beltEmoji+" "+b.name));
   const st=el('<div class="stage"></div>');
-  st.appendChild(el('<div class="banner" style="font-size:clamp(20px,6vw,30px);color:'+(b.id==="black"?"#fff":b.color)+';">'+b.concept+'</div>'));
+  st.appendChild(el('<div class="banner" style="font-size:clamp(20px,6vw,30px);color:'+(/^black/.test(b.id)?"#fff":b.color)+';">'+b.concept+'</div>'));
   const lessonsDone=b.lessons.every((_,i)=>bp.les[i]);
   // lessons
   st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:2px;">📖 LESSONS</div>'));
@@ -2151,7 +2673,7 @@ function renderBelt(){
 }
 /* ============================== LESSON ============================== */
 function renderLesson(){
-  const b=BELTS[S.belt], L=b.lessons[S.lesson], sl=L.slides[S.slide];
+  const b=TRACK()[S.belt], L=b.lessons[S.lesson], sl=L.slides[S.slide];
   app.appendChild(header(L.emoji+" "+L.title,"belt"));
   const last=S.slide===L.slides.length-1;
   const st=el('<div class="stage"></div>');
@@ -2172,7 +2694,7 @@ function renderLesson(){
     },"practice",function(){ advance(); });
     return;
   }
-  st.appendChild(el('<div class="card" style="border-color:'+(b.id==="black"?"#555":b.color)+';">'+
+  st.appendChild(el('<div class="card" style="border-color:'+(/^black/.test(b.id)?"#555":b.color)+';">'+
     '<div class="scene">'+((ART&&LESSON_ART[L.title])
       ?'<img class="scene-art floaty" src="assets/'+LESSON_ART[L.title]+'.png" alt="">'
       :'<span class="floaty">'+sl.e+'</span>')+'</div>'+
@@ -2203,7 +2725,7 @@ function renderLesson(){
 }
 /* ============================== PRACTICE ARENA ============================== */
 function renderPractice(){
-  const b=BELTS[S.belt], sid=S.skill, sk=SKILLS[sid];
+  const b=TRACK()[S.belt], sid=S.skill, sk=SKILLS[sid];
   app.appendChild(header(sk.emoji+" "+sk.title,"belt"));
   const st=el('<div class="stage"></div>');
   app.appendChild(st);
@@ -2247,7 +2769,7 @@ function renderPractice(){
 }
 /* ============================== BELT TEST ============================== */
 function renderTest(){
-  const b=BELTS[S.belt], T=S.test;
+  const b=TRACK()[S.belt], T=S.test;
   app.appendChild(header("⚔️ "+b.name+" TEST","belt"));
   const st=el('<div class="stage"></div>');
   app.appendChild(st);
@@ -2291,8 +2813,9 @@ function renderTest(){
 }
 /* ============================== BELT AWARD ============================== */
 function renderAward(){
-  const b=BELTS[S.belt];
-  const isBlack=b.id==="black";
+  const b=TRACK()[S.belt];
+  const isBlack=/^black/.test(b.id);
+  const nxt=TRACK()[S.belt+1];
   app.appendChild(header("BELT EARNED!"));
   const st=el('<div class="stage" style="justify-content:center;text-align:center;">'+
     '<div class="floaty" style="margin-bottom:-6px;">'+pixelSVG("cheer",118)+'</div>'+
@@ -2306,7 +2829,7 @@ function renderAward(){
   confetti(isBlack?80:48); pow(b.beltEmoji+" BELT!");
   const line=isBlack
     ? "STOP EVERYTHING! "+NAME+" has earned... the BLACK BELT! Sequences, loops, if-then, variables, bug-hunting — you know them ALL! You are officially a CODING HERO! I am the proudest robot in the whole world!"
-    : "TA-DAAA! "+NAME+" earns the "+b.name+"! You passed the test — no luck, all skill! A brand new belt is waiting at headquarters!";
+    : "TA-DAAA! "+NAME+" earns the "+b.name+"! You passed the test — no luck, all skill! "+((!nxt||nxt.soon)?"You've finished every open class — new belts are coming soon!":"A brand new belt is waiting at headquarters!");
   replayFn=function(){speak(line);};
   speak(line);
   st.querySelector("#cont").onclick=function(){ if(isBlack)confetti(80); go("map"); };
@@ -2317,21 +2840,24 @@ function renderPlayground(){
   const st=el('<div class="stage"></div>');
   st.appendChild(el('<div class="sub">Free play! Stars still count!</div>'));
   // hero maker always available
+  if(beltIdx("blue")>=0){
   const hm=el('<div class="chapcard"><div class="ce">🦸‍♀️</div><div class="ct">HERO MAKER<span class="cs">Build a brand new super hero!</span></div><div class="cb">▶️</div></div>');
   hm.onclick=function(){ S.belt=beltIdx("blue"); S.skill="design"; go("practice"); };
   st.appendChild(hm);
+  }
   // arcade after orange belt
-  const arcOpen=BP("orange").earned;
+  const arcBelt=TRACK()[2].soon?TRACK()[1]:TRACK()[2];
+  const arcOpen=BP(arcBelt.id).earned;
   const arc=el('<div class="chapcard'+(arcOpen?" play":" locked")+'"><div class="ce">🌠</div>'+
-    '<div class="ct">STAR CATCHER<span class="cs">'+(arcOpen?"Tap the falling stars! Best: "+(P.best||0):"Earn the orange belt to unlock!")+'</span></div>'+
+    '<div class="ct">STAR CATCHER<span class="cs">'+(arcOpen?"Tap the falling stars! Best: "+(P.best||0):"Earn the "+arcBelt.name.toLowerCase()+" to unlock!")+'</span></div>'+
     '<div class="cb">'+(arcOpen?"▶️":"🔒")+'</div></div>');
   arc.onclick=function(){
-    if(!arcOpen){ speak("The star catcher unlocks with your orange belt! Loops first, stars after!"); return; }
+    if(!arcOpen){ speak("The star catcher unlocks with your "+arcBelt.name.toLowerCase()+"! Training first, stars after!"); return; }
     go("arcade");
   };
   st.appendChild(arc);
   // unlocked practice skills
-  BELTS.forEach(function(b,i){
+  TRACK().forEach(function(b,i){
     if(!beltOpen(i))return;
     const bp=BP(b.id);
     if(!b.lessons.every((_,j)=>bp.les[j]))return;
@@ -2529,7 +3055,8 @@ function renderGrown(){
   st.appendChild(el('<div class="sub" style="font-family:var(--disp);letter-spacing:1px;margin-top:6px;">🔒 BELT CONTROLS</div>'));
   st.appendChild(el('<div class="sub" style="font-size:13px;margin:0 0 4px;">Unlock or re-lock any belt. Locking keeps her lessons &amp; stars — she just re-takes that belt test. White belt is always open.</div>'));
   const list=el('<div style="display:flex;flex-direction:column;gap:8px;"></div>');
-  BELTS.forEach(function(b,i){
+  TRACK().forEach(function(b,i){
+    if(b.soon)return;
     const openNow=beltOpen(i);
     const row=el('<div style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--stroke-soft);border-radius:var(--r-md);padding:8px 12px;">'+
       '<span style="line-height:0;">'+beltGemSVG(b.id,22)+'</span>'+
@@ -2539,8 +3066,8 @@ function renderGrown(){
     const btn=row.querySelector("button");
     if(i===0){ btn.disabled=true; }
     else btn.onclick=function(){
-      if(beltOpen(i)){ for(let k=i-1;k<BELTS.length;k++)BP(BELTS[k].id).earned=false; }
-      else { for(let k=0;k<i;k++)BP(BELTS[k].id).earned=true; }
+      if(beltOpen(i)){ for(let k=i-1;k<TRACK().length;k++)BP(TRACK()[k].id).earned=false; }
+      else { for(let k=0;k<i;k++)BP(TRACK()[k].id).earned=true; }
       save(); go("grown");
     };
     list.appendChild(row);
