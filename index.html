@@ -781,6 +781,20 @@ function artIcon(name,size,fallback){
   if(!ART)return fallback;
   return '<img class="art-icon" src="assets/'+name+'.png" width="'+size+'" height="'+size+'" alt="">';
 }
+/* Teen Pixel pack (assets/pixel2-*, scene2-*, obj2-*) — guides the 7-11 track when present */
+let ART2=false;
+(function(){
+  try{
+    const probe=new Image();
+    probe.onload=function(){ ART2=true; try{render();}catch(e){} };
+    probe.src="assets/pixel2-idle.png";
+  }catch(e){}
+})();
+const TEEN_POSE={thinking:"think",happy:"celebrate",cheer:"celebrate"};
+function teenMode(){ return ART2 && ageBand()==="7-11"; }
+function pixFile(pose){
+  return teenMode() ? "pixel2-"+(TEEN_POSE[pose]||pose)+".png" : "pixel-"+pose+".png";
+}
 const LESSON_ART={
   "WHAT IS A COMPUTER?":"scene-computer","LONG, LONG AGO":"scene-history","HARDWARE + SOFTWARE":"scene-hardware",
   "ORDER MATTERS!":"scene-sequence","BE EXACT!":"scene-exact",
@@ -791,11 +805,17 @@ const LESSON_ART={
   "EVERYTHING IS SWITCHES":"scene-computer","THE TIME MACHINE":"scene-history",
   "THE MEMORY OF THE WORLD":"scene-variables","ERRORS ARE CLUES":"scene-debugging",
 };
+const LESSON_ART2={
+  "MEET THE MACHINE":"scene2-hardware","THE TIME MACHINE":"scene2-timemachine",
+  "WHERE THE CLOUD LIVES":"scene2-internet","THE FOUR ORGANS":"scene2-appanatomy",
+  "THE MEMORY OF THE WORLD":"scene2-database","HELLO, REAL CODE":"scene2-code",
+  "ERRORS ARE CLUES":"scene2-debugging","WHAT AI ACTUALLY IS":"scene2-ai",
+};
 function pixelSVG(pose,size){
   size=size||150; pose=(PIXEL_POSES[pose]?pose:"idle");
   if(ART){
     return '<div class="pixel-mascot pixel-'+pose+'" data-pose="'+pose+'">'+
-      '<img class="pxm" src="assets/pixel-'+pose+'.png" width="'+size+'" height="'+size+'" alt="Professor Pixel"></div>';
+      '<img class="pxm" src="assets/'+pixFile(pose)+'" width="'+size+'" height="'+size+'" alt="Professor Pixel"></div>';
   }
   return '<div class="pixel-mascot pixel-'+pose+'">'+
     '<svg viewBox="0 0 240 240" width="'+size+'" height="'+size+'" aria-label="Professor Pixel">'+PIXEL_POSES[pose]+'</svg></div>';
@@ -811,14 +831,14 @@ function pixelTalk(on){
         talkFlapT=setInterval(function(){
           flip=!flip;
           document.querySelectorAll('.pixel-mascot.talking[data-pose="idle"] img.pxm,.pixel-mascot.talking[data-pose="talk"] img.pxm').forEach(function(img){
-            img.src="assets/pixel-"+(flip?"talk":"idle")+".png";
+            img.src="assets/"+pixFile(flip?"talk":"idle");
           });
         },200);
       }else if(!on&&talkFlapT){
         clearInterval(talkFlapT); talkFlapT=null;
         document.querySelectorAll('.pixel-mascot[data-pose] img.pxm').forEach(function(img){
           const p=img.closest(".pixel-mascot").getAttribute("data-pose");
-          img.src="assets/pixel-"+p+".png";
+          img.src="assets/"+pixFile(p);
         });
       }
     }
@@ -832,15 +852,15 @@ function pixelWalkIn(container){
   if(!m||!img)return;
   const finalPose=m.getAttribute("data-pose")||"idle";
   let flip=false;
-  img.src="assets/pixel-walk-a.png";
+  img.src="assets/"+pixFile("walk-a");
   const frames=setInterval(function(){
     if(!img.isConnected){clearInterval(frames);return;}
-    flip=!flip; img.src="assets/pixel-walk-"+(flip?"b":"a")+".png";
+    flip=!flip; img.src="assets/"+pixFile(flip?"walk-b":"walk-a");
   },150);
   try{
     const anim=m.animate([{transform:"translateX(-70vw)"},{transform:"translateX(0)"}],{duration:1000,easing:"ease-out"});
-    anim.onfinish=function(){ clearInterval(frames); if(img.isConnected)img.src="assets/pixel-"+finalPose+".png"; };
-  }catch(e){ clearInterval(frames); img.src="assets/pixel-"+finalPose+".png"; }
+    anim.onfinish=function(){ clearInterval(frames); if(img.isConnected)img.src="assets/"+pixFile(finalPose); };
+  }catch(e){ clearInterval(frames); img.src="assets/"+pixFile(finalPose); }
 }
 /* swap the pose inside a container, preserving mid-narration lip-flap state */
 function setPixelIn(container,pose,size){
@@ -1780,9 +1800,9 @@ function drawGridInto(grid,mz,hero){
     c.className="cell"+(wk.has(x+","+y)?" wall":"");
     if(wk.has(x+","+y))c.innerHTML=ART?'<img class="cell-art" src="assets/obj-building.png" alt="">':"🏢";
     if(mz.goal.x===x&&mz.goal.y===y&&!(hero&&hero.x===x&&hero.y===y))
-      c.innerHTML=ART?'<img class="cell-art" src="assets/obj-signal.png" alt="">':"📡";
+      c.innerHTML=ART?'<img class="cell-art" src="assets/'+(teenMode()?"obj2-server":"obj-signal")+'.png" alt="">':(teenMode()?"🖥️":"📡");
     if(hero&&hero.x===x&&hero.y===y){
-      if(ART)c.innerHTML='<img class="cell-art" src="assets/pixel-'+(hero.crash?"oops":"idle")+'.png" alt="">';
+      if(ART)c.innerHTML='<img class="cell-art" src="assets/'+pixFile(hero.crash?"oops":"idle")+'" alt="">';
       else c.innerHTML='<span>'+(hero.crash?"💥":"🦸‍♀️")+'</span>';
     }
     grid.appendChild(c);
@@ -3436,9 +3456,10 @@ function renderLesson(){
     },"practice",function(){ advance(); });
     return;
   }
+  const sceneFile=(teenMode()&&LESSON_ART2[L.title])||(ART&&LESSON_ART[L.title]);
   st.appendChild(el('<div class="card" style="border-color:'+(/^black/.test(b.id)?"#555":b.color)+';">'+
-    '<div class="scene">'+((ART&&LESSON_ART[L.title])
-      ?'<img class="scene-art floaty" src="assets/'+LESSON_ART[L.title]+'.png" alt="">'
+    '<div class="scene">'+(sceneFile
+      ?'<img class="scene-art floaty" src="assets/'+sceneFile+'.png" alt="">'
       :'<span class="floaty">'+sl.e+'</span>')+'</div>'+
     '<div class="pixrow"><span class="pix-slot">'+pixelSVG("idle",68)+'</span>'+
       '<div class="bigtext pix-bubble" id="bt"></div></div>'+
@@ -3561,7 +3582,7 @@ function renderAward(){
   app.appendChild(header("BELT EARNED!"));
   const st=el('<div class="stage" style="justify-content:center;text-align:center;">'+
     '<div class="floaty" style="margin-bottom:-6px;">'+pixelSVG("cheer",118)+'</div>'+
-    '<div class="badgebig">'+(isBlack?(ART?'<img src="assets/obj-trophy.png" width="150" height="150" alt="">':"🏆"):beltGemSVG(b.id,120))+'</div>'+
+    '<div class="badgebig">'+(isBlack?(ART?'<img src="assets/'+((b.id==="black2"&&ART2)?"obj2-trophy2":"obj-trophy")+'.png" width="150" height="150" alt="">':"🏆"):beltGemSVG(b.id,120))+'</div>'+
     '<div style="width:78%;max-width:320px;height:22px;margin:8px auto 0;border-radius:var(--r-pill);background:'+b.color+';box-shadow:0 0 28px '+(isBlack?"#888":b.color)+';"></div>'+
     '<div class="banner" style="font-size:clamp(24px,8vw,40px);margin-top:14px;">'+b.name+'!</div>'+
     '<div class="sub">'+b.concept+' — mastered!</div>'+
@@ -3602,7 +3623,7 @@ function renderPlayground(){
   st.appendChild(arc);
   // pixel's terminal — free code play for the older track
   if(ageBand()==="7-11"){
-    const tm=el('<div class="chapcard play"><div class="ce">🖥️</div>'+
+    const tm=el('<div class="chapcard play"><div class="ce">'+(teenMode()?'<img class="art-icon" src="assets/obj2-terminal.png" width="44" height="44" alt="">':"🖥️")+'</div>'+
       '<div class="ct">PIXEL\'S TERMINAL<span class="cs">Type real code — run it, break it, fix it!</span></div><div class="cb">▶️</div></div>');
     tm.onclick=function(){ go("terminal"); };
     st.appendChild(tm);
