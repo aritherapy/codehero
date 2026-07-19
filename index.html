@@ -225,6 +225,8 @@ const SUPABASE_KEY = "sb_publishable_wOH6EXy_EqCHPGTGkudefg_LSWOFs0d";
 let sb = null;          // supabase client, or null if unavailable
 let cloudUser = null;   // signed-in user object, or null
 let syncStatus = "offline"; // "offline" | "idle" | "syncing" | "synced" | "error"
+let syncUiStep = "email"; // "email" | "code" -- local UI-only state, not persisted, resets on page reload
+let syncUiEmail = "";
 
 function loadSupabaseSdk(){
   return new Promise(function(resolve){
@@ -2049,25 +2051,67 @@ function renderGrown(){
   if(!sb){
     st.appendChild(el('<div class="card" style="text-align:center;color:var(--faint);font-size:14px;">☁️ Sync is unavailable right now.</div>'));
   }else if(!cloudUser){
-    const syncCard=el('<div class="card">'+
-      '<div class="sub" style="margin:0 0 10px;">☁️ SYNC ACROSS DEVICES</div>'+
-      '<div class="sub" style="font-size:14px;font-weight:400;margin-bottom:12px;">Sign in to save progress across every device.</div>'+
-      '<input id="syncEmail" type="email" placeholder="parent@email.com" style="width:100%;box-sizing:border-box;font-family:var(--disp);font-size:22px;'+
-        'padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--stroke);background:rgba(0,0,0,.25);color:var(--white);'+
-        'text-align:center;outline:none;" autocomplete="off"/>'+
-      '<div class="btnrow" style="margin-top:14px;"><button class="btn" id="syncSend" style="font-size:16px;padding:12px 20px;">SEND SIGN-IN LINK</button></div>'+
-      '<div id="syncStatusLine" class="sub" style="font-size:13px;margin-top:10px;"></div>'+
-    '</div>');
-    const emailInput=syncCard.querySelector("#syncEmail");
-    const statusEl=syncCard.querySelector("#syncStatusLine");
-    syncCard.querySelector("#syncSend").onclick=function(){
-      const emailValue=(emailInput.value||"").trim();
-      if(!emailValue||emailValue.indexOf("@")<0){ statusEl.textContent="Enter a valid email"; return; }
-      statusEl.textContent="Sending…";
-      sb.auth.signInWithOtp({ email: emailValue }).then(function(res){
-        statusEl.textContent = res.error ? ("Error: "+res.error.message) : ("Check "+emailValue+" for a sign-in link!");
-      });
-    };
+    const syncCard=el('<div class="card"></div>');
+    if(syncUiStep==="email"){
+      syncCard.innerHTML =
+        '<div class="sub" style="margin:0 0 10px;">☁️ SYNC ACROSS DEVICES</div>'+
+        '<div class="sub" style="font-size:14px;font-weight:400;margin-bottom:12px;">Sign in to save progress across every device.</div>'+
+        '<input id="syncEmail" type="email" placeholder="parent@email.com" style="width:100%;box-sizing:border-box;font-family:var(--disp);font-size:22px;'+
+          'padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--stroke);background:rgba(0,0,0,.25);color:var(--white);'+
+          'text-align:center;outline:none;" autocomplete="off"/>'+
+        '<div class="btnrow" style="margin-top:14px;"><button class="btn" id="syncSend" style="font-size:16px;padding:12px 20px;">SEND SIGN-IN CODE</button></div>'+
+        '<div id="syncStatusLine" class="sub" style="font-size:13px;margin-top:10px;"></div>';
+      const emailInput=syncCard.querySelector("#syncEmail");
+      emailInput.value = syncUiEmail;
+      const statusEl=syncCard.querySelector("#syncStatusLine");
+      syncCard.querySelector("#syncSend").onclick=function(){
+        const emailValue=(emailInput.value||"").trim();
+        if(!emailValue||emailValue.indexOf("@")<0){ statusEl.textContent="Enter a valid email"; return; }
+        statusEl.textContent="Sending…";
+        sb.auth.signInWithOtp({ email: emailValue }).then(function(res){
+          if(res.error){ statusEl.textContent="Error: "+res.error.message; return; }
+          syncUiEmail = emailValue;
+          syncUiStep = "code";
+          go("grown");
+        });
+      };
+    }else{
+      const safeEmail=String(syncUiEmail||"").replace(/[<>&]/g,"");
+      syncCard.innerHTML =
+        '<div class="sub" style="margin:0 0 10px;">☁️ ENTER YOUR CODE</div>'+
+        '<div class="sub" style="font-size:14px;font-weight:400;margin-bottom:12px;">We sent a code to '+safeEmail+'. Type it below — on your phone, check the email, then type the code here on this device.</div>'+
+        '<input id="syncCode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter code" maxlength="12" style="width:100%;box-sizing:border-box;font-family:var(--disp);font-size:30px;'+
+          'letter-spacing:8px;padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--stroke);background:rgba(0,0,0,.25);color:var(--white);'+
+          'text-align:center;outline:none;"/>'+
+        '<div class="btnrow" style="margin-top:14px;"><button class="btn" id="syncVerify" style="font-size:16px;padding:12px 20px;">VERIFY</button></div>'+
+        '<div id="syncStatusLine" class="sub" style="font-size:13px;margin-top:10px;"></div>'+
+        '<div class="btnrow" style="margin-top:10px;">'+
+          '<button class="btn ghost" id="syncResend" style="font-size:13px;padding:8px 14px;">RESEND CODE</button>'+
+          '<button class="btn ghost" id="syncBack" style="font-size:13px;padding:8px 14px;">‹ USE A DIFFERENT EMAIL</button>'+
+        '</div>';
+      const codeInput=syncCard.querySelector("#syncCode");
+      const statusEl=syncCard.querySelector("#syncStatusLine");
+      syncCard.querySelector("#syncVerify").onclick=function(){
+        const codeValue=(codeInput.value||"").trim();
+        if(!codeValue){ statusEl.textContent="Enter the code from the email"; return; }
+        statusEl.textContent="Checking…";
+        sb.auth.verifyOtp({ email: syncUiEmail, token: codeValue, type: "email" }).then(function(res){
+          if(res.error){ statusEl.textContent="Error: "+res.error.message; return; }
+          statusEl.textContent="✓ Signed in!";
+          // onAuthStateChange (registered in initSupabase) picks up cloudUser + re-renders from here
+        });
+      };
+      syncCard.querySelector("#syncResend").onclick=function(){
+        statusEl.textContent="Sending…";
+        sb.auth.signInWithOtp({ email: syncUiEmail }).then(function(res){
+          statusEl.textContent = res.error ? ("Error: "+res.error.message) : "New code sent!";
+        });
+      };
+      syncCard.querySelector("#syncBack").onclick=function(){
+        syncUiStep="email";
+        go("grown");
+      };
+    }
     st.appendChild(syncCard);
   }else{
     const statusMap={idle:"Ready to sync",syncing:"Syncing…",synced:"✓ Synced",error:"Sync failed — will retry"};
@@ -2082,7 +2126,7 @@ function renderGrown(){
       '</div>'+
     '</div>');
     syncedCard.querySelector("#syncNow").onclick=function(){ cloudSyncAll().then(function(){ render(); }); };
-    syncedCard.querySelector("#syncOut").onclick=function(){ sb.auth.signOut().then(function(){ render(); }); };
+    syncedCard.querySelector("#syncOut").onclick=function(){ sb.auth.signOut().then(function(){ syncUiStep="email"; syncUiEmail=""; render(); }); };
     st.appendChild(syncedCard);
   }
   st.appendChild(el('<div class="grown">'+
