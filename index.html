@@ -45,7 +45,7 @@
     touch-action:manipulation; overflow-x:hidden;
   }
   body::before{
-    content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.55;
+    content:""; position:fixed; top:-90px; left:0; right:0; bottom:-90px; pointer-events:none; z-index:0; opacity:.55;
     background-image:
       radial-gradient(1.6px 1.6px at 12% 18%, #FFEFC9 45%, transparent 47%),
       radial-gradient(1.4px 1.4px at 78% 12%, #DCD3FF 45%, transparent 47%),
@@ -55,7 +55,22 @@
       radial-gradient(1.3px 1.3px at 44% 84%, #DCD3FF 45%, transparent 47%),
       radial-gradient(1.4px 1.4px at 92% 74%, #FFEFC9 45%, transparent 47%),
       radial-gradient(1.4px 1.4px at 8% 88%, #DCD3FF 45%, transparent 47%);
+    animation:starDriftA 90s ease-in-out infinite alternate, starTwinkle 7s ease-in-out infinite;
   }
+  body::after{
+    content:""; position:fixed; top:-90px; left:0; right:0; bottom:-90px; pointer-events:none; z-index:0; opacity:.3;
+    background-image:
+      radial-gradient(2.2px 2.2px at 30% 8%, #FFEFC9 45%, transparent 47%),
+      radial-gradient(1.9px 1.9px at 66% 52%, #DCD3FF 45%, transparent 47%),
+      radial-gradient(2px 2px at 16% 44%, #DCD3FF 45%, transparent 47%),
+      radial-gradient(2.1px 2.1px at 84% 24%, #FFEFC9 45%, transparent 47%),
+      radial-gradient(1.8px 1.8px at 52% 90%, #FFEFC9 45%, transparent 47%),
+      radial-gradient(2px 2px at 6% 70%, #DCD3FF 45%, transparent 47%);
+    animation:starDriftB 130s ease-in-out infinite alternate;
+  }
+  @keyframes starDriftA{from{transform:translateY(0)}to{transform:translateY(-46px)}}
+  @keyframes starDriftB{from{transform:translateY(0)}to{transform:translateY(38px)}}
+  @keyframes starTwinkle{0%,100%{opacity:.55}50%{opacity:.38}}
   #app{position:relative; z-index:1; max-width:600px;margin:0 auto;padding:10px 14px 40px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;}
   .hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0 12px;}
   .hdr .mid{font-family:var(--disp);color:var(--gold);font-size:16px;letter-spacing:2px;text-align:center;flex:1;
@@ -209,11 +224,44 @@
   @keyframes pop{0%{transform:scale(.3)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
   @keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
   @keyframes slidein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
-  @keyframes pow{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}25%{opacity:1}70%{transform:translate(-50%,-50%) scale(1.15)}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+  @keyframes fall{to{transform:translate(var(--sx,0px),110vh) rotate(var(--rot,720deg));opacity:.85}}
+  @keyframes pow{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}28%{transform:translate(-50%,-50%) scale(1.28);opacity:1}55%{transform:translate(-50%,-50%) scale(.9)}75%{transform:translate(-50%,-50%) scale(1.08)}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
   @keyframes meteor{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(14px) scale(1.06)}}
   .floaty{animation:floaty 2.6s ease-in-out infinite;display:inline-block;}
+  /* ===== Motion system: choreographed entrances + springy interactions ===== */
+  .hdr{animation:fadeDown .34s cubic-bezier(.22,1,.36,1) both;}
+  .stage>*:not(.floaty):not(.badgebig){animation:riseIn .42s cubic-bezier(.22,1,.36,1) both;animation-delay:.3s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(1){animation-delay:0s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(2){animation-delay:.05s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(3){animation-delay:.09s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(4){animation-delay:.13s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(5){animation-delay:.17s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(6){animation-delay:.21s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(7){animation-delay:.25s;}
+  .stage>*:not(.floaty):not(.badgebig):nth-child(8){animation-delay:.28s;}
+  .optgrid .opt:not(.right):not(.wrong):not(.found):not(.dim){animation:optIn .36s cubic-bezier(.3,1.4,.6,1) both;animation-delay:.24s;}
+  .optgrid .opt:not(.right):not(.wrong):not(.found):not(.dim):nth-child(1){animation-delay:.02s;}
+  .optgrid .opt:not(.right):not(.wrong):not(.found):not(.dim):nth-child(2){animation-delay:.07s;}
+  .optgrid .opt:not(.right):not(.wrong):not(.found):not(.dim):nth-child(3){animation-delay:.12s;}
+  .optgrid .opt:not(.right):not(.wrong):not(.found):not(.dim):nth-child(4){animation-delay:.16s;}
+  .optgrid .opt:not(.right):not(.wrong):not(.found):not(.dim):nth-child(5){animation-delay:.2s;}
+  .btn,.opt,.chapcard,.iconbtn,.arrowbtn,.chip{transition:transform .16s cubic-bezier(.3,1.4,.6,1),box-shadow .16s ease;}
+  @media (hover:hover){
+    .btn:hover{transform:translateY(-2px);}
+    .opt:hover{transform:translateY(-3px);}
+    .chapcard:hover{transform:translateY(-2px);}
+    .iconbtn:hover{transform:translateY(-1px);}
+  }
+  /* re-assert press states so they win over hover */
+  .btn:active{transform:translateY(4px);}
+  .btn.ghost:active{transform:translateY(2px);}
+  .opt:active{transform:translateY(3px);}
+  .chapcard:active{transform:translateY(2px);}
+  .iconbtn:active{transform:translateY(3px);}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+  @keyframes riseIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+  @keyframes optIn{from{opacity:0;transform:translateY(10px) scale(.92)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
   /* ===== Professor Pixel — living mascot ===== */
   .pixel-mascot{display:inline-block;line-height:0;}
@@ -442,6 +490,8 @@ function confetti(n){
     const p=document.createElement("div");p.className="cfp";
     p.textContent=pieces[i%pieces.length];
     p.style.left=(Math.random()*100)+"vw";
+    p.style.setProperty("--sx",(Math.random()*180-90).toFixed(0)+"px");
+    p.style.setProperty("--rot",((Math.random()>.5?1:-1)*(360+Math.random()*720)).toFixed(0)+"deg");
     p.style.animationDuration=(2+Math.random()*2)+"s";
     p.style.animationDelay=(Math.random()*0.8)+"s";
     p.style.fontSize=(16+Math.random()*22)+"px";
