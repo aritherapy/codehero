@@ -227,6 +227,11 @@
   @keyframes pixelBlink{0%,88%,100%{transform:scaleY(1)}93%{transform:scaleY(3.4)}97%{transform:scaleY(1)}}
   @keyframes pixelWave{0%,100%{transform:rotate(-138deg)}50%{transform:rotate(-172deg)}}
   @keyframes pixelLipflap{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+  /* Pixel-as-narrator row + speech bubble */
+  .pixrow{display:flex;align-items:center;gap:12px;margin-top:14px;}
+  .pixrow .pix-slot{flex:none;line-height:0;}
+  .pix-bubble{background:var(--surface);border:1px solid var(--stroke-soft);border-radius:var(--r-md);
+    padding:12px 16px;flex:1;text-align:left;margin:0;}
 </style>
 <div id="app"></div>
 <script>
@@ -667,6 +672,32 @@ function pixelSVG(pose,size){
     '<svg viewBox="0 0 240 240" width="'+size+'" height="'+size+'" aria-label="Professor Pixel">'+PIXEL_POSES[pose]+'</svg></div>';
 }
 function pixelTalk(on){ try{ document.querySelectorAll(".pixel-mascot").forEach(function(m){ m.classList.toggle("talking",!!on); }); }catch(e){} }
+/* swap the pose inside a container, preserving mid-narration lip-flap state */
+function setPixelIn(container,pose,size){
+  if(!container||!container.isConnected)return;
+  const wasTalking=!!container.querySelector(".pixel-mascot.talking");
+  container.innerHTML=pixelSVG(pose,size);
+  if(wasTalking){ const m=container.querySelector(".pixel-mascot"); if(m)m.classList.add("talking"); }
+}
+/* Produced belt gems (from Claude Design) — one radial-gradient gem per belt color */
+const BELT_GEMS={
+  white:{hi:"#FFFFFF",base:"#EDE9E0",glow:.28,shine:.7},
+  yellow:{hi:"#FFE9A6",base:"#F2C94C",glow:.32,shine:.6},
+  orange:{hi:"#FFC9A3",base:"#EE9A5C",glow:.3,shine:.55},
+  green:{hi:"#B7E8CB",base:"#6CC48F",glow:.3,shine:.5},
+  blue:{hi:"#C4DAF2",base:"#7FA9DB",glow:.3,shine:.5},
+  purple:{hi:"#D0BFF0",base:"#A98FE0",glow:.3,shine:.5},
+  black:{hi:"#6B6386",base:"#3B3654",glow:.22,shine:.35,glowColor:"#F0B95A",stroke:"rgba(240,185,90,.5)"},
+};
+function beltGemSVG(beltId,size){
+  const g=BELT_GEMS[beltId]||BELT_GEMS.white; size=size||40;
+  const gid="gm-"+beltId; // same id => same gradient per belt, so cross-instance collisions are harmless
+  return '<svg viewBox="0 0 80 80" width="'+size+'" height="'+size+'" style="vertical-align:middle;" aria-hidden="true">'+
+    '<defs><radialGradient id="'+gid+'" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="'+g.hi+'"/><stop offset="100%" stop-color="'+g.base+'"/></radialGradient></defs>'+
+    '<circle cx="40" cy="40" r="30" fill="'+(g.glowColor||g.base)+'" opacity="'+g.glow+'"/>'+
+    '<circle cx="40" cy="40" r="24" fill="url(#'+gid+')"'+(g.stroke?' stroke="'+g.stroke+'"':'')+'/>'+
+    '<ellipse cx="33" cy="31" rx="10" ry="6" fill="#FFFFFF" opacity="'+g.shine+'"/></svg>';
+}
 const PRAISE=[
   "Amazing work, "+NAME+"!","You got it! Super smart!","KAPOW! Exactly right!","Yes! You are a coding star!",
   "Wonderful! High five!","Boom! Nailed it!","That's it! Hero brain power!","Correct! You are unstoppable!",
@@ -1056,11 +1087,14 @@ function choiceProblem(st,cfg,mode,onDone){
   const card=el('<div class="card">'+
     (cfg.rule?('<div class="rulecard">'+cfg.rule+'</div>'):"")+
     '<div class="scene" id="cpScene" style="font-size:'+(cfg.sceneSize||"min(64px,15vw)")+';">'+cfg.scene+'</div>'+
-    '<div class="bigtext" style="font-size:20px;margin-top:12px;">'+subName(cfg.prompt)+'</div>'+
+    '<div class="pixrow"><span class="pix-slot" id="cpPix"></span>'+
+      '<div class="bigtext pix-bubble" style="font-size:20px;">'+subName(cfg.prompt)+'</div></div>'+
     '<div class="optgrid'+(cfg.opts.length===2?" two":"")+'" id="cpOpts"></div>'+
     '<div class="feedback" id="cpFb"></div></div>');
   st.appendChild(card);
   const box=card.querySelector("#cpOpts"), fb=card.querySelector("#cpFb");
+  const pixBox=card.querySelector("#cpPix");
+  pixBox.innerHTML=pixelSVG("thinking",60);
   let locked=false;
   const opts=cfg.noShuffle?cfg.opts:shuffle(cfg.opts);
   opts.forEach(function(o){
@@ -1073,6 +1107,7 @@ function choiceProblem(st,cfg,mode,onDone){
         Array.from(box.children).forEach(ch=>{ if(ch!==c)ch.classList.add("dim"); });
         fb.textContent="⭐ CORRECT! ⭐";
         pow("YES!","var(--green)");
+        setPixelIn(pixBox,"happy",60);
         speak(cfg.yes||praise(),{onend:function(){ onDone(true); }});
       }else{
         if(mode==="test"){
@@ -1081,10 +1116,13 @@ function choiceProblem(st,cfg,mode,onDone){
           const right=Array.from(box.children)[opts.findIndex(x=>x.ok)];
           if(right)right.classList.add("right");
           fb.textContent="THE ANSWER IS SHOWN!";
+          setPixelIn(pixBox,"oops",60);
           speak(o.no||"Not this time! See the glowing one? That was the answer. On we go!",{onend:function(){ onDone(false); }});
         }else{
           c.classList.remove("wrong"); void c.offsetWidth; c.classList.add("wrong");
           fb.textContent="Try again!";
+          setPixelIn(pixBox,"oops",60);
+          setTimeout(function(){ if(!locked)setPixelIn(pixBox,"thinking",60); },1600);
           speak(o.no||encourage());
         }
       }
@@ -1786,6 +1824,7 @@ function renderStart(){
 function renderPick(){
   maybeAutoSync();
   const st=el('<div class="stage"></div>');
+  st.appendChild(el('<div class="floaty" style="text-align:center;">'+pixelSVG("idle",84)+'</div>'));
   st.appendChild(el('<div class="banner" style="font-size:clamp(24px,7.4vw,36px);">WHO\'S PLAYING?</div>'));
   const grid=el('<div class="optgrid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));"></div>');
   PROFILES.list.forEach(function(prof){
@@ -1881,13 +1920,13 @@ function renderMap(){
     (rank>=BELTS.length?"🏆 BLACK BELT HERO! 🏆":"⚡ HI "+NAME.toUpperCase()+"! ⚡")+'</div>');
   st.appendChild(bannerEl);
   st.appendChild(el('<div style="text-align:center;font-size:24px;letter-spacing:5px;margin:2px 0 6px;">'+
-    BELTS.map(b=>BP(b.id).earned?b.beltEmoji:'<span style="opacity:.24">'+b.beltEmoji+'</span>').join("")+'</div>'));
+    BELTS.map(b=>'<span style="margin:0 2px;'+(BP(b.id).earned?"":"opacity:.24;filter:grayscale(.5);")+'">'+beltGemSVG(b.id,26)+'</span>').join("")+'</div>'));
   BELTS.forEach(function(b,i){
     const open=beltOpen(i), earned=BP(b.id).earned;
     const totalStars=b.skills.reduce((a,s)=>a+starsFor(b.id,s),0);
     const card=el('<div class="chapcard'+(open?"":" locked")+'">'+
       '<div class="beltstripe" style="background:'+b.color+';"></div>'+
-      '<div class="ce">'+b.beltEmoji+'</div>'+
+      '<div class="ce">'+beltGemSVG(b.id,42)+'</div>'+
       '<div class="ct">'+b.name+'<span class="cs">'+b.concept+
         (earned?" — EARNED!":(open?(b.skills.length?" · "+totalStars+"/"+(b.skills.length*3)+" ⭐":""):" — locked"))+'</span></div>'+
       '<div class="cb">'+(earned?"✅":(open?"▶️":"🔒"))+'</div>'+
@@ -2002,7 +2041,8 @@ function renderLesson(){
   }
   st.appendChild(el('<div class="card" style="border-color:'+(b.id==="black"?"#555":b.color)+';">'+
     '<div class="scene"><span class="floaty">'+sl.e+'</span></div>'+
-    '<div class="bigtext" id="bt"></div>'+
+    '<div class="pixrow"><span class="pix-slot">'+pixelSVG("idle",68)+'</span>'+
+      '<div class="bigtext pix-bubble" id="bt"></div></div>'+
     '<div class="dots">'+L.slides.map((_,i)=>'<div class="dot'+(i===S.slide?" on":"")+'"></div>').join("")+'</div>'+
   '</div>'));
   const nav=el('<div class="btnrow">'+
@@ -2121,7 +2161,7 @@ function renderAward(){
   app.appendChild(header("BELT EARNED!"));
   const st=el('<div class="stage" style="justify-content:center;text-align:center;">'+
     '<div class="floaty" style="margin-bottom:-6px;">'+pixelSVG("cheer",118)+'</div>'+
-    '<div class="badgebig">'+(isBlack?"🏆":b.beltEmoji)+'</div>'+
+    '<div class="badgebig">'+(isBlack?"🏆":beltGemSVG(b.id,120))+'</div>'+
     '<div style="width:78%;max-width:320px;height:22px;margin:8px auto 0;border-radius:var(--r-pill);background:'+b.color+';box-shadow:0 0 28px '+(isBlack?"#888":b.color)+';"></div>'+
     '<div class="banner" style="font-size:clamp(24px,8vw,40px);margin-top:14px;">'+b.name+'!</div>'+
     '<div class="sub">'+b.concept+' — mastered!</div>'+
@@ -2357,7 +2397,7 @@ function renderGrown(){
   BELTS.forEach(function(b,i){
     const openNow=beltOpen(i);
     const row=el('<div style="display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--stroke-soft);border-radius:var(--r-md);padding:8px 12px;">'+
-      '<span style="font-size:20px;">'+b.beltEmoji+'</span>'+
+      '<span style="line-height:0;">'+beltGemSVG(b.id,22)+'</span>'+
       '<span style="flex:1;font-family:var(--disp);font-size:14px;letter-spacing:.5px;color:var(--off);">'+b.name+'</span>'+
       '<button class="btn '+(i===0||openNow?"ghost":"green")+'" style="font-size:13px;padding:8px 14px;letter-spacing:.5px;">'+
         (i===0?"ALWAYS ON":(openNow?"🔒 LOCK":"🔓 UNLOCK"))+'</button></div>');
