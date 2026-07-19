@@ -265,7 +265,15 @@
   @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;}}
   /* ===== Professor Pixel — living mascot ===== */
   .pixel-mascot{display:inline-block;line-height:0;}
-  .pixel-mascot svg{animation:pixelBreathe 3.8s ease-in-out infinite;transform-origin:50% 92%;filter:drop-shadow(0 6px 20px rgba(240,185,90,.18));}
+  .pixel-mascot svg,.pixel-mascot img.pxm{animation:pixelBreathe 3.8s ease-in-out infinite;transform-origin:50% 92%;filter:drop-shadow(0 6px 20px rgba(240,185,90,.18));}
+  .pixel-mascot img.pxm{display:block;object-fit:contain;}
+  /* produced raster art */
+  .art-icon{display:inline-block;vertical-align:middle;object-fit:contain;}
+  .scene-art{max-width:min(52vw,240px);max-height:220px;object-fit:contain;filter:drop-shadow(0 8px 24px rgba(6,4,16,.5));}
+  .cell-art{width:88%;height:88%;object-fit:contain;display:block;margin:auto;}
+  .villain img{width:min(52px,11vw);height:auto;display:block;}
+  .hq-arch{display:block;margin:0 auto -18px;width:min(72%,380px);opacity:.9;filter:drop-shadow(0 6px 24px rgba(240,185,90,.15));}
+  .fallstar img{width:48px;height:48px;display:block;pointer-events:none;}
   .pixel-mascot .pixel-antenna-light{transform-box:fill-box;transform-origin:center;animation:pixelAntenna 2.4s ease-in-out infinite;}
   .pixel-mascot .pixel-lid-left,.pixel-mascot .pixel-lid-right{transform-box:fill-box;transform-origin:top center;animation:pixelBlink 5.2s ease-in-out infinite;}
   .pixel-mascot.pixel-wave .pixel-arm-right{transform-box:view-box;transform-origin:173.5px 158px;animation:pixelWave .7s ease-in-out infinite;}
@@ -716,12 +724,77 @@ const PIXEL_POSES = {
           <ellipse class="pixel-mouth" cx="120" cy="116" rx="6.5" ry="7.5" fill="#F7F1E6"/>
         </g>`,
 };
+/* ===== Produced raster art (assets/ folder). ART=false => graceful SVG/emoji fallback (artifact mode). ===== */
+let ART=false;
+(function(){
+  try{
+    const probe=new Image();
+    probe.onload=function(){ ART=true; try{render();}catch(e){} };
+    probe.src="assets/pixel-idle.png";
+  }catch(e){}
+})();
+function artIcon(name,size,fallback){
+  if(!ART)return fallback;
+  return '<img class="art-icon" src="assets/'+name+'.png" width="'+size+'" height="'+size+'" alt="">';
+}
+const LESSON_ART={
+  "WHAT IS A COMPUTER?":"scene-computer","LONG, LONG AGO":"scene-history","HARDWARE + SOFTWARE":"scene-hardware",
+  "ORDER MATTERS!":"scene-sequence","BE EXACT!":"scene-exact",
+  "AGAIN AND AGAIN!":"scene-loops","READING LOOPS":"scene-loops",
+  "MAKING CHOICES":"scene-ifthen","IF... ELSE!":"scene-ifthen",
+  "THE MEMORY BOX":"scene-variables","BUGS HAPPEN!":"scene-debugging","THE FINAL MISSION":"scene-final",
+};
 function pixelSVG(pose,size){
   size=size||150; pose=(PIXEL_POSES[pose]?pose:"idle");
+  if(ART){
+    return '<div class="pixel-mascot pixel-'+pose+'" data-pose="'+pose+'">'+
+      '<img class="pxm" src="assets/pixel-'+pose+'.png" width="'+size+'" height="'+size+'" alt="Professor Pixel"></div>';
+  }
   return '<div class="pixel-mascot pixel-'+pose+'">'+
     '<svg viewBox="0 0 240 240" width="'+size+'" height="'+size+'" aria-label="Professor Pixel">'+PIXEL_POSES[pose]+'</svg></div>';
 }
-function pixelTalk(on){ try{ document.querySelectorAll(".pixel-mascot").forEach(function(m){ m.classList.toggle("talking",!!on); }); }catch(e){} }
+/* raster lip-flap: alternate idle/talk frames while narrating */
+let talkFlapT=null;
+function pixelTalk(on){
+  try{
+    document.querySelectorAll(".pixel-mascot").forEach(function(m){ m.classList.toggle("talking",!!on); });
+    if(ART){
+      if(on&&!talkFlapT){
+        let flip=false;
+        talkFlapT=setInterval(function(){
+          flip=!flip;
+          document.querySelectorAll('.pixel-mascot.talking[data-pose="idle"] img.pxm,.pixel-mascot.talking[data-pose="talk"] img.pxm').forEach(function(img){
+            img.src="assets/pixel-"+(flip?"talk":"idle")+".png";
+          });
+        },200);
+      }else if(!on&&talkFlapT){
+        clearInterval(talkFlapT); talkFlapT=null;
+        document.querySelectorAll('.pixel-mascot[data-pose] img.pxm').forEach(function(img){
+          const p=img.closest(".pixel-mascot").getAttribute("data-pose");
+          img.src="assets/pixel-"+p+".png";
+        });
+      }
+    }
+  }catch(e){}
+}
+/* walk-in entrance: Pixel strides in from the left, then settles into his pose */
+function pixelWalkIn(container){
+  if(!ART||!container)return;
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const m=container.querySelector(".pixel-mascot"), img=container.querySelector("img.pxm");
+  if(!m||!img)return;
+  const finalPose=m.getAttribute("data-pose")||"idle";
+  let flip=false;
+  img.src="assets/pixel-walk-a.png";
+  const frames=setInterval(function(){
+    if(!img.isConnected){clearInterval(frames);return;}
+    flip=!flip; img.src="assets/pixel-walk-"+(flip?"b":"a")+".png";
+  },150);
+  try{
+    const anim=m.animate([{transform:"translateX(-70vw)"},{transform:"translateX(0)"}],{duration:1000,easing:"ease-out"});
+    anim.onfinish=function(){ clearInterval(frames); if(img.isConnected)img.src="assets/pixel-"+finalPose+".png"; };
+  }catch(e){ clearInterval(frames); img.src="assets/pixel-"+finalPose+".png"; }
+}
 /* swap the pose inside a container, preserving mid-narration lip-flap state */
 function setPixelIn(container,pose,size){
   if(!container||!container.isConnected)return;
@@ -1369,9 +1442,13 @@ function drawGridInto(grid,mz,hero){
   for(let y=0;y<GRIDN;y++)for(let x=0;x<GRIDN;x++){
     const c=document.createElement("div");
     c.className="cell"+(wk.has(x+","+y)?" wall":"");
-    if(wk.has(x+","+y))c.textContent="🏢";
-    if(mz.goal.x===x&&mz.goal.y===y&&!(hero&&hero.x===x&&hero.y===y))c.textContent="📡";
-    if(hero&&hero.x===x&&hero.y===y)c.innerHTML='<span>'+(hero.crash?"💥":"🦸‍♀️")+'</span>';
+    if(wk.has(x+","+y))c.innerHTML=ART?'<img class="cell-art" src="assets/obj-building.png" alt="">':"🏢";
+    if(mz.goal.x===x&&mz.goal.y===y&&!(hero&&hero.x===x&&hero.y===y))
+      c.innerHTML=ART?'<img class="cell-art" src="assets/obj-signal.png" alt="">':"📡";
+    if(hero&&hero.x===x&&hero.y===y){
+      if(ART)c.innerHTML='<img class="cell-art" src="assets/pixel-'+(hero.crash?"oops":"idle")+'.png" alt="">';
+      else c.innerHTML='<span>'+(hero.crash?"💥":"🦸‍♀️")+'</span>';
+    }
     grid.appendChild(c);
   }
 }
@@ -1475,7 +1552,8 @@ play:function(st,level,mode,onDone){
   function draw(){
     vill.innerHTML="";
     for(let i=0;i<total;i++){
-      const v=el('<span class="villain'+(i<gone?" gone":"")+'" style="animation-delay:'+(i*0.18)+'s">'+theme[0]+'</span>');
+      const face=ART?'<img src="assets/obj-villain-'+((i%3)+1)+'.png" alt="">':theme[0];
+      const v=el('<span class="villain'+(i<gone?" gone":"")+'" style="animation-delay:'+(i*0.18)+'s">'+face+'</span>');
       vill.appendChild(v);
     }
   }
@@ -1836,15 +1914,18 @@ function skillLevel(skillId){
 }
 function go(screen){ S.screen=screen; render(); }
 function header(title,back){
+  const homeIco = back==="belt" ? artIcon("ui-back",26,"⬅️") : artIcon("ui-home",26,"🏠");
+  function muteIco(){ return muted ? artIcon("ui-sound-off",26,"🔇") : artIcon("ui-sound-on",26,"🔊"); }
   const h=el('<div class="hdr">'+
-    '<button class="iconbtn" id="hbHome" aria-label="Back">'+(back==="belt"?"⬅️":"🏠")+'</button>'+
+    '<button class="iconbtn" id="hbHome" aria-label="Back">'+homeIco+'</button>'+
     '<div class="mid">'+title+'</div>'+
-    '<button class="iconbtn" id="hbSay" aria-label="Say it again">🗣️</button>'+
-    '<button class="iconbtn" id="hbMute" aria-label="Sound on or off">'+(muted?"🔇":"🔊")+'</button>'+
+    '<button class="iconbtn" id="hbSay" aria-label="Say it again">'+artIcon("ui-repeat",26,"🗣️")+'</button>'+
+    '<button class="iconbtn" id="hbMute" aria-label="Sound on or off">'+muteIco()+'</button>'+
   '</div>');
   h.querySelector("#hbHome").onclick=function(){ stopSpeech(); go(back==="belt"?"belt":"map"); };
   h.querySelector("#hbSay").onclick=function(){ if(replayFn)replayFn(); };
-  h.querySelector("#hbMute").onclick=function(ev){ muted=!muted; if(muted)stopSpeech(); ev.target.textContent=muted?"🔇":"🔊"; };
+  const mBtn=h.querySelector("#hbMute");
+  mBtn.onclick=function(){ muted=!muted; if(muted)stopSpeech(); mBtn.innerHTML=muteIco(); };
   return h;
 }
 function render(){
@@ -1865,6 +1946,7 @@ function renderStart(){
     '<div class="sub" style="margin-top:14px;font-size:13px;color:#7c86d6;">🔊 Grown-ups: turn the volume up — Professor Pixel talks!</div>'+
   '</div>');
   app.appendChild(wrap);
+  pixelWalkIn(wrap.querySelector(".floaty"));
   wrap.querySelector("#startBtn").onclick=function(){
     try{ const u=new SpeechSynthesisUtterance(" "); speechSynthesis.speak(u); }catch(e){}
     go(PROFILES.list.length===0 ? "newprofile" : "pick");
@@ -1964,6 +2046,7 @@ function renderMap(){
   maybeAutoSync();
   app.appendChild(header("HERO ACADEMY HQ"));
   const st=el('<div class="stage"></div>');
+  if(ART)st.appendChild(el('<img class="hq-arch" src="assets/bg-hq-arch.png" alt="">'));
   st.appendChild(el('<div class="floaty" style="text-align:center;">'+pixelSVG("idle",92)+'</div>'));
   const rank=earnedCount();
   const bannerEl=el('<div class="banner" style="font-size:clamp(22px,6.6vw,34px);">'+
@@ -1979,7 +2062,7 @@ function renderMap(){
       '<div class="ce">'+beltGemSVG(b.id,42)+'</div>'+
       '<div class="ct">'+b.name+'<span class="cs">'+b.concept+
         (earned?" — EARNED!":(open?(b.skills.length?" · "+totalStars+"/"+(b.skills.length*3)+" ⭐":""):" — locked"))+'</span></div>'+
-      '<div class="cb">'+(earned?"✅":(open?"▶️":"🔒"))+'</div>'+
+      '<div class="cb">'+(earned?"✅":(open?artIcon("ui-play",30,"▶️"):artIcon("ui-lock",30,"🔒")))+'</div>'+
     '</div>');
     card.onclick=function(){
       if(!open){ speak("Not yet, cadet! Earn the "+BELTS[i-1].name.toLowerCase()+" first!"); return; }
@@ -2090,7 +2173,9 @@ function renderLesson(){
     return;
   }
   st.appendChild(el('<div class="card" style="border-color:'+(b.id==="black"?"#555":b.color)+';">'+
-    '<div class="scene"><span class="floaty">'+sl.e+'</span></div>'+
+    '<div class="scene">'+((ART&&LESSON_ART[L.title])
+      ?'<img class="scene-art floaty" src="assets/'+LESSON_ART[L.title]+'.png" alt="">'
+      :'<span class="floaty">'+sl.e+'</span>')+'</div>'+
     '<div class="pixrow"><span class="pix-slot">'+pixelSVG("idle",68)+'</span>'+
       '<div class="bigtext pix-bubble" id="bt"></div></div>'+
     '<div class="dots">'+L.slides.map((_,i)=>'<div class="dot'+(i===S.slide?" on":"")+'"></div>').join("")+'</div>'+
@@ -2211,7 +2296,7 @@ function renderAward(){
   app.appendChild(header("BELT EARNED!"));
   const st=el('<div class="stage" style="justify-content:center;text-align:center;">'+
     '<div class="floaty" style="margin-bottom:-6px;">'+pixelSVG("cheer",118)+'</div>'+
-    '<div class="badgebig">'+(isBlack?"🏆":beltGemSVG(b.id,120))+'</div>'+
+    '<div class="badgebig">'+(isBlack?(ART?'<img src="assets/obj-trophy.png" width="150" height="150" alt="">':"🏆"):beltGemSVG(b.id,120))+'</div>'+
     '<div style="width:78%;max-width:320px;height:22px;margin:8px auto 0;border-radius:var(--r-pill);background:'+b.color+';box-shadow:0 0 28px '+(isBlack?"#888":b.color)+';"></div>'+
     '<div class="banner" style="font-size:clamp(24px,8vw,40px);margin-top:14px;">'+b.name+'!</div>'+
     '<div class="sub">'+b.concept+' — mastered!</div>'+
@@ -2282,7 +2367,7 @@ function renderArcade(){
   function stopAll(){ if(spawnT)clearInterval(spawnT); if(clockT)clearInterval(clockT); playing=false; }
   function spawn(){
     if(!sky.isConnected){ stopAll(); return; }
-    const s=el('<div class="fallstar">'+pick(["⭐","🌟","💫"])+'</div>');
+    const s=el('<div class="fallstar">'+(ART?'<img src="assets/obj-star.png" alt="">':pick(["⭐","🌟","💫"]))+'</div>');
     s.style.left=(5+rint(85))+"%";
     const dur=2.6+Math.random()*1.2;
     s.style.transition="top "+dur+"s linear";
